@@ -5,14 +5,21 @@ import { fetchPlayers, POSITIONS, type Payload, type Position, type Row } from "
 import { ErrorNote, FixtureRun, Hero, Loading, Panel, Pill } from "@/components/ui";
 
 type SortKey =
-  | "xp" | "xpHorizon" | "value" | "price" | "points"
-  | "form" | "ownership" | "xG90" | "xA90" | "defcon90" | "minutes";
+  | "xp" | "xpHorizon" | "value" | "differential" | "price" | "points"
+  | "form" | "ownership" | "xG90" | "xA90" | "defcon90" | "minutes"
+  | "netTransfers" | "priceChangeSeason";
+
+const compact = (n: number) =>
+  Math.abs(n) >= 1000 ? `${(n / 1000).toFixed(0)}k` : String(n);
 
 const COLUMNS: { key: SortKey; label: string; help: string; fmt: (r: Row) => string }[] = [
   { key: "xp", label: "xP", help: "Projected points, next gameweek", fmt: (r) => r.xp.toFixed(2) },
   { key: "xpHorizon", label: "xP·N", help: "Projected points across the whole horizon", fmt: (r) => r.xpHorizon.toFixed(1) },
   { key: "value", label: "Value", help: "Horizon points per £1m of price", fmt: (r) => r.value.toFixed(2) },
+  { key: "differential", label: "Diff", help: "Projection weighted against ownership — high means good and rarely picked", fmt: (r) => r.differential.toFixed(1) },
   { key: "price", label: "£", help: "Current price", fmt: (r) => r.price.toFixed(1) },
+  { key: "priceChangeSeason", label: "Δ£", help: "Price movement since the season started", fmt: (r) => (r.priceChangeSeason > 0 ? "+" : "") + r.priceChangeSeason.toFixed(1) },
+  { key: "netTransfers", label: "Net in", help: "Transfers in minus out this gameweek — the pressure behind the next price change", fmt: (r) => (r.netTransfers > 0 ? "+" : "") + compact(r.netTransfers) },
   { key: "points", label: "Pts", help: "Total points this season", fmt: (r) => String(r.points) },
   { key: "form", label: "Form", help: "FPL form rating", fmt: (r) => r.form.toFixed(1) },
   { key: "xG90", label: "xG90", help: "Expected goals per 90 minutes", fmt: (r) => r.xG90.toFixed(2) },
@@ -33,6 +40,7 @@ export default function Explorer() {
   const [maxPrice, setMaxPrice] = useState(15.5);
   const [hideUnavailable, setHideUnavailable] = useState(true);
   const [minMinutes, setMinMinutes] = useState(0);
+  const [maxOwnership, setMaxOwnership] = useState(100);
   const [sortKey, setSortKey] = useState<SortKey>("xp");
   const [expanded, setExpanded] = useState<number | null>(null);
 
@@ -54,11 +62,12 @@ export default function Explorer() {
       .filter((r) => (teamId === "all" ? true : r.teamId === teamId))
       .filter((r) => r.price <= maxPrice)
       .filter((r) => r.minutes >= minMinutes)
+      .filter((r) => r.ownership <= maxOwnership)
       .filter((r) => (hideUnavailable ? r.available : true))
       .filter((r) => (q ? r.name.toLowerCase().includes(q) || r.team.toLowerCase().includes(q) : true))
       .sort((a, b) => (b[sortKey] as number) - (a[sortKey] as number))
       .slice(0, 120);
-  }, [data, query, positions, teamId, maxPrice, minMinutes, hideUnavailable, sortKey]);
+  }, [data, query, positions, teamId, maxPrice, minMinutes, maxOwnership, hideUnavailable, sortKey]);
 
   function togglePosition(p: Position) {
     setPositions((prev) => {
@@ -165,6 +174,21 @@ export default function Explorer() {
             />
             fit players only
           </label>
+
+          <button
+            onClick={() => {
+              const on = maxOwnership <= 10;
+              setMaxOwnership(on ? 100 : 10);
+              setSortKey(on ? "xp" : "differential");
+            }}
+            aria-pressed={maxOwnership <= 10}
+            title="Show only players owned by 10% or fewer, ranked by projection against ownership"
+            className={`stat rounded-lg border-2 border-ink px-3 py-1.5 text-xs font-bold transition ${
+              maxOwnership <= 10 ? "bg-yellow text-ink" : "bg-surface text-ink-mid hover:bg-yellow-wash"
+            }`}
+          >
+            Differentials
+          </button>
         </div>
       </Panel>
 

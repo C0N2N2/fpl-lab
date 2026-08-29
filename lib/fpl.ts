@@ -54,6 +54,10 @@ export interface FplElement {
   yellow_cards: number;
   red_cards: number;
   defensive_contribution: number;
+  cost_change_event: number;
+  cost_change_start: number;
+  transfers_in_event: number;
+  transfers_out_event: number;
   form: string;
   points_per_game: string;
   selected_by_percent: string;
@@ -157,6 +161,12 @@ export interface Player {
   defcon90: number;
   starts90: number;
   saves90: number;
+
+  /** Price movement, in millions. */
+  priceChangeEvent: number;
+  priceChangeSeason: number;
+  /** Net transfers this gameweek — the pressure behind the next price move. */
+  netTransfers: number;
 }
 
 export interface Fixture {
@@ -224,6 +234,10 @@ export function normalise(boot: FplBootstrap): Player[] {
       defcon90: num(e.defensive_contribution_per_90),
       starts90: num(e.starts_per_90),
       saves90: num(e.saves_per_90),
+
+      priceChangeEvent: (e.cost_change_event ?? 0) / 10,
+      priceChangeSeason: (e.cost_change_start ?? 0) / 10,
+      netTransfers: (e.transfers_in_event ?? 0) - (e.transfers_out_event ?? 0),
     };
   });
 }

@@ -5,10 +5,13 @@ import { usePathname } from "next/navigation";
 
 const LINKS = [
   { href: "/", label: "Players" },
+  { href: "/fixtures", label: "Fixtures" },
   { href: "/compare", label: "Compare" },
   { href: "/squad", label: "Build" },
   { href: "/team", label: "My team" },
+  { href: "/league", label: "League" },
   { href: "/news", label: "News" },
+  { href: "/rules", label: "How it works" },
 ];
 
 export function SiteNav() {

@@ -37,9 +37,102 @@ export interface Row {
   xp: number;
   xpHorizon: number;
   value: number;
+  differential: number;
   expectedMinutes: number;
+  priceChangeEvent: number;
+  priceChangeSeason: number;
+  netTransfers: number;
   breakdown: Record<string, number>;
   fixtures: FixtureCell[];
+}
+
+/* ---------------- fixture ticker ---------------- */
+
+export interface TickerFixture {
+  opponent: string;
+  opponentId: number;
+  home: boolean;
+  difficulty: number;
+  rerated: number;
+  expectedConceded: number;
+  expectedScored: number;
+}
+
+export interface TickerCell {
+  gw: number;
+  fixtures: TickerFixture[];
+  blank: boolean;
+  double: boolean;
+}
+
+export interface TickerRow {
+  teamId: number;
+  team: string;
+  short: string;
+  attack: number;
+  leak: number;
+  cells: TickerCell[];
+  averageDifficulty: number;
+  netExpectedGoals: number;
+  matchCount: number;
+}
+
+export interface TickerPayload {
+  meta: { span: number; nextGameweek: number | null; deadline: string | null; matchesPlayed: number };
+  summary: {
+    from: number;
+    to: number;
+    doubles: { gw: number; teams: string[] }[];
+    blanks: { gw: number; teams: string[] }[];
+  };
+  rows: TickerRow[];
+}
+
+export async function fetchTicker(span: number): Promise<TickerPayload> {
+  const res = await fetch(`/api/fixtures?span=${span}`);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
+  return json as TickerPayload;
+}
+
+/* ---------------- mini-league ---------------- */
+
+export interface LeagueEntry {
+  entry: number;
+  teamName: string;
+  managerName: string;
+  rank: number;
+  lastRank: number;
+  total: number;
+  lastGw: number;
+  activeChip: string | null;
+  hasPicks: boolean;
+  projectedXp: number;
+  optimalXp: number;
+  leaking: number;
+  captain: string | null;
+  squadXpHorizon: number;
+  topPlayers: { name: string; team: string; xp: number }[];
+}
+
+export interface LeaguePayload {
+  league: { id: number; name: string };
+  meta: {
+    horizon: number;
+    currentGameweek: number;
+    nextGameweek: number | null;
+    deadline: string | null;
+    shown: number;
+    truncated: boolean;
+  };
+  entries: LeagueEntry[];
+}
+
+export async function fetchLeague(leagueId: number, horizon: number): Promise<LeaguePayload> {
+  const res = await fetch(`/api/league/${leagueId}?horizon=${horizon}`);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
+  return json as LeaguePayload;
 }
 
 export interface TeamRow {

@@ -62,6 +62,8 @@ export async function GET(request: Request) {
           bonus: Number(proj.next.bonus.toFixed(2)),
         },
         expectedMinutes: Math.round(proj.next.minutes.expected),
+        /** Low ownership plus high projection — the differential score. */
+        differential: Number((proj.horizon / Math.max(1, Math.sqrt(p.ownership))).toFixed(2)),
         fixtures: proj.perGameweek.map((g) => ({
           gw: g.gw,
           opponent: g.opponent,
