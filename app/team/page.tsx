@@ -9,6 +9,7 @@ import { bestEleven } from "@/lib/squad";
 import { suggestTransfers, type Suggestion } from "@/lib/transfers";
 import { planTransfers, type Plan } from "@/lib/planner";
 import { ErrorNote, FixtureRun, Hero, Loading, Panel, PanelHead, Pill, Tile } from "@/components/ui";
+import { Pitch, PitchRow, PlayerToken } from "@/components/Pitch";
 
 const STORAGE_KEY = "fpl-lab.entryId";
 const LINES: Position[] = ["GKP", "DEF", "MID", "FWD"];
@@ -354,42 +355,60 @@ export default function MyTeam() {
                   title="Your squad"
                   right={<span className="stat text-xs text-ink-soft">* = away fixture</span>}
                 />
-                <div className="flex flex-col gap-3 p-4">
-                  {LINES.map((pos) => {
-                    const line = starters.filter((p) => p.position === pos);
-                    if (!line.length) return null;
-                    return (
-                      <div key={pos} className="flex flex-wrap items-stretch gap-2">
-                        <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
-                          {pos}
-                        </span>
-                        {line.map((p) => (
-                          <Card
-                            key={p.id}
-                            p={p}
-                            flagOut={shouldBench.some((s) => s.id === p.id)}
-                            sellFor={transfers.find((t) => t.out.id === p.id)}
-                          />
-                        ))}
-                      </div>
-                    );
-                  })}
-                  {bench.length > 0 && (
-                    <div className="mt-1 flex flex-wrap items-stretch gap-2 rounded-lg bg-surface-2 p-2">
-                      <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
-                        Sub
-                      </span>
-                      {bench.map((p) => (
-                        <Card
+                <div className="p-4">
+                  <Pitch
+                    bench={bench.map((p) => {
+                      const promote = shouldStart.some((s) => s.id === p.id);
+                      const sell = transfers.find((t) => t.out.id === p.id);
+                      return (
+                        <PlayerToken
                           key={p.id}
-                          p={p}
+                          name={p.name}
+                          club={p.teamShort}
+                          value={p.xp.toFixed(2)}
+                          meta={`£${p.price.toFixed(1)}`}
                           muted
-                          flagIn={shouldStart.some((s) => s.id === p.id)}
-                          sellFor={transfers.find((t) => t.out.id === p.id)}
+                          flag={promote ? "good" : !p.available ? "red" : undefined}
+                          flagLabel={
+                            promote ? "start me" : !p.available ? "out" : sell ? `+${sell.gain.toFixed(0)}` : undefined
+                          }
                         />
-                      ))}
-                    </div>
-                  )}
+                      );
+                    })}
+                  >
+                    {LINES.map((pos) => {
+                      const line = starters.filter((p) => p.position === pos);
+                      if (!line.length) return null;
+                      return (
+                        <PitchRow key={pos}>
+                          {line.map((p) => {
+                            const drop = shouldBench.some((s) => s.id === p.id);
+                            const sell = transfers.find((t) => t.out.id === p.id);
+                            return (
+                              <PlayerToken
+                                key={p.id}
+                                name={p.name}
+                                club={p.teamShort}
+                                value={p.xp.toFixed(2)}
+                                meta={`£${p.price.toFixed(1)}`}
+                                captain={p.isCaptain}
+                                vice={p.isVice}
+                                flag={
+                                  !p.available ? "red" : drop ? "red" : sell ? "yellow" : undefined
+                                }
+                                flagLabel={
+                                  !p.available ? "out"
+                                  : drop ? "bench me"
+                                  : sell ? `upgrade +${sell.gain.toFixed(0)}`
+                                  : undefined
+                                }
+                              />
+                            );
+                          })}
+                        </PitchRow>
+                      );
+                    })}
+                  </Pitch>
                 </div>
               </Panel>
             </>
@@ -460,39 +479,6 @@ function Swap({ label, players, tone }: { label: string; players: SquadPlayer[];
           <b>{p.name}</b> <span className="stat text-xs text-ink-soft">{p.xp.toFixed(2)} xP</span>
         </span>
       ))}
-    </div>
-  );
-}
-
-function Card({
-  p, muted, flagOut, flagIn, sellFor,
-}: {
-  p: SquadPlayer;
-  muted?: boolean;
-  flagOut?: boolean;
-  flagIn?: boolean;
-  sellFor?: Suggestion;
-}) {
-  return (
-    <div
-      className={`min-w-[150px] flex-1 rounded-lg border-2 px-2.5 py-2 ${
-        muted ? "border-line bg-surface" : "border-ink bg-surface"
-      } ${flagOut ? "!border-red" : ""} ${flagIn ? "!border-good" : ""}`}
-    >
-      <div className="flex items-center justify-between gap-1">
-        <span className="truncate text-sm font-bold">{p.name}</span>
-        {p.isCaptain && <Pill tone="red">C</Pill>}
-        {p.isVice && !p.isCaptain && <Pill>V</Pill>}
-      </div>
-      <div className="stat flex items-center justify-between text-[10px] text-ink-soft">
-        <span>{p.teamShort} £{p.price.toFixed(1)}</span>
-        <span className="font-bold text-red">{p.xp.toFixed(2)}</span>
-      </div>
-      <div className="mt-1"><FixtureRun fixtures={p.fixtures.slice(0, 5)} size="xs" /></div>
-      <div className="mt-1 flex flex-wrap gap-1">
-        {!p.available && <Pill tone="red">out</Pill>}
-        {sellFor && <Pill tone="yellow">upgrade +{sellFor.gain.toFixed(1)}</Pill>}
-      </div>
     </div>
   );
 }

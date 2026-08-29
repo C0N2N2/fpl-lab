@@ -7,6 +7,7 @@ import {
   isComplete, SQUAD_SIZE, squadCost, validate,
 } from "@/lib/squad";
 import { ErrorNote, FixtureRun, Hero, Loading, Panel, PanelHead, Pill } from "@/components/ui";
+import { Pitch, PitchRow, PlayerToken } from "@/components/Pitch";
 
 const STORAGE_KEY = "fpl-lab.squad.v1";
 const LINES: Position[] = ["GKP", "DEF", "MID", "FWD"];
@@ -173,36 +174,42 @@ export default function SquadBuilder() {
                 </p>
               ) : (
                 <div className="flex flex-col gap-3 p-4">
-                  {LINES.map((pos) => {
-                    const line = eleven.xi.filter((p) => p.position === pos);
-                    if (!line.length) return null;
-                    return (
-                      <div key={pos} className="flex flex-wrap items-stretch gap-2">
-                        <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
-                          {pos}
-                        </span>
-                        {line.map((p) => (
-                          <Chip
-                            key={p.id}
-                            p={p}
-                            captain={eleven.captain?.id === p.id}
-                            vice={eleven.vice?.id === p.id}
-                            onRemove={() => remove(p)}
-                          />
-                        ))}
-                      </div>
-                    );
-                  })}
-                  {eleven.bench.length > 0 && (
-                    <div className="mt-1 flex flex-wrap items-stretch gap-2 rounded-lg bg-surface-2 p-2">
-                      <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
-                        Sub
-                      </span>
-                      {eleven.bench.map((p) => (
-                        <Chip key={p.id} p={p} muted onRemove={() => remove(p)} />
-                      ))}
-                    </div>
-                  )}
+                  <Pitch
+                    bench={eleven.bench.map((p) => (
+                      <PlayerToken
+                        key={p.id}
+                        name={p.name}
+                        club={p.teamShort}
+                        value={p.xp.toFixed(1)}
+                        meta={`£${p.price.toFixed(1)}`}
+                        muted
+                        onRemove={() => remove(p)}
+                      />
+                    ))}
+                  >
+                    {LINES.map((pos) => {
+                      const line = eleven.xi.filter((p) => p.position === pos);
+                      if (!line.length) return null;
+                      return (
+                        <PitchRow key={pos}>
+                          {line.map((p) => (
+                            <PlayerToken
+                              key={p.id}
+                              name={p.name}
+                              club={p.teamShort}
+                              value={p.xp.toFixed(1)}
+                              meta={`£${p.price.toFixed(1)}`}
+                              captain={eleven.captain?.id === p.id}
+                              vice={eleven.vice?.id === p.id}
+                              flag={!p.available ? "red" : undefined}
+                              flagLabel={!p.available ? "out" : undefined}
+                              onRemove={() => remove(p)}
+                            />
+                          ))}
+                        </PitchRow>
+                      );
+                    })}
+                  </Pitch>
                   {complete && (
                     <p className="stat rounded-lg bg-good-wash px-3 py-2 text-[11px] font-semibold text-good">
                       ✓ Legal squad · £{cost.toFixed(1)}m spent · captain {eleven.captain?.name} ·
@@ -292,36 +299,5 @@ export default function SquadBuilder() {
         </>
       )}
     </main>
-  );
-}
-
-function Chip({
-  p, captain, vice, muted, onRemove,
-}: {
-  p: Row; captain?: boolean; vice?: boolean; muted?: boolean; onRemove: () => void;
-}) {
-  return (
-    <div
-      className={`group relative min-w-[132px] flex-1 rounded-lg border-2 px-2.5 py-1.5 ${
-        muted ? "border-line bg-surface" : "border-ink bg-surface"
-      } ${captain ? "!border-red ring-2 ring-red/25" : ""}`}
-    >
-      <div className="flex items-center justify-between gap-1">
-        <span className="truncate text-sm font-bold">{p.name}</span>
-        {captain && <Pill tone="red">C</Pill>}
-        {vice && !captain && <Pill>V</Pill>}
-      </div>
-      <div className="stat flex items-center justify-between text-[10px] text-ink-soft">
-        <span>{p.teamShort} £{p.price.toFixed(1)}</span>
-        <span className="font-bold text-red">{p.xp.toFixed(1)}</span>
-      </div>
-      <button
-        onClick={onRemove}
-        aria-label={`Remove ${p.name}`}
-        className="absolute -right-2 -top-2 hidden h-5 w-5 items-center justify-center rounded-full border-2 border-ink bg-red text-xs font-bold leading-none text-white group-hover:flex focus:flex"
-      >
-        ×
-      </button>
-    </div>
   );
 }

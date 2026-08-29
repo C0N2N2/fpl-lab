@@ -6,6 +6,7 @@ import {
   type LivePayload, type LivePlayer, type Match, type MatchesPayload, type Position,
 } from "@/lib/api";
 import { ErrorNote, Hero, Loading, Panel, PanelHead, Pill, Tile } from "@/components/ui";
+import { Pitch, PitchRow, PlayerToken } from "@/components/Pitch";
 
 const STORAGE_KEY = "fpl-lab.entryId";
 const LINES: Position[] = ["GKP", "DEF", "MID", "FWD"];
@@ -215,27 +216,41 @@ export default function Live() {
               title="Your XI"
               right={<span className="stat text-xs text-ink-soft">provisional bonus shown in yellow</span>}
             />
-            <div className="flex flex-col gap-3 p-4">
-              {LINES.map((pos) => {
-                const line = starters.filter((p) => p.position === pos);
-                if (!line.length) return null;
-                return (
-                  <div key={pos} className="flex flex-wrap items-stretch gap-2">
-                    <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
-                      {pos}
-                    </span>
-                    {line.map((p) => <LiveCard key={p.id} p={p} />)}
-                  </div>
-                );
-              })}
-              {bench.length > 0 && (
-                <div className="mt-1 flex flex-wrap items-stretch gap-2 rounded-lg bg-surface-2 p-2">
-                  <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
-                    Sub
-                  </span>
-                  {bench.map((p) => <LiveCard key={p.id} p={p} muted />)}
-                </div>
-              )}
+            <div className="p-4">
+              <Pitch
+                bench={bench.map((p) => (
+                  <PlayerToken
+                    key={p.id}
+                    name={p.name}
+                    club={p.teamShort}
+                    value={String(p.points + p.provisionalBonus)}
+                    meta={`${p.minutes}′`}
+                    muted
+                    {...liveFlag(p)}
+                  />
+                ))}
+              >
+                {LINES.map((pos) => {
+                  const line = starters.filter((p) => p.position === pos);
+                  if (!line.length) return null;
+                  return (
+                    <PitchRow key={pos}>
+                      {line.map((p) => (
+                        <PlayerToken
+                          key={p.id}
+                          name={p.name}
+                          club={p.teamShort}
+                          value={String(p.multiplier > 1 ? p.counted : p.points + p.provisionalBonus)}
+                          meta={p.started ? `${p.minutes}′` : "to play"}
+                          captain={p.isCaptain}
+                          vice={p.isVice}
+                          {...liveFlag(p)}
+                        />
+                      ))}
+                    </PitchRow>
+                  );
+                })}
+              </Pitch>
             </div>
           </Panel>
 
@@ -338,39 +353,11 @@ function MatchCard({ m, mine }: { m: Match; mine: Map<string, LivePlayer[]> }) {
   );
 }
 
-function LiveCard({ p, muted }: { p: LivePlayer; muted?: boolean }) {
-  const live = p.points + p.provisionalBonus;
-  const state = !p.started ? "upcoming" : p.finished ? "done" : "playing";
-
-  return (
-    <div
-      className={`min-w-[150px] flex-1 rounded-lg border-2 px-2.5 py-2 ${
-        muted ? "border-line bg-surface" : "border-ink bg-surface"
-      } ${state === "playing" ? "!border-red ring-2 ring-red/20" : ""}`}
-    >
-      <div className="flex items-center justify-between gap-1">
-        <span className="truncate text-sm font-bold">{p.name}</span>
-        {p.isCaptain && <Pill tone="red">C</Pill>}
-        {p.isVice && !p.isCaptain && <Pill>V</Pill>}
-      </div>
-
-      <div className="stat flex items-baseline justify-between text-[10px] text-ink-soft">
-        <span>{p.teamShort} · {p.minutes}′</span>
-        <span className="display text-xl text-ink">
-          {p.multiplier > 1 ? p.counted : live}
-        </span>
-      </div>
-
-      <div className="mt-1 flex flex-wrap gap-1">
-        {state === "upcoming" && <Pill>to play</Pill>}
-        {state === "playing" && <Pill tone="red">live</Pill>}
-        {p.goals > 0 && <Pill tone="good">{p.goals}⚽</Pill>}
-        {p.assists > 0 && <Pill tone="good">{p.assists}🅰</Pill>}
-        {p.cleanSheet && p.minutes >= 60 && <Pill tone="good">CS</Pill>}
-        {p.provisionalBonus > 0 && <Pill tone="yellow">+{p.provisionalBonus} bonus?</Pill>}
-        {p.bonus > 0 && <Pill tone="good">+{p.bonus} bonus</Pill>}
-        {p.defcon >= 10 && <Pill tone="good">defcon</Pill>}
-      </div>
-    </div>
-  );
+/** Ring colour and label for a player's live state. */
+function liveFlag(p: LivePlayer): { flag?: "red" | "yellow" | "good"; flagLabel?: string } {
+  if (p.goals > 0) return { flag: "good", flagLabel: p.goals > 1 ? `${p.goals} goals` : "goal" };
+  if (p.assists > 0) return { flag: "good", flagLabel: "assist" };
+  if (p.provisionalBonus > 0) return { flag: "yellow", flagLabel: `+${p.provisionalBonus} bonus?` };
+  if (p.started && !p.finished) return { flag: "yellow", flagLabel: "live" };
+  return {};
 }
