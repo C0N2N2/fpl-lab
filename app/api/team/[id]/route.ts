@@ -48,11 +48,15 @@ async function json<T>(path: string, ttl: number): Promise<T | null> {
 }
 
 export async function GET(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
   const entryId = Number(id);
+  const horizon = Math.min(
+    38,
+    Math.max(1, Number(new URL(request.url).searchParams.get("horizon") ?? 5)),
+  );
 
   if (!Number.isInteger(entryId) || entryId <= 0) {
     return NextResponse.json(
@@ -88,7 +92,7 @@ export async function GET(
   const players = normalise(boot);
   const byId = new Map(players.map((p) => [p.id, p]));
   const strengths = computeStrengths(boot, fixtures);
-  const upcoming = upcomingByTeam(fixtures, boot, 5);
+  const upcoming = upcomingByTeam(fixtures, boot, horizon);
 
   const played = new Map<number, number>();
   for (const f of fixtures) {
@@ -100,7 +104,7 @@ export async function GET(
   const squad = (picks?.picks ?? []).flatMap((pick) => {
     const p = byId.get(pick.element);
     if (!p) return [];
-    const proj = projectPlayer(p, upcoming.get(p.teamId) ?? [], played.get(p.teamId) ?? 0, 5, strengths);
+    const proj = projectPlayer(p, upcoming.get(p.teamId) ?? [], played.get(p.teamId) ?? 0, horizon, strengths);
     return [{
       ...p,
       xp: Number(proj.next.total.toFixed(2)),
@@ -144,6 +148,7 @@ export async function GET(
       squadValue: (entry.last_deadline_value ?? 0) / 10,
       activeChip: picks?.active_chip ?? null,
     },
+    meta: { horizon },
     hasPicks: squad.length > 0,
     squad,
   });

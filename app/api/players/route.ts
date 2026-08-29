@@ -17,8 +17,9 @@ const TTL = 600;
 const fplFetch = <T>(path: string) => cachedJson<T>(`${FPL_BASE}${path}`, TTL);
 
 export async function GET(request: Request) {
+  // 38 covers the rest of any season; upcomingByTeam simply returns fewer.
   const horizon = Math.min(
-    10,
+    38,
     Math.max(1, Number(new URL(request.url).searchParams.get("horizon") ?? 5)),
   );
 

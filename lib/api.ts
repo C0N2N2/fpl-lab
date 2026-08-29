@@ -95,12 +95,13 @@ export interface Manager {
 
 export interface TeamPayload {
   manager: Manager;
+  meta: { horizon: number };
   hasPicks: boolean;
   squad: SquadPlayer[];
 }
 
-export async function fetchTeam(entryId: number): Promise<TeamPayload> {
-  const res = await fetch(`/api/team/${entryId}`);
+export async function fetchTeam(entryId: number, horizon: number): Promise<TeamPayload> {
+  const res = await fetch(`/api/team/${entryId}?horizon=${horizon}`);
   const json = await res.json();
   if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
   return json as TeamPayload;
