@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ------------------------------------------------------------------ *
+ * FPL Lab — matchday poster palette
+ * Red for action, yellow for the highlight, black for the ground.
+ * ------------------------------------------------------------------ */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+:root {
+  --ground: #f7f4ed;
+  --surface: #ffffff;
+  --surface-2: #efeae0;
+  --line: #ddd6c8;
+  --line-soft: #e9e3d7;
+
+  --ink: #14120f;
+  --ink-mid: #514c43;
+  --ink-soft: #837c70;
+
+  --red: #d81f36;
+  --red-hot: #b3162a;
+  --red-wash: #fbe4e7;
+
+  --yellow: #f5c518;
+  --yellow-deep: #a37c00;
+  --yellow-wash: #fdf3d0;
+
+  --good: #2f8f4e;
+  --good-wash: #dff1e3;
+
+  --shadow: 0 1px 2px rgba(20, 18, 15, 0.06), 0 10px 30px -14px rgba(20, 18, 15, 0.22);
+  --shadow-lift: 0 2px 4px rgba(20, 18, 15, 0.08), 0 18px 40px -18px rgba(20, 18, 15, 0.35);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  :root:not([data-theme="light"]) {
+    --ground: #0c0b0d;
+    --surface: #161418;
+    --surface-2: #201d23;
+    --line: #322e38;
+    --line-soft: #262229;
+
+    --ink: #f6f1e8;
+    --ink-mid: #b3aca2;
+    --ink-soft: #857e76;
+
+    --red: #ff3f52;
+    --red-hot: #ff6272;
+    --red-wash: #3a1219;
+
+    --yellow: #ffd23f;
+    --yellow-deep: #ffe27a;
+    --yellow-wash: #362b0c;
+
+    --good: #47c273;
+    --good-wash: #14301e;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 30px -14px rgba(0, 0, 0, 0.8);
+    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.6), 0 18px 40px -18px rgba(0, 0, 0, 0.9);
   }
 }
 
+:root[data-theme="dark"] {
+  --ground: #0c0b0d;
+  --surface: #161418;
+  --surface-2: #201d23;
+  --line: #322e38;
+  --line-soft: #262229;
+
+  --ink: #f6f1e8;
+  --ink-mid: #b3aca2;
+  --ink-soft: #857e76;
+
+  --red: #ff3f52;
+  --red-hot: #ff6272;
+  --red-wash: #3a1219;
+
+  --yellow: #ffd23f;
+  --yellow-deep: #ffe27a;
+  --yellow-wash: #362b0c;
+
+  --good: #47c273;
+  --good-wash: #14301e;
+
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 30px -14px rgba(0, 0, 0, 0.8);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.6), 0 18px 40px -18px rgba(0, 0, 0, 0.9);
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+
+  --color-ink: var(--ink);
+  --color-ink-mid: var(--ink-mid);
+  --color-ink-soft: var(--ink-soft);
+
+  --color-red: var(--red);
+  --color-red-hot: var(--red-hot);
+  --color-red-wash: var(--red-wash);
+
+  --color-yellow: var(--yellow);
+  --color-yellow-deep: var(--yellow-deep);
+  --color-yellow-wash: var(--yellow-wash);
+
+  --color-good: var(--good);
+  --color-good-wash: var(--good-wash);
+}
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Display type: tall, condensed, shouted — matchday poster. */
+.display {
+  font-family: var(--font-display), "Arial Narrow", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.012em;
+  line-height: 0.92;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.stat {
+  font-family: var(--font-stat), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* A yellow marker-pen underline for the word that matters. */
+.marker {
+  background-image: linear-gradient(
+    transparent 60%,
+    var(--yellow) 60%,
+    var(--yellow) 92%,
+    transparent 92%
+  );
+  padding-inline: 0.08em;
+}
+
+/* Diagonal red hazard stripe for headline bars. */
+.stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--red) 0 10px,
+    var(--red-hot) 10px 20px
+  );
+}
+
+:focus-visible {
+  outline: 3px solid var(--yellow);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface-2);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

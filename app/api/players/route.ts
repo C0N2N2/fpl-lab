@@ -9,27 +9,12 @@ import {
 } from "@/lib/fpl";
 import { projectPlayer } from "@/lib/predict";
 import { computeStrengths } from "@/lib/strength";
+import { cachedJson } from "@/lib/cache";
 
 /** Cache upstream responses for 10 minutes — FPL data changes slowly. */
-const REVALIDATE_SECONDS = 600;
+const TTL = 600;
 
-export const revalidate = 600;
-
-async function fplFetch<T>(path: string): Promise<T> {
-  const res = await fetch(`${FPL_BASE}${path}`, {
-    headers: {
-      // FPL rejects requests without a browser-like agent.
-      "User-Agent":
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36",
-      Accept: "application/json",
-    },
-    next: { revalidate: REVALIDATE_SECONDS },
-  });
-  if (!res.ok) {
-    throw new Error(`FPL ${path} responded ${res.status}`);
-  }
-  return res.json() as Promise<T>;
-}
+const fplFetch = <T>(path: string) => cachedJson<T>(`${FPL_BASE}${path}`, TTL);
 
 export async function GET(request: Request) {
   const horizon = Math.min(

@@ -55,19 +55,52 @@ Hover any fixture chip to compare FPL's rating with the re-rated one.
 
 All scoring constants live in `SCORING` at the top of `lib/predict.ts`.
 
+## Pages
+
+| Route | What it does |
+|---|---|
+| `/` | Every player ranked by projected points, sortable on 11 metrics, click for the breakdown |
+| `/compare` | Up to four players head-to-head; the winner of each metric is highlighted |
+| `/squad` | Build a £100m wish-team with live rule validation, best XI and auto-fill |
+| `/team` | Import a real FPL team by ID and get told what to change |
+| `/news` | Injury and suspension flags from FPL, plus transfer-window headlines |
+
+## Caching
+
+`bootstrap-static` is ~2.2MB, and **Next refuses to cache any fetch over 2MB** — so
+`next: { revalidate }` silently does nothing on it and every visitor would hit the FPL API.
+`lib/cache.ts` keeps responses in module scope with a TTL instead, and de-duplicates
+in-flight requests so a burst on a cold instance makes one upstream call, not one per
+visitor. It also serves stale data if FPL returns an error.
+
+## Deploying
+
+```bash
+npm run build      # verify locally first
+npx vercel         # or push to GitHub and import at vercel.com/new
+```
+
+No environment variables and no database — every endpoint is public FPL data plus public
+RSS. Nothing here reads or writes a private FPL account.
+
 ## Layout
 
 ```
 app/
-  api/players/route.ts   fetch, cache, project, serve
-  page.tsx               explorer table
-  squad/page.tsx         squad builder
-  layout.tsx
+  api/players/route.ts   rank every player
+  api/team/[id]/route.ts import a manager's squad
+  api/news/route.ts      RSS + FPL availability flags
+  page.tsx               explorer
+  compare/  squad/  team/  news/
+components/
+  SiteNav.tsx  ui.tsx    shared shell and kit
 lib/
   fpl.ts                 API types + normalisation
   strength.ts            team ratings from results
   predict.ts             expected-points model
   squad.ts               squad rules, best XI, auto-fill
+  news.ts                RSS parsing, club tagging
+  cache.ts               TTL cache for upstream calls
   api.ts                 shared client types
 ```
 
@@ -75,14 +108,17 @@ lib/
 
 - [x] Player explorer with projected points and per-player breakdown
 - [x] Form-adjusted fixture difficulty replacing FPL's static ratings
-- [x] Squad builder — £100m budget, formation rules, max 3 per club, best XI, auto-fill
-- [ ] **Captaincy by ceiling, not mean.** The builder currently captains whoever has the
-      highest expected points, which can pick a defender. Doubling a score rewards a fat
-      right tail, so this needs a distribution, not an average.
-- [ ] Import an existing team by FPL entry ID
-- [ ] Transfer suggestions ranked by projected points gained per £
+- [x] Squad builder — budget, formation rules, club limits, best XI, auto-fill
+- [x] Import a real team by FPL entry ID, with suggested XI and captain changes
+- [x] Head-to-head player comparison
+- [x] Team news, injury flags and transfer-window headlines
+- [ ] **Captaincy by ceiling, not mean.** The model captains whoever has the highest
+      average, which can pick a defender. Doubling a score rewards a fat right tail, so
+      this needs a distribution rather than a point estimate.
+- [ ] Transfer suggestions: "sell X, buy Y, gain Z points over N gameweeks"
 - [ ] Backtest against completed gameweeks to measure real error
 - [ ] Bench order and autosub modelling
+- [ ] Mini-league view — compare imported teams against each other
 
 ## Data
 

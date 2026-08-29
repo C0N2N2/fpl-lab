@@ -71,10 +71,74 @@ export async function fetchPlayers(horizon: number): Promise<Payload> {
   return json as Payload;
 }
 
-/** Colour class for a difficulty rating on FPL's 1–5 scale. */
-export function fdrClass(d: number): string {
-  if (d <= 2) return "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300";
-  if (d === 3) return "bg-zinc-500/15 text-zinc-600 dark:text-zinc-300";
-  if (d === 4) return "bg-amber-500/20 text-amber-700 dark:text-amber-300";
-  return "bg-rose-500/20 text-rose-700 dark:text-rose-300";
+/** A player in an imported FPL squad, with its slot and armband. */
+export interface SquadPlayer extends Row {
+  slot: number;
+  benched: boolean;
+  isCaptain: boolean;
+  isVice: boolean;
+}
+
+export interface Manager {
+  id: number;
+  teamName: string;
+  managerName: string;
+  overallPoints: number;
+  overallRank: number | null;
+  gameweekPoints: number;
+  gameweekRank: number | null;
+  currentEvent: number;
+  bank: number;
+  squadValue: number;
+  activeChip: string | null;
+}
+
+export interface TeamPayload {
+  manager: Manager;
+  hasPicks: boolean;
+  squad: SquadPlayer[];
+}
+
+export async function fetchTeam(entryId: number): Promise<TeamPayload> {
+  const res = await fetch(`/api/team/${entryId}`);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
+  return json as TeamPayload;
+}
+
+/* ---------------- news ---------------- */
+
+export interface NewsItem {
+  title: string;
+  link: string;
+  published: string | null;
+  source: string;
+  teamIds: number[];
+  transfer: boolean;
+}
+
+export interface TeamNewsEntry {
+  playerId: number;
+  name: string;
+  position: string;
+  price: number;
+  news: string;
+  chance: number | null;
+  status: string;
+  ownership: number;
+}
+
+export interface NewsPayload {
+  meta: { generatedAt: string; feedsRequested: number; feedsFailed: number; headlineCount: number };
+  teams: { id: number; name: string; short: string }[];
+  headlines: NewsItem[];
+  transfers: NewsItem[];
+  availability: { teamId: number; team: string; short: string; entries: TeamNewsEntry[] }[];
+}
+
+export async function fetchNews(): Promise<NewsPayload> {
+  const res = await fetch("/api/news");
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
+  return json as NewsPayload;
 }
