@@ -160,6 +160,56 @@ export async function GET(
     }),
   );
 
+  /**
+   * Effective ownership inside this league.
+   *
+   * FPL's headline EO figure is measured across the top 10k, which isn't in
+   * the public API. Measured across the people you're actually playing, it
+   * matters more: a player owned by everyone here can't win you the league,
+   * and a captain counts twice because that's how the points land.
+   */
+  const withPicks = entries.filter((e) => e.hasPicks).length;
+  const owned = new Map<number, { started: number; benched: number; captained: number }>();
+
+  for (const s of results) {
+    const picks = await json<PicksResponse>(
+      `/entry/${s.entry}/event/${currentGw}/picks/`,
+      TTL_LEAGUE,
+    );
+    for (const pick of picks?.picks ?? []) {
+      const rec = owned.get(pick.element) ?? { started: 0, benched: 0, captained: 0 };
+      if (pick.position <= 11) rec.started++;
+      else rec.benched++;
+      if (pick.is_captain) rec.captained++;
+      owned.set(pick.element, rec);
+    }
+  }
+
+  const ownership = [...owned.entries()]
+    .map(([elementId, rec]) => {
+      const p = byId.get(elementId);
+      if (!p || !withPicks) return null;
+      const proj = projectPlayer(
+        p, upcoming.get(p.teamId) ?? [], played.get(p.teamId) ?? 0, horizon, strengths,
+      );
+      return {
+        id: p.id,
+        name: p.name,
+        teamShort: p.teamShort,
+        position: p.position,
+        price: p.price,
+        xp: Number(proj.next.total.toFixed(2)),
+        /** Share of league squads holding this player at all. */
+        ownedPct: Number(((100 * (rec.started + rec.benched)) / withPicks).toFixed(1)),
+        /** Starters plus captains again — the share of league points they swing. */
+        effectivePct: Number(((100 * (rec.started + rec.captained)) / withPicks).toFixed(1)),
+        captainedBy: rec.captained,
+        globalPct: p.ownership,
+      };
+    })
+    .filter((x): x is NonNullable<typeof x> => x !== null)
+    .sort((a, b) => b.effectivePct - a.effectivePct);
+
   return NextResponse.json({
     league: { id: league.league.id, name: league.league.name },
     meta: {
@@ -169,7 +219,9 @@ export async function GET(
       deadline: gw?.deadline_time ?? null,
       shown: entries.length,
       truncated: league.standings.results.length > MAX_PROJECTED || league.standings.has_next,
+      squadsCounted: withPicks,
     },
     entries,
+    ownership: ownership.slice(0, 40),
   });
 }

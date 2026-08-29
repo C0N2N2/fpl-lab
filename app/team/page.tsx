@@ -7,6 +7,7 @@ import {
 } from "@/lib/api";
 import { bestEleven } from "@/lib/squad";
 import { suggestTransfers, type Suggestion } from "@/lib/transfers";
+import { planTransfers, type Plan } from "@/lib/planner";
 import { ErrorNote, FixtureRun, Hero, Loading, Panel, PanelHead, Pill, Tile } from "@/components/ui";
 
 const STORAGE_KEY = "fpl-lab.entryId";
@@ -94,6 +95,18 @@ export default function MyTeam() {
     if (!gws.length) return null;
     return { from: Math.min(...gws), to: Math.max(...gws), count: new Set(gws).size };
   }, [squad]);
+
+  const [planWeeks, setPlanWeeks] = useState(5);
+  const [freeTransfers, setFreeTransfers] = useState(1);
+
+  const plan: Plan | null = useMemo(() => {
+    if (!team || !pool || squad.length < 15) return null;
+    return planTransfers(squad, pool.players, {
+      bank: team.manager.bank,
+      freeTransfers,
+      weeks: planWeeks,
+    });
+  }, [team, pool, squad, planWeeks, freeTransfers]);
 
   return (
     <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6">
@@ -212,6 +225,97 @@ export default function MyTeam() {
                   </>
                 )}
               </Panel>
+
+              {plan && plan.steps.length > 0 && (
+                <Panel>
+                  <PanelHead
+                    title="Multi-gameweek plan"
+                    right={
+                      <div className="flex flex-wrap items-center gap-3">
+                        <label className="stat flex items-center gap-1.5 text-xs text-ink-mid">
+                          weeks
+                          <select
+                            value={planWeeks}
+                            onChange={(e) => setPlanWeeks(Number(e.target.value))}
+                            className="rounded border-2 border-ink bg-surface px-1.5 py-0.5"
+                          >
+                            {[3, 5, 8].map((n) => <option key={n} value={n}>{n}</option>)}
+                          </select>
+                        </label>
+                        <label className="stat flex items-center gap-1.5 text-xs text-ink-mid">
+                          free now
+                          <select
+                            value={freeTransfers}
+                            onChange={(e) => setFreeTransfers(Number(e.target.value))}
+                            className="rounded border-2 border-ink bg-surface px-1.5 py-0.5"
+                          >
+                            {[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n}</option>)}
+                          </select>
+                        </label>
+                      </div>
+                    }
+                  />
+                  <div className="border-b-2 border-line-soft bg-surface-2 px-4 py-3">
+                    <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
+                      <span className="stat text-xs text-ink-soft">
+                        hold this squad → <b className="text-ink">{plan.baselineXp.toFixed(1)}</b> pts
+                      </span>
+                      <span className="stat text-xs text-ink-soft">
+                        follow the plan → <b className="text-red">{plan.totalXp.toFixed(1)}</b> pts
+                      </span>
+                      <span className="display text-2xl text-good">
+                        {plan.gain >= 0 ? "+" : ""}{plan.gain.toFixed(1)}
+                      </span>
+                      <span className="stat text-xs text-ink-soft">
+                        {plan.transferCount} transfer{plan.transferCount === 1 ? "" : "s"}
+                        {plan.totalHits > 0 && `, ${plan.totalHits} pts of hits taken`}
+                      </span>
+                    </div>
+                  </div>
+                  <ul className="divide-y-2 divide-line-soft">
+                    {plan.steps.map((s) => (
+                      <li key={s.gw} className="flex flex-wrap items-center gap-x-5 gap-y-2 px-4 py-3">
+                        <span className="display w-16 flex-none text-xl text-ink-soft">GW{s.gw}</span>
+                        <div className="min-w-[220px] flex-1">
+                          {s.transfers.length === 0 ? (
+                            <span className="stat text-xs text-ink-soft">
+                              roll the transfer — nothing worth doing
+                            </span>
+                          ) : (
+                            <div className="flex flex-col gap-1">
+                              {s.transfers.map((t) => (
+                                <div key={t.out.id} className="text-sm">
+                                  <span className="line-through decoration-red decoration-2">
+                                    {t.out.name}
+                                  </span>
+                                  <span className="mx-2 text-ink-soft">→</span>
+                                  <b className="text-good">{t.in.name}</b>
+                                  <span className="stat ml-2 text-[10px] text-ink-soft">
+                                    £{t.out.price.toFixed(1)} → £{t.in.price.toFixed(1)}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <div className="stat text-right text-[11px] text-ink-soft">
+                          <div>
+                            <b className="text-ink">{s.squadXp.toFixed(1)}</b> projected
+                          </div>
+                          {s.hit > 0 && <div className="text-red">−{s.hit} hit</div>}
+                          {s.captain && <div>(C) {s.captain.name}</div>}
+                          <div>bank £{s.bank.toFixed(1)}m</div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="border-t-2 border-line-soft px-4 py-2 text-[12px] text-ink-mid">
+                    Searched with a beam over legal squads, costing −4 for every transfer beyond
+                    your free ones and banking unused transfers up to five. It assumes prices and
+                    availability stay as they are today, so re-run it after each deadline.
+                  </p>
+                </Panel>
+              )}
 
               {(shouldBench.length > 0 || shouldStart.length > 0 ||
                 optimal.captain?.id !== captain?.id) && (

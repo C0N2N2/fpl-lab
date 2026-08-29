@@ -115,6 +115,22 @@ export interface LeagueEntry {
   topPlayers: { name: string; team: string; xp: number }[];
 }
 
+export interface LeagueOwnership {
+  id: number;
+  name: string;
+  teamShort: string;
+  position: Position;
+  price: number;
+  xp: number;
+  /** Share of league squads holding this player. */
+  ownedPct: number;
+  /** Starters plus captains again — the share of league points they swing. */
+  effectivePct: number;
+  captainedBy: number;
+  /** Ownership across the whole game, for contrast. */
+  globalPct: number;
+}
+
 export interface LeaguePayload {
   league: { id: number; name: string };
   meta: {
@@ -124,8 +140,10 @@ export interface LeaguePayload {
     deadline: string | null;
     shown: number;
     truncated: boolean;
+    squadsCounted: number;
   };
   entries: LeagueEntry[];
+  ownership: LeagueOwnership[];
 }
 
 export async function fetchLeague(leagueId: number, horizon: number): Promise<LeaguePayload> {
@@ -133,6 +151,56 @@ export async function fetchLeague(leagueId: number, horizon: number): Promise<Le
   const json = await res.json();
   if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
   return json as LeaguePayload;
+}
+
+/* ---------------- live gameweek ---------------- */
+
+export interface LivePlayer {
+  id: number;
+  name: string;
+  teamShort: string;
+  position: Position;
+  price: number;
+  slot: number;
+  benched: boolean;
+  isCaptain: boolean;
+  isVice: boolean;
+  multiplier: number;
+  minutes: number;
+  points: number;
+  provisionalBonus: number;
+  bonus: number;
+  bps: number;
+  goals: number;
+  assists: number;
+  cleanSheet: boolean;
+  defcon: number;
+  counted: number;
+  started: boolean;
+  finished: boolean;
+}
+
+export interface LivePayload {
+  meta: { gameweek: number; isCurrent: boolean; generatedAt: string };
+  total: {
+    live: number;
+    raw: number;
+    hit: number;
+    official: number | null;
+    benchPoints: number;
+    playersPlaying: number;
+    playersToPlay: number;
+    playersDone: number;
+  };
+  activeChip: string | null;
+  squad: LivePlayer[];
+}
+
+export async function fetchLive(entryId: number, gw?: number): Promise<LivePayload> {
+  const res = await fetch(`/api/live/${entryId}${gw ? `?gw=${gw}` : ""}`);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
+  return json as LivePayload;
 }
 
 export interface TeamRow {

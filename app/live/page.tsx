@@ -1,0 +1,234 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { fetchLive, type LivePayload, type LivePlayer, type Position } from "@/lib/api";
+import { ErrorNote, Hero, Loading, Panel, PanelHead, Pill, Tile } from "@/components/ui";
+
+const STORAGE_KEY = "fpl-lab.entryId";
+const LINES: Position[] = ["GKP", "DEF", "MID", "FWD"];
+const REFRESH_MS = 60_000;
+
+export default function Live() {
+  const [input, setInput] = useState("");
+  const [entryId, setEntryId] = useState<number | null>(null);
+  const [data, setData] = useState<LivePayload | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [auto, setAuto] = useState(true);
+  const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) { setInput(saved); setEntryId(Number(saved)); }
+    } catch { /* private mode — start empty */ }
+  }, []);
+
+  const load = useCallback(async (id: number) => {
+    setBusy(true);
+    try {
+      const json = await fetchLive(id);
+      setData(json);
+      setError(null);
+      setUpdatedAt(new Date());
+      try { localStorage.setItem(STORAGE_KEY, String(id)); } catch { /* ignore */ }
+    } catch (e) {
+      setError((e as Error).message);
+      setData(null);
+    } finally {
+      setBusy(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (entryId === null) return;
+    void load(entryId);
+  }, [entryId, load]);
+
+  // Poll while matches are in progress; stop once everyone has finished.
+  useEffect(() => {
+    if (!auto || entryId === null || !data) return;
+    const inPlay = data.total.playersPlaying > 0 || data.total.playersToPlay > 0;
+    if (!inPlay) return;
+    const t = setInterval(() => void load(entryId), REFRESH_MS);
+    return () => clearInterval(t);
+  }, [auto, entryId, data, load]);
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const n = Number(input.trim());
+    if (Number.isInteger(n) && n > 0) setEntryId(n);
+    else setError("Enter the numeric team ID from your FPL URL.");
+  }
+
+  const starters = useMemo(() => data?.squad.filter((p) => !p.benched) ?? [], [data]);
+  const bench = useMemo(
+    () => (data?.squad.filter((p) => p.benched) ?? []).sort((a, b) => a.slot - b.slot),
+    [data],
+  );
+
+  const inPlay = (data?.total.playersPlaying ?? 0) > 0 || (data?.total.playersToPlay ?? 0) > 0;
+
+  return (
+    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6">
+      <Hero
+        kicker="Live"
+        title={<>Points as they <span className="marker">happen</span></>}
+        blurb="Your gameweek score updating in real time, including provisional bonus worked out from live BPS before FPL publishes it."
+        right={
+          data ? (
+            <div className="rounded-xl border-2 border-ink bg-red px-6 py-3 text-white shadow-[4px_4px_0_0_var(--ink)]">
+              <div className="display text-5xl">{data.total.live}</div>
+              <div className="stat text-[11px] font-semibold">
+                GW{data.meta.gameweek}
+                {data.total.hit > 0 && ` · after −${data.total.hit} hit`}
+              </div>
+            </div>
+          ) : null
+        }
+      />
+
+      <form onSubmit={submit} className="mb-6 flex flex-wrap items-center gap-3">
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          inputMode="numeric"
+          placeholder="e.g. 1234567"
+          aria-label="FPL team ID"
+          className="stat w-44 rounded-lg border-2 border-ink bg-surface px-3 py-2 text-sm outline-none"
+        />
+        <button
+          type="submit"
+          disabled={busy}
+          className="rounded-lg border-2 border-ink bg-red px-5 py-2 text-sm font-bold text-white shadow-[3px_3px_0_0_var(--ink)] transition hover:bg-red-hot disabled:opacity-60"
+        >
+          {busy ? "Loading…" : "Track team"}
+        </button>
+        {data && (
+          <>
+            <button
+              type="button"
+              onClick={() => entryId && void load(entryId)}
+              className="rounded-lg border-2 border-ink bg-surface px-4 py-2 text-sm font-bold text-ink-mid transition hover:bg-yellow-wash"
+            >
+              Refresh now
+            </button>
+            <label className="stat flex cursor-pointer items-center gap-2 text-xs text-ink-mid">
+              <input
+                type="checkbox" checked={auto}
+                onChange={(e) => setAuto(e.target.checked)}
+                className="accent-[var(--red)]"
+              />
+              auto-refresh every minute
+            </label>
+            {updatedAt && (
+              <span className="stat text-[11px] text-ink-soft">
+                updated {updatedAt.toLocaleTimeString()}
+              </span>
+            )}
+          </>
+        )}
+      </form>
+
+      {error && <ErrorNote title="Couldn't load live points" detail={error} />}
+      {busy && !data && <Loading what="live scores" />}
+
+      {data && !error && (
+        <div className="flex flex-col gap-5">
+          <Panel>
+            <PanelHead
+              title={inPlay ? "Gameweek in progress" : "Gameweek complete"}
+              right={
+                data.activeChip ? <Pill tone="yellow">{data.activeChip}</Pill> : null
+              }
+            />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+              <Tile label="Live points" value={data.total.live} tone="red" sub="XI, captain counted" />
+              <Tile label="Still to play" value={data.total.playersToPlay} tone="yellow" />
+              <Tile label="Playing now" value={data.total.playersPlaying} />
+              <Tile label="Finished" value={data.total.playersDone} />
+              <Tile label="On the bench" value={data.total.benchPoints} sub="not counted" />
+              <Tile
+                label="FPL says"
+                value={data.total.official ?? "—"}
+                sub="official, lags bonus"
+              />
+            </div>
+          </Panel>
+
+          <Panel>
+            <PanelHead
+              title="Your XI"
+              right={<span className="stat text-xs text-ink-soft">provisional bonus shown in yellow</span>}
+            />
+            <div className="flex flex-col gap-3 p-4">
+              {LINES.map((pos) => {
+                const line = starters.filter((p) => p.position === pos);
+                if (!line.length) return null;
+                return (
+                  <div key={pos} className="flex flex-wrap items-stretch gap-2">
+                    <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
+                      {pos}
+                    </span>
+                    {line.map((p) => <LiveCard key={p.id} p={p} />)}
+                  </div>
+                );
+              })}
+              {bench.length > 0 && (
+                <div className="mt-1 flex flex-wrap items-stretch gap-2 rounded-lg bg-surface-2 p-2">
+                  <span className="stat w-9 flex-none pt-3 text-[10px] uppercase text-ink-soft">
+                    Sub
+                  </span>
+                  {bench.map((p) => <LiveCard key={p.id} p={p} muted />)}
+                </div>
+              )}
+            </div>
+          </Panel>
+
+          <p className="stat text-[10px] leading-relaxed text-ink-soft">
+            Bonus is only official once a match ends. Until then we rank every player in each
+            fixture by live BPS and award 3/2/1 the way FPL will — so your total moves before
+            theirs does. Auto-refresh stops once all your players have finished.
+          </p>
+        </div>
+      )}
+    </main>
+  );
+}
+
+function LiveCard({ p, muted }: { p: LivePlayer; muted?: boolean }) {
+  const live = p.points + p.provisionalBonus;
+  const state = !p.started ? "upcoming" : p.finished ? "done" : "playing";
+
+  return (
+    <div
+      className={`min-w-[150px] flex-1 rounded-lg border-2 px-2.5 py-2 ${
+        muted ? "border-line bg-surface" : "border-ink bg-surface"
+      } ${state === "playing" ? "!border-red ring-2 ring-red/20" : ""}`}
+    >
+      <div className="flex items-center justify-between gap-1">
+        <span className="truncate text-sm font-bold">{p.name}</span>
+        {p.isCaptain && <Pill tone="red">C</Pill>}
+        {p.isVice && !p.isCaptain && <Pill>V</Pill>}
+      </div>
+
+      <div className="stat flex items-baseline justify-between text-[10px] text-ink-soft">
+        <span>{p.teamShort} · {p.minutes}′</span>
+        <span className="display text-xl text-ink">
+          {p.multiplier > 1 ? p.counted : live}
+        </span>
+      </div>
+
+      <div className="mt-1 flex flex-wrap gap-1">
+        {state === "upcoming" && <Pill>to play</Pill>}
+        {state === "playing" && <Pill tone="red">live</Pill>}
+        {p.goals > 0 && <Pill tone="good">{p.goals}⚽</Pill>}
+        {p.assists > 0 && <Pill tone="good">{p.assists}🅰</Pill>}
+        {p.cleanSheet && p.minutes >= 60 && <Pill tone="good">CS</Pill>}
+        {p.provisionalBonus > 0 && <Pill tone="yellow">+{p.provisionalBonus} bonus?</Pill>}
+        {p.bonus > 0 && <Pill tone="good">+{p.bonus} bonus</Pill>}
+        {p.defcon >= 10 && <Pill tone="good">defcon</Pill>}
+      </div>
+    </div>
+  );
+}

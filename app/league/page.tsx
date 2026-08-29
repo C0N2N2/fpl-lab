@@ -172,6 +172,64 @@ export default function League() {
             </div>
           </Panel>
 
+          {data.ownership.length > 0 && (
+            <Panel className="overflow-hidden">
+              <PanelHead
+                title="Effective ownership in this league"
+                right={
+                  <span className="stat text-xs text-ink-soft">
+                    across {data.meta.squadsCounted} squads
+                  </span>
+                }
+              />
+              <p className="border-b-2 border-line-soft bg-surface-2 px-4 py-2 text-[12px] text-ink-mid">
+                <b className="text-ink">Effective ownership</b> counts starters plus captains a
+                second time — it is the share of your league&apos;s points a player actually
+                swings. Above 100% means he is captained widely. High EO players can&apos;t win you
+                the league, only lose it; the low ones are where rank is made.
+              </p>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[720px] border-collapse text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-ink bg-surface-2">
+                      {["Player", "Next GW xP", "Owned here", "Effective", "Captained by", "Owned globally", "Verdict"].map((h) => (
+                        <th key={h} className="stat px-3 py-3 text-left text-[10px] uppercase tracking-wider text-ink-soft">
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.ownership.slice(0, 20).map((o) => {
+                      const rare = o.effectivePct <= 30;
+                      const template = o.effectivePct >= 70;
+                      return (
+                        <tr key={o.id} className="border-b border-line-soft transition hover:bg-yellow-wash">
+                          <td className="px-3 py-2">
+                            <b>{o.name}</b>{" "}
+                            <span className="stat text-[10px] text-ink-soft">
+                              {o.teamShort} · {o.position} · £{o.price.toFixed(1)}
+                            </span>
+                          </td>
+                          <td className="stat px-3 py-2 font-bold text-red">{o.xp.toFixed(2)}</td>
+                          <td className="stat px-3 py-2 text-ink-mid">{o.ownedPct.toFixed(0)}%</td>
+                          <td className="stat px-3 py-2 font-bold">{o.effectivePct.toFixed(0)}%</td>
+                          <td className="stat px-3 py-2 text-ink-mid">{o.captainedBy || "—"}</td>
+                          <td className="stat px-3 py-2 text-ink-soft">{o.globalPct.toFixed(1)}%</td>
+                          <td className="px-3 py-2">
+                            {template && <Pill tone="red">template</Pill>}
+                            {rare && o.xp >= 3 && <Pill tone="good">differential</Pill>}
+                            {!template && !rare && <Pill>middle</Pill>}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </Panel>
+          )}
+
           <p className="stat text-[10px] leading-relaxed text-ink-soft">
             &quot;Leaking&quot; is the gap between someone&apos;s current XI and the best XI their
             own fifteen could field — points lost to bench order or the wrong armband. Squads come
