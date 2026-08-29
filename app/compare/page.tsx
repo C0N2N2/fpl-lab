@@ -70,7 +70,7 @@ export default function Compare() {
   }
 
   return (
-    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6">
+    <main className="py-10">
       <Hero
         kicker="Head to head"
         title={<>Who is the <span className="marker">better</span> pick?</>}
@@ -89,23 +89,23 @@ export default function Compare() {
               placeholder={ids.length >= 4 ? "Four is the maximum — remove one first" : "Add a player…"}
               disabled={ids.length >= 4}
               aria-label="Search for a player to compare"
-              className="w-full rounded-lg border-2 border-ink bg-surface px-3 py-2 text-sm outline-none disabled:opacity-50"
+              className="w-full rounded-lg border border-line bg-panel px-3 py-2 text-sm outline-none disabled:opacity-50"
             />
             {suggestions.length > 0 && (
-              <ul className="absolute z-20 mt-1 w-full overflow-hidden rounded-lg border-2 border-ink bg-surface shadow-[4px_4px_0_0_var(--ink)]">
+              <ul className="absolute z-20 mt-1 w-full overflow-hidden rounded-lg border border-line bg-panel ">
                 {suggestions.map((p) => (
                   <li key={p.id}>
                     <button
                       onClick={() => add(p)}
-                      className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm transition hover:bg-yellow-wash"
+                      className="flex w-full items-center justify-between gap-3 px-3 py-2 text-left text-sm transition hover:bg-flare-wash"
                     >
                       <span>
                         <b>{p.name}</b>{" "}
-                        <span className="stat text-[10px] text-ink-soft">
+                        <span className="stat text-[10px] text-chalk-dim">
                           {p.teamShort} · {p.position}
                         </span>
                       </span>
-                      <span className="stat text-xs text-ink-soft">
+                      <span className="stat text-xs text-chalk-dim">
                         £{p.price.toFixed(1)} · {p.xpHorizon.toFixed(1)} xP
                       </span>
                     </button>
@@ -118,8 +118,8 @@ export default function Compare() {
           {chosen.length === 0 ? (
             <Panel>
               <div className="px-5 py-16 text-center">
-                <p className="display text-2xl text-ink-soft">Pick two players to start</p>
-                <p className="mt-2 text-sm text-ink-mid">
+                <p className="display text-2xl text-chalk-dim">Pick two players to start</p>
+                <p className="mt-2 text-sm text-chalk-mid">
                   Try the two you keep going back and forth on.
                 </p>
               </div>
@@ -131,7 +131,7 @@ export default function Compare() {
                 right={
                   <button
                     onClick={() => setIds([])}
-                    className="stat text-xs font-bold uppercase text-red hover:underline"
+                    className="stat text-xs font-bold uppercase text-strike hover:underline"
                   >
                     Clear all
                   </button>
@@ -141,13 +141,13 @@ export default function Compare() {
                 <table className="w-full border-collapse text-sm">
                   <thead>
                     <tr>
-                      <th className="w-56 border-b-2 border-line px-4 py-3 text-left" />
+                      <th className="w-56 border-b border-line px-4 py-3 text-left" />
                       {chosen.map((p) => (
-                        <th key={p.id} className="border-b-2 border-line px-4 py-3 text-left align-top">
+                        <th key={p.id} className="border-b border-line px-4 py-3 text-left align-top">
                           <div className="flex items-start justify-between gap-2">
                             <div>
                               <div className="display text-xl leading-tight">{p.name}</div>
-                              <div className="stat mt-0.5 text-[10px] text-ink-soft">
+                              <div className="stat mt-0.5 text-[10px] text-chalk-dim">
                                 {p.team} · {p.position} · £{p.price.toFixed(1)}m
                               </div>
                               <div className="mt-1.5">
@@ -162,7 +162,7 @@ export default function Compare() {
                             <button
                               onClick={() => setIds((prev) => prev.filter((i) => i !== p.id))}
                               aria-label={`Remove ${p.name}`}
-                              className="rounded-full border-2 border-ink px-1.5 text-xs font-bold leading-tight transition hover:bg-red hover:text-white"
+                              className="rounded-full border border-line px-1.5 text-xs font-bold leading-tight transition hover:bg-strike hover:text-white"
                             >
                               ×
                             </button>
@@ -181,7 +181,7 @@ export default function Compare() {
                           <th
                             title={m.help}
                             scope="row"
-                            className="px-4 py-2.5 text-left text-[13px] font-semibold text-ink-mid"
+                            className="px-4 py-2.5 text-left text-[13px] font-semibold text-chalk-mid"
                           >
                             {m.label}
                           </th>
@@ -191,11 +191,11 @@ export default function Compare() {
                               <td
                                 key={p.id}
                                 className={`stat px-4 py-2.5 text-[15px] font-bold ${
-                                  win ? "bg-yellow-wash text-ink" : "text-ink-mid"
+                                  win ? "bg-flare-wash text-chalk" : "text-chalk-mid"
                                 }`}
                               >
                                 {m.fmt(p)}
-                                {win && <span className="ml-1.5 text-[10px] text-yellow-deep">▲</span>}
+                                {win && <span className="ml-1.5 text-[10px] text-flare">▲</span>}
                               </td>
                             );
                           })}

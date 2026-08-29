@@ -1,185 +1,306 @@
 @import "tailwindcss";
 
-/* ------------------------------------------------------------------ *
- * FPL Lab — matchday poster palette
- * Red for action, yellow for the highlight, black for the ground.
- * ------------------------------------------------------------------ */
+/* ==================================================================
+   FLOODLIT — a matchday-night broadcast system
+   Dark-first. Deep blue-black ground, aurora bleeding from the accents,
+   hairline glass panels lit along one edge like a scorebug.
+   ================================================================== */
 
 :root {
-  --ground: #f7f4ed;
-  --surface: #ffffff;
-  --surface-2: #efeae0;
-  --line: #ddd6c8;
-  --line-soft: #e9e3d7;
+  /* night is the default */
+  --void: #06070b;
+  --deep: #0a0d14;
+  --panel: #11151f;
+  --panel-2: #171d29;
+  --line: #232b3a;
+  --line-soft: #1a212c;
 
-  --ink: #14120f;
-  --ink-mid: #514c43;
-  --ink-soft: #837c70;
+  --chalk: #eef2f8;
+  --chalk-mid: #97a3b6;
+  --chalk-dim: #5b6678;
 
-  --red: #d81f36;
-  --red-hot: #b3162a;
-  --red-wash: #fbe4e7;
+  --strike: #ff2b4e;
+  --strike-deep: #d10f30;
+  --strike-wash: rgba(255, 43, 78, 0.12);
 
-  --yellow: #f5c518;
-  --yellow-deep: #a37c00;
-  --yellow-wash: #fdf3d0;
+  --flare: #ffd426;
+  --flare-deep: #c99f00;
+  --flare-wash: rgba(255, 212, 38, 0.12);
 
-  --good: #2f8f4e;
-  --good-wash: #dff1e3;
+  --surge: #19e68c;
+  --surge-wash: rgba(25, 230, 140, 0.12);
 
-  --shadow: 0 1px 2px rgba(20, 18, 15, 0.06), 0 10px 30px -14px rgba(20, 18, 15, 0.22);
-  --shadow-lift: 0 2px 4px rgba(20, 18, 15, 0.08), 0 18px 40px -18px rgba(20, 18, 15, 0.35);
+  --turf: #0e2a1c;
+  --turf-lit: #163a26;
+
+  --glow-strike: 0 0 0 1px rgba(255, 43, 78, 0.35), 0 8px 40px -8px rgba(255, 43, 78, 0.45);
+  --glow-flare: 0 0 0 1px rgba(255, 212, 38, 0.35), 0 8px 40px -8px rgba(255, 212, 38, 0.4);
+  --glow-surge: 0 0 0 1px rgba(25, 230, 140, 0.3), 0 8px 40px -8px rgba(25, 230, 140, 0.35);
+  --lift: 0 1px 0 0 rgba(255, 255, 255, 0.05) inset, 0 20px 50px -24px rgba(0, 0, 0, 0.9);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ground: #0c0b0d;
-    --surface: #161418;
-    --surface-2: #201d23;
-    --line: #322e38;
-    --line-soft: #262229;
+/* daylight — a cold, bright stadium afternoon */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --void: #eef1f6;
+    --deep: #f6f8fb;
+    --panel: #ffffff;
+    --panel-2: #f2f5f9;
+    --line: #dde3ec;
+    --line-soft: #e8edf3;
 
-    --ink: #f6f1e8;
-    --ink-mid: #b3aca2;
-    --ink-soft: #857e76;
+    --chalk: #0a0d14;
+    --chalk-mid: #4d5871;
+    --chalk-dim: #7c8798;
 
-    --red: #ff3f52;
-    --red-hot: #ff6272;
-    --red-wash: #3a1219;
+    --strike: #e10e34;
+    --strike-deep: #a80926;
+    --strike-wash: rgba(225, 14, 52, 0.09);
 
-    --yellow: #ffd23f;
-    --yellow-deep: #ffe27a;
-    --yellow-wash: #362b0c;
+    --flare: #eab000;
+    --flare-deep: #8a6a00;
+    --flare-wash: rgba(234, 176, 0, 0.14);
 
-    --good: #47c273;
-    --good-wash: #14301e;
+    --surge: #00a860;
+    --surge-wash: rgba(0, 168, 96, 0.11);
 
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 30px -14px rgba(0, 0, 0, 0.8);
-    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.6), 0 18px 40px -18px rgba(0, 0, 0, 0.9);
+    --glow-strike: 0 0 0 1px rgba(225, 14, 52, 0.2), 0 10px 30px -12px rgba(225, 14, 52, 0.35);
+    --glow-flare: 0 0 0 1px rgba(234, 176, 0, 0.25), 0 10px 30px -12px rgba(234, 176, 0, 0.35);
+    --glow-surge: 0 0 0 1px rgba(0, 168, 96, 0.2), 0 10px 30px -12px rgba(0, 168, 96, 0.3);
+    --lift: 0 1px 0 0 rgba(255, 255, 255, 0.9) inset, 0 18px 40px -26px rgba(10, 13, 20, 0.45);
   }
 }
 
-:root[data-theme="dark"] {
-  --ground: #0c0b0d;
-  --surface: #161418;
-  --surface-2: #201d23;
-  --line: #322e38;
-  --line-soft: #262229;
+:root[data-theme="light"] {
+  --void: #eef1f6;
+  --deep: #f6f8fb;
+  --panel: #ffffff;
+  --panel-2: #f2f5f9;
+  --line: #dde3ec;
+  --line-soft: #e8edf3;
 
-  --ink: #f6f1e8;
-  --ink-mid: #b3aca2;
-  --ink-soft: #857e76;
+  --chalk: #0a0d14;
+  --chalk-mid: #4d5871;
+  --chalk-dim: #7c8798;
 
-  --red: #ff3f52;
-  --red-hot: #ff6272;
-  --red-wash: #3a1219;
+  --strike: #e10e34;
+  --strike-deep: #a80926;
+  --strike-wash: rgba(225, 14, 52, 0.09);
 
-  --yellow: #ffd23f;
-  --yellow-deep: #ffe27a;
-  --yellow-wash: #362b0c;
+  --flare: #eab000;
+  --flare-deep: #8a6a00;
+  --flare-wash: rgba(234, 176, 0, 0.14);
 
-  --good: #47c273;
-  --good-wash: #14301e;
+  --surge: #00a860;
+  --surge-wash: rgba(0, 168, 96, 0.11);
 
-  --shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 10px 30px -14px rgba(0, 0, 0, 0.8);
-  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.6), 0 18px 40px -18px rgba(0, 0, 0, 0.9);
+  --glow-strike: 0 0 0 1px rgba(225, 14, 52, 0.2), 0 10px 30px -12px rgba(225, 14, 52, 0.35);
+  --glow-flare: 0 0 0 1px rgba(234, 176, 0, 0.25), 0 10px 30px -12px rgba(234, 176, 0, 0.35);
+  --glow-surge: 0 0 0 1px rgba(0, 168, 96, 0.2), 0 10px 30px -12px rgba(0, 168, 96, 0.3);
+  --lift: 0 1px 0 0 rgba(255, 255, 255, 0.9) inset, 0 18px 40px -26px rgba(10, 13, 20, 0.45);
 }
 
 @theme inline {
-  --color-ground: var(--ground);
-  --color-surface: var(--surface);
-  --color-surface-2: var(--surface-2);
+  --color-void: var(--void);
+  --color-deep: var(--deep);
+  --color-panel: var(--panel);
+  --color-panel-2: var(--panel-2);
   --color-line: var(--line);
   --color-line-soft: var(--line-soft);
-
-  --color-ink: var(--ink);
-  --color-ink-mid: var(--ink-mid);
-  --color-ink-soft: var(--ink-soft);
-
-  --color-red: var(--red);
-  --color-red-hot: var(--red-hot);
-  --color-red-wash: var(--red-wash);
-
-  --color-yellow: var(--yellow);
-  --color-yellow-deep: var(--yellow-deep);
-  --color-yellow-wash: var(--yellow-wash);
-
-  --color-good: var(--good);
-  --color-good-wash: var(--good-wash);
+  --color-chalk: var(--chalk);
+  --color-chalk-mid: var(--chalk-mid);
+  --color-chalk-dim: var(--chalk-dim);
+  --color-strike: var(--strike);
+  --color-strike-deep: var(--strike-deep);
+  --color-strike-wash: var(--strike-wash);
+  --color-flare: var(--flare);
+  --color-flare-deep: var(--flare-deep);
+  --color-flare-wash: var(--flare-wash);
+  --color-surge: var(--surge);
+  --color-surge-wash: var(--surge-wash);
 }
 
 * {
   box-sizing: border-box;
 }
 
-body {
-  background: var(--ground);
-  color: var(--ink);
-  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
-  -webkit-font-smoothing: antialiased;
+html {
+  scroll-behavior: smooth;
 }
 
-/* Display type: tall, condensed, shouted — matchday poster. */
+body {
+  background: var(--void);
+  color: var(--chalk);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  min-height: 100%;
+}
+
+/* ---- aurora: floodlight bleed behind everything ---- */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -20% -10% auto -10%;
+  height: 70vh;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(48% 55% at 18% 0%, rgba(255, 43, 78, 0.16), transparent 70%),
+    radial-gradient(42% 50% at 82% 4%, rgba(255, 212, 38, 0.12), transparent 72%),
+    radial-gradient(38% 44% at 52% 0%, rgba(25, 230, 140, 0.07), transparent 70%);
+  filter: blur(20px);
+}
+
+/* ---- grain: stops the dark reading as flat digital ---- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* ---- type ---- */
 .display {
-  font-family: var(--font-display), "Arial Narrow", sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.012em;
-  line-height: 0.92;
+  font-family: var(--font-display), "Arial Black", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
   text-transform: uppercase;
   text-wrap: balance;
+}
+
+/* Outlined display type, layered behind or beside the solid cut. */
+.display-ghost {
+  font-family: var(--font-display), "Arial Black", sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 0.88;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--line);
 }
 
 .stat {
   font-family: var(--font-stat), ui-monospace, monospace;
   font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
 }
 
-/* A yellow marker-pen underline for the word that matters. */
+.label {
+  font-family: var(--font-stat), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--chalk-dim);
+}
+
+/* ---- the scorebug: a lit edge along the top of a glass panel ---- */
+.bug {
+  position: relative;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--lift);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+.bug::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--edge, var(--line)), transparent);
+}
+.bug-strike { --edge: var(--strike); }
+.bug-flare { --edge: var(--flare); }
+.bug-surge { --edge: var(--surge); }
+
+.bug-strike:hover, .bug-flare:hover, .bug-surge:hover { border-color: var(--edge); }
+
+/* ---- accents ---- */
+/* Highlighter block. Held on one line so it reads as a deliberate slab
+   rather than two offset rectangles when the headline wraps. */
 .marker {
-  background-image: linear-gradient(
-    transparent 60%,
-    var(--yellow) 60%,
-    var(--yellow) 92%,
-    transparent 92%
-  );
-  padding-inline: 0.08em;
+  position: relative;
+  color: var(--void);
+  background: var(--flare);
+  padding-inline: 0.14em;
+  white-space: nowrap;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+@media (max-width: 420px) {
+  .marker { white-space: normal; }
 }
 
-/* Diagonal red hazard stripe for headline bars. */
-.stripe {
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--red) 0 10px,
-    var(--red-hot) 10px 20px
-  );
+.chip {
+  font-family: var(--font-stat), ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 3px 7px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+/* Diagonal speed cut used on hero blocks and the nav mark. */
+.cut {
+  clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
+}
+
+/* ---- motion ---- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.rise { animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+
+@keyframes pulse-live {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.live-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--strike);
+  box-shadow: 0 0 10px var(--strike);
+  animation: pulse-live 1.4s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  from { background-position: -200% 0; }
+  to { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--panel) 25%, var(--panel-2) 50%, var(--panel) 75%);
+  background-size: 200% 100%;
+  animation: sweep 1.4s linear infinite;
 }
 
 :focus-visible {
-  outline: 3px solid var(--yellow);
-  outline-offset: 2px;
+  outline: 2px solid var(--flare);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--surface-2);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--line);
-  border-radius: 99px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--ink-soft);
-}
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 999px; border: 3px solid var(--deep); }
+::-webkit-scrollbar-thumb:hover { background: var(--chalk-dim); }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

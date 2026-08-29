@@ -79,15 +79,15 @@ export default function SquadBuilder() {
   }, [data, query, pickPos, rank, ids]);
 
   return (
-    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6">
+    <main className="py-10">
       <Hero
         kicker="Wish team"
         title={<>Build the <span className="marker">perfect</span> fifteen</>}
         blurb="£100.0m, two keepers, five defenders, five midfielders, three forwards, three players per club. The best legal XI and captain are picked for you as you go."
         right={
           <div
-            className={`rounded-xl border-2 border-ink px-5 py-3 shadow-[4px_4px_0_0_var(--ink)] ${
-              remaining < 0 ? "bg-red text-white" : "bg-yellow text-ink"
+            className={`rounded-xl border border-line px-5 py-3  ${
+              remaining < 0 ? "bg-strike text-white" : "bg-flare text-chalk"
             }`}
           >
             <div className="display text-4xl">£{remaining.toFixed(1)}m</div>
@@ -110,8 +110,8 @@ export default function SquadBuilder() {
                 return (
                   <span
                     key={p}
-                    className={`stat rounded-lg border-2 border-ink px-2.5 py-1 text-xs font-bold ${
-                      full ? "bg-good text-white" : "bg-surface text-ink-mid"
+                    className={`stat rounded-lg border border-line px-2.5 py-1 text-xs font-bold ${
+                      full ? "bg-surge text-white" : "bg-panel text-chalk-mid"
                     }`}
                   >
                     {p} {counts[p]}/{SQUAD_SIZE[p]}
@@ -121,23 +121,23 @@ export default function SquadBuilder() {
 
               <button
                 onClick={() => setIds(autoFill(squad, data.players).map((p) => p.id))}
-                className="rounded-lg border-2 border-ink bg-red px-4 py-1.5 text-sm font-bold text-white shadow-[3px_3px_0_0_var(--ink)] transition hover:bg-red-hot"
+                className="rounded-lg border border-line bg-strike px-4 py-1.5 text-sm font-bold text-white transition hover:bg-strike-deep"
               >
                 Auto-fill
               </button>
               <button
                 onClick={() => setIds([])}
-                className="rounded-lg border-2 border-ink bg-surface px-4 py-1.5 text-sm font-bold text-ink-mid transition hover:bg-red-wash hover:text-red"
+                className="rounded-lg border border-line bg-panel px-4 py-1.5 text-sm font-bold text-chalk-mid transition hover:bg-strike-wash hover:text-strike"
               >
                 Clear
               </button>
 
-              <label className="stat ml-auto flex items-center gap-2 text-xs text-ink-mid">
+              <label className="stat ml-auto flex items-center gap-2 text-xs text-chalk-mid">
                 horizon
                 <select
                   value={horizon}
                   onChange={(e) => setHorizon(Number(e.target.value))}
-                  className="rounded-lg border-2 border-ink bg-surface px-2 py-1"
+                  className="rounded-lg border border-line bg-panel px-2 py-1"
                 >
                   {[1, 3, 5, 8].map((n) => <option key={n} value={n}>{n} GW</option>)}
                 </select>
@@ -146,8 +146,8 @@ export default function SquadBuilder() {
           </Panel>
 
           {issues.length > 0 && (
-            <div className="mb-5 rounded-xl border-2 border-red bg-red-wash px-4 py-3">
-              <ul className="stat flex flex-wrap gap-x-5 gap-y-1 text-xs font-semibold text-red">
+            <div className="mb-5 rounded-xl border border-strike bg-strike-wash px-4 py-3">
+              <ul className="stat flex flex-wrap gap-x-5 gap-y-1 text-xs font-semibold text-strike">
                 {issues.map((i, n) => <li key={n}>⚠ {i.message}</li>)}
               </ul>
             </div>
@@ -160,15 +160,15 @@ export default function SquadBuilder() {
                 right={
                   eleven.xi.length === 11 ? (
                     <span className="stat text-sm">
-                      <span className="text-ink-soft">projected </span>
-                      <b className="display text-2xl text-red">{eleven.total.toFixed(1)}</b>
-                      <span className="text-ink-soft"> pts</span>
+                      <span className="text-chalk-dim">projected </span>
+                      <b className="display text-2xl text-strike">{eleven.total.toFixed(1)}</b>
+                      <span className="text-chalk-dim"> pts</span>
                     </span>
                   ) : null
                 }
               />
               {squad.length === 0 ? (
-                <p className="px-5 py-20 text-center text-sm text-ink-mid">
+                <p className="px-5 py-20 text-center text-sm text-chalk-mid">
                   Add players from the list, or hit <b>Auto-fill</b> to start from the model&apos;s
                   best-value squad.
                 </p>
@@ -211,7 +211,7 @@ export default function SquadBuilder() {
                     })}
                   </Pitch>
                   {complete && (
-                    <p className="stat rounded-lg bg-good-wash px-3 py-2 text-[11px] font-semibold text-good">
+                    <p className="stat rounded-lg bg-surge-wash px-3 py-2 text-[11px] font-semibold text-surge">
                       ✓ Legal squad · £{cost.toFixed(1)}m spent · captain {eleven.captain?.name} ·
                       vice {eleven.vice?.name}
                     </p>
@@ -221,19 +221,19 @@ export default function SquadBuilder() {
             </Panel>
 
             <Panel className="overflow-hidden">
-              <div className="flex flex-wrap items-center gap-2 border-b-2 border-ink p-3">
+              <div className="flex flex-wrap items-center gap-2 border-b border-line p-3">
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search…"
                   aria-label="Search players"
-                  className="w-28 flex-1 rounded-lg border-2 border-ink bg-surface px-2.5 py-1.5 text-sm outline-none"
+                  className="w-28 flex-1 rounded-lg border border-line bg-panel px-2.5 py-1.5 text-sm outline-none"
                 />
                 <select
                   value={pickPos}
                   onChange={(e) => setPickPos(e.target.value as Position | "ALL")}
                   aria-label="Filter by position"
-                  className="rounded-lg border-2 border-ink bg-surface px-2 py-1.5 text-xs"
+                  className="rounded-lg border border-line bg-panel px-2 py-1.5 text-xs"
                 >
                   <option value="ALL">All</option>
                   {POSITIONS.map((p) => <option key={p} value={p}>{p}</option>)}
@@ -242,7 +242,7 @@ export default function SquadBuilder() {
                   value={rank}
                   onChange={(e) => setRank(e.target.value as typeof rank)}
                   aria-label="Rank by"
-                  className="rounded-lg border-2 border-ink bg-surface px-2 py-1.5 text-xs"
+                  className="rounded-lg border border-line bg-panel px-2 py-1.5 text-xs"
                 >
                   <option value="xpHorizon">by xP·{horizon}</option>
                   <option value="xp">by next GW</option>
@@ -258,7 +258,7 @@ export default function SquadBuilder() {
                       <div className="min-w-0 flex-1">
                         <div className="flex items-baseline gap-2">
                           <span className="truncate text-sm font-bold">{p.name}</span>
-                          <span className="stat text-[10px] text-ink-soft">
+                          <span className="stat text-[10px] text-chalk-dim">
                             {p.teamShort} · {p.position}
                           </span>
                           {!p.available && <Pill tone="red">out</Pill>}
@@ -268,17 +268,17 @@ export default function SquadBuilder() {
                         </div>
                       </div>
                       <div className="stat text-right text-xs">
-                        <div className="font-bold text-red">
+                        <div className="font-bold text-strike">
                           {rank === "value" ? p.value.toFixed(2) : (rank === "xp" ? p.xp : p.xpHorizon).toFixed(1)}
                         </div>
-                        <div className="text-ink-soft">£{p.price.toFixed(1)}</div>
+                        <div className="text-chalk-dim">£{p.price.toFixed(1)}</div>
                       </div>
                       <button
                         onClick={() => add(p)}
                         disabled={Boolean(blocked)}
                         title={blocked ?? "Add to squad"}
                         aria-label={blocked ?? `Add ${p.name}`}
-                        className="rounded-lg border-2 border-ink bg-red px-2.5 py-1 text-sm font-bold text-white transition enabled:hover:bg-red-hot disabled:cursor-not-allowed disabled:border-line disabled:bg-surface-2 disabled:text-ink-soft"
+                        className="rounded-lg border border-line bg-strike px-2.5 py-1 text-sm font-bold text-white transition enabled:hover:bg-strike-deep disabled:cursor-not-allowed disabled:border-line disabled:bg-panel-2 disabled:text-chalk-dim"
                       >
                         +
                       </button>
@@ -286,13 +286,13 @@ export default function SquadBuilder() {
                   );
                 })}
                 {candidates.length === 0 && (
-                  <li className="px-3 py-10 text-center text-sm text-ink-mid">No matches.</li>
+                  <li className="px-3 py-10 text-center text-sm text-chalk-mid">No matches.</li>
                 )}
               </ul>
             </Panel>
           </div>
 
-          <p className="stat mt-4 text-[10px] text-ink-soft">
+          <p className="stat mt-4 text-[10px] text-chalk-dim">
             Fixture colours use difficulty re-rated on {data.meta.matchesPlayed} matches played,
             not FPL&apos;s preseason ratings. Your squad is saved in this browser only.
           </p>

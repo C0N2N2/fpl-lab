@@ -1,22 +1,23 @@
 import type { Metadata } from "next";
-import { Anton, Outfit, JetBrains_Mono } from "next/font/google";
+import { Archivo, Archivo_Black, Azeret_Mono } from "next/font/google";
 import "./globals.css";
 import { SiteNav } from "@/components/SiteNav";
 
-const anton = Anton({
+/** One superfamily for voice, a technical mono for every number. */
+const display = Archivo_Black({
   variable: "--font-display",
   weight: "400",
   subsets: ["latin"],
   display: "swap",
 });
 
-const outfit = Outfit({
+const body = Archivo({
   variable: "--font-body",
   subsets: ["latin"],
   display: "swap",
 });
 
-const mono = JetBrains_Mono({
+const mono = Azeret_Mono({
   variable: "--font-stat",
   subsets: ["latin"],
   display: "swap",
@@ -25,25 +26,30 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "FPL Lab",
   description:
-    "Find the best Fantasy Premier League picks. Projected points, expected goals, clean sheets and head-to-head player comparison — plus import your real team.",
+    "Find the best Fantasy Premier League picks. Projected points, expected goals, clean sheets, live scores and head-to-head comparison — plus import your real team.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html
       lang="en"
-      className={`${anton.variable} ${outfit.variable} ${mono.variable} h-full`}
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col bg-ground text-ink">
+      <body className="flex min-h-full flex-col">
         <SiteNav />
-        <div className="flex-1">{children}</div>
-        <footer className="border-t border-line px-4 py-6 sm:px-6">
-          <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-3 stat text-[10px] text-ink-soft">
-            <span>
-              Data from the public Fantasy Premier League API · projections are a model, not a
-              promise
-            </span>
-            <span>FPL Lab</span>
+        <div className="mx-auto w-full max-w-[1500px] flex-1 px-5 pb-16 sm:px-8">{children}</div>
+
+        <footer className="border-t border-line">
+          <div className="mx-auto flex max-w-[1500px] flex-wrap items-center justify-between gap-4 px-5 py-7 sm:px-8">
+            <p className="max-w-md text-[12px] leading-relaxed text-chalk-dim">
+              Built on the public Fantasy Premier League API. Projections are a model — a better
+              starting point than a hunch, a worse one than watching the football.
+            </p>
+            <span className="display text-[13px] tracking-[0.14em] text-chalk-dim">FPL LAB</span>
           </div>
         </footer>
       </body>

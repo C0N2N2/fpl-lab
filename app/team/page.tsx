@@ -110,7 +110,7 @@ export default function MyTeam() {
   }, [team, pool, squad, planWeeks, freeTransfers]);
 
   return (
-    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6">
+    <main className="py-10">
       <Hero
         kicker="Import"
         title={<>Your team, <span className="marker">scored</span></>}
@@ -124,22 +124,22 @@ export default function MyTeam() {
           inputMode="numeric"
           placeholder="e.g. 1234567"
           aria-label="FPL team ID"
-          className="stat w-44 rounded-lg border-2 border-ink bg-surface px-3 py-2 text-sm outline-none"
+          className="stat w-44 rounded-lg border border-line bg-panel px-3 py-2 text-sm outline-none"
         />
         <button
           type="submit"
           disabled={busy}
-          className="rounded-lg border-2 border-ink bg-red px-5 py-2 text-sm font-bold text-white shadow-[3px_3px_0_0_var(--ink)] transition hover:bg-red-hot disabled:opacity-60"
+          className="rounded-lg border border-line bg-strike px-5 py-2 text-sm font-bold text-white transition hover:bg-strike-deep disabled:opacity-60"
         >
           {busy ? "Loading…" : "Import team"}
         </button>
 
-        <label className="stat flex items-center gap-2 text-xs text-ink-mid">
+        <label className="stat flex items-center gap-2 text-xs text-chalk-mid">
           look ahead
           <select
             value={horizon}
             onChange={(e) => setHorizon(Number(e.target.value))}
-            className="rounded-lg border-2 border-ink bg-surface px-2 py-1.5 text-xs"
+            className="rounded-lg border border-line bg-panel px-2 py-1.5 text-xs"
           >
             {HORIZONS.map((h) => (
               <option key={h.value} value={h.value}>{h.label}</option>
@@ -147,7 +147,7 @@ export default function MyTeam() {
           </select>
         </label>
 
-        <p className="text-xs text-ink-mid">
+        <p className="text-xs text-chalk-mid">
           Your ID is the number in <span className="stat">/entry/<b>1234567</b>/event/…</span>
         </p>
       </form>
@@ -161,7 +161,7 @@ export default function MyTeam() {
             <PanelHead
               title={team.manager.teamName || "Your team"}
               right={
-                <span className="stat text-xs text-ink-soft">
+                <span className="stat text-xs text-chalk-dim">
                   {team.manager.managerName} · GW{team.manager.currentEvent}
                   {team.manager.activeChip && ` · chip: ${team.manager.activeChip}`}
                 </span>
@@ -194,31 +194,31 @@ export default function MyTeam() {
 
           {team.hasPicks && (
             <>
-              <Panel className="border-red">
+              <Panel className="border-strike">
                 <PanelHead
                   title="Transfers worth making"
                   right={
-                    <span className="stat text-xs text-ink-soft">
+                    <span className="stat text-xs text-chalk-dim">
                       gain across {gwSpan ? `GW${gwSpan.from}–${gwSpan.to}` : "the horizon"}
                       {" · "}£{team.manager.bank.toFixed(1)}m in bank
                     </span>
                   }
                 />
                 {transfers.length === 0 ? (
-                  <p className="px-5 py-10 text-center text-sm text-ink-mid">
+                  <p className="px-5 py-10 text-center text-sm text-chalk-mid">
                     No single transfer gains more than half a point over this horizon — your
                     squad is in good shape. Try a shorter look-ahead to find gameweek-specific
                     moves.
                   </p>
                 ) : (
                   <>
-                    <p className="border-b-2 border-line-soft bg-surface-2 px-4 py-2 text-[12px] text-ink-mid">
+                    <p className="border-b border-line-soft bg-panel-2 px-4 py-2 text-[12px] text-chalk-mid">
                       Each row is the best available upgrade for that player, judged
-                      independently — <b className="text-ink">not a sequence</b>. The same
+                      independently — <b className="text-chalk">not a sequence</b>. The same
                       incoming player can appear twice, and doing one move can invalidate
                       another. Make the top one, then reload to re-rank.
                     </p>
-                    <ul className="divide-y-2 divide-line-soft">
+                    <ul className="divide-y divide-line-soft">
                       {transfers.map((t, i) => (
                         <TransferRow key={t.out.id} s={t} rank={i + 1} />
                       ))}
@@ -233,22 +233,22 @@ export default function MyTeam() {
                     title="Multi-gameweek plan"
                     right={
                       <div className="flex flex-wrap items-center gap-3">
-                        <label className="stat flex items-center gap-1.5 text-xs text-ink-mid">
+                        <label className="stat flex items-center gap-1.5 text-xs text-chalk-mid">
                           weeks
                           <select
                             value={planWeeks}
                             onChange={(e) => setPlanWeeks(Number(e.target.value))}
-                            className="rounded border-2 border-ink bg-surface px-1.5 py-0.5"
+                            className="rounded border border-line bg-panel px-1.5 py-0.5"
                           >
                             {[3, 5, 8].map((n) => <option key={n} value={n}>{n}</option>)}
                           </select>
                         </label>
-                        <label className="stat flex items-center gap-1.5 text-xs text-ink-mid">
+                        <label className="stat flex items-center gap-1.5 text-xs text-chalk-mid">
                           free now
                           <select
                             value={freeTransfers}
                             onChange={(e) => setFreeTransfers(Number(e.target.value))}
-                            className="rounded border-2 border-ink bg-surface px-1.5 py-0.5"
+                            className="rounded border border-line bg-panel px-1.5 py-0.5"
                           >
                             {[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n}</option>)}
                           </select>
@@ -256,42 +256,42 @@ export default function MyTeam() {
                       </div>
                     }
                   />
-                  <div className="border-b-2 border-line-soft bg-surface-2 px-4 py-3">
+                  <div className="border-b border-line-soft bg-panel-2 px-4 py-3">
                     <div className="flex flex-wrap items-baseline gap-x-6 gap-y-1">
-                      <span className="stat text-xs text-ink-soft">
-                        hold this squad → <b className="text-ink">{plan.baselineXp.toFixed(1)}</b> pts
+                      <span className="stat text-xs text-chalk-dim">
+                        hold this squad → <b className="text-chalk">{plan.baselineXp.toFixed(1)}</b> pts
                       </span>
-                      <span className="stat text-xs text-ink-soft">
-                        follow the plan → <b className="text-red">{plan.totalXp.toFixed(1)}</b> pts
+                      <span className="stat text-xs text-chalk-dim">
+                        follow the plan → <b className="text-strike">{plan.totalXp.toFixed(1)}</b> pts
                       </span>
-                      <span className="display text-2xl text-good">
+                      <span className="display text-2xl text-surge">
                         {plan.gain >= 0 ? "+" : ""}{plan.gain.toFixed(1)}
                       </span>
-                      <span className="stat text-xs text-ink-soft">
+                      <span className="stat text-xs text-chalk-dim">
                         {plan.transferCount} transfer{plan.transferCount === 1 ? "" : "s"}
                         {plan.totalHits > 0 && `, ${plan.totalHits} pts of hits taken`}
                       </span>
                     </div>
                   </div>
-                  <ul className="divide-y-2 divide-line-soft">
+                  <ul className="divide-y divide-line-soft">
                     {plan.steps.map((s) => (
                       <li key={s.gw} className="flex flex-wrap items-center gap-x-5 gap-y-2 px-4 py-3">
-                        <span className="display w-16 flex-none text-xl text-ink-soft">GW{s.gw}</span>
+                        <span className="display w-16 flex-none text-xl text-chalk-dim">GW{s.gw}</span>
                         <div className="min-w-[220px] flex-1">
                           {s.transfers.length === 0 ? (
-                            <span className="stat text-xs text-ink-soft">
+                            <span className="stat text-xs text-chalk-dim">
                               roll the transfer — nothing worth doing
                             </span>
                           ) : (
                             <div className="flex flex-col gap-1">
                               {s.transfers.map((t) => (
                                 <div key={t.out.id} className="text-sm">
-                                  <span className="line-through decoration-red decoration-2">
+                                  <span className="line-through decoration-strike decoration-2">
                                     {t.out.name}
                                   </span>
-                                  <span className="mx-2 text-ink-soft">→</span>
-                                  <b className="text-good">{t.in.name}</b>
-                                  <span className="stat ml-2 text-[10px] text-ink-soft">
+                                  <span className="mx-2 text-chalk-dim">→</span>
+                                  <b className="text-surge">{t.in.name}</b>
+                                  <span className="stat ml-2 text-[10px] text-chalk-dim">
                                     £{t.out.price.toFixed(1)} → £{t.in.price.toFixed(1)}
                                   </span>
                                 </div>
@@ -299,18 +299,18 @@ export default function MyTeam() {
                             </div>
                           )}
                         </div>
-                        <div className="stat text-right text-[11px] text-ink-soft">
+                        <div className="stat text-right text-[11px] text-chalk-dim">
                           <div>
-                            <b className="text-ink">{s.squadXp.toFixed(1)}</b> projected
+                            <b className="text-chalk">{s.squadXp.toFixed(1)}</b> projected
                           </div>
-                          {s.hit > 0 && <div className="text-red">−{s.hit} hit</div>}
+                          {s.hit > 0 && <div className="text-strike">−{s.hit} hit</div>}
                           {s.captain && <div>(C) {s.captain.name}</div>}
                           <div>bank £{s.bank.toFixed(1)}m</div>
                         </div>
                       </li>
                     ))}
                   </ul>
-                  <p className="border-t-2 border-line-soft px-4 py-2 text-[12px] text-ink-mid">
+                  <p className="border-t border-line-soft px-4 py-2 text-[12px] text-chalk-mid">
                     Searched with a beam over legal squads, costing −4 for every transfer beyond
                     your free ones and banking unused transfers up to five. It assumes prices and
                     availability stay as they are today, so re-run it after each deadline.
@@ -320,26 +320,26 @@ export default function MyTeam() {
 
               {(shouldBench.length > 0 || shouldStart.length > 0 ||
                 optimal.captain?.id !== captain?.id) && (
-                <Panel className="border-yellow bg-yellow-wash">
+                <Panel className="border-flare bg-flare-wash">
                   <PanelHead title="Line-up changes for the next gameweek" />
                   <div className="flex flex-col gap-3 px-4 py-4">
                     {optimal.total - currentXp > 0.1 && (
-                      <p className="text-sm text-ink-mid">
+                      <p className="text-sm text-chalk-mid">
                         Reordering your XI is worth about{" "}
-                        <b className="text-ink">+{(optimal.total - currentXp).toFixed(1)} points</b>{" "}
+                        <b className="text-chalk">+{(optimal.total - currentXp).toFixed(1)} points</b>{" "}
                         this gameweek ({optimal.formation}).
                       </p>
                     )}
                     {shouldStart.length > 0 && <Swap label="Start" tone="good" players={shouldStart} />}
                     {shouldBench.length > 0 && <Swap label="Bench" tone="red" players={shouldBench} />}
                     {optimal.captain && optimal.captain.id !== captain?.id && (
-                      <p className="text-sm text-ink-mid">
-                        <b className="text-ink">Captain:</b> model prefers{" "}
-                        <b className="text-ink">{optimal.captain.name}</b>{" "}
+                      <p className="text-sm text-chalk-mid">
+                        <b className="text-chalk">Captain:</b> model prefers{" "}
+                        <b className="text-chalk">{optimal.captain.name}</b>{" "}
                         ({optimal.captain.xp.toFixed(2)} xP)
                         {captain && <> over {captain.name} ({captain.xp.toFixed(2)} xP)</>}.
                         {optimal.captain.position === "DEF" && (
-                          <span className="text-ink-soft">
+                          <span className="text-chalk-dim">
                             {" "}Note: this ranks by average, which can favour a defender —
                             captaincy also rewards a high ceiling.
                           </span>
@@ -353,7 +353,7 @@ export default function MyTeam() {
               <Panel>
                 <PanelHead
                   title="Your squad"
-                  right={<span className="stat text-xs text-ink-soft">* = away fixture</span>}
+                  right={<span className="stat text-xs text-chalk-dim">* = away fixture</span>}
                 />
                 <div className="p-4">
                   <Pitch
@@ -423,44 +423,44 @@ function TransferRow({ s, rank }: { s: Suggestion; rank: number }) {
   const positives = s.perGameweek.filter((g) => g.gain > 0).length;
   return (
     <li className="flex flex-wrap items-center gap-x-5 gap-y-3 px-4 py-3">
-      <span className="display w-6 text-2xl text-ink-soft">{rank}</span>
+      <span className="display w-6 text-2xl text-chalk-dim">{rank}</span>
 
       <div className="min-w-[150px] flex-1">
-        <div className="stat text-[10px] uppercase tracking-wider text-red">Out</div>
-        <div className="font-bold line-through decoration-red decoration-2">{s.out.name}</div>
-        <div className="stat text-[10px] text-ink-soft">
+        <div className="stat text-[10px] uppercase tracking-wider text-strike">Out</div>
+        <div className="font-bold line-through decoration-strike decoration-2">{s.out.name}</div>
+        <div className="stat text-[10px] text-chalk-dim">
           {s.out.teamShort} · £{s.out.price.toFixed(1)} · {s.out.xpHorizon.toFixed(1)} xP
         </div>
         <div className="mt-1"><FixtureRun fixtures={s.out.fixtures.slice(0, 6)} size="xs" /></div>
       </div>
 
-      <span className="display text-2xl text-ink-soft">→</span>
+      <span className="display text-2xl text-chalk-dim">→</span>
 
       <div className="min-w-[150px] flex-1">
-        <div className="stat text-[10px] uppercase tracking-wider text-good">In</div>
+        <div className="stat text-[10px] uppercase tracking-wider text-surge">In</div>
         <div className="font-bold">{s.in.name}</div>
-        <div className="stat text-[10px] text-ink-soft">
+        <div className="stat text-[10px] text-chalk-dim">
           {s.in.teamShort} · £{s.in.price.toFixed(1)} · {s.in.xpHorizon.toFixed(1)} xP
         </div>
         <div className="mt-1"><FixtureRun fixtures={s.in.fixtures.slice(0, 6)} size="xs" /></div>
       </div>
 
       <div className="ml-auto text-right">
-        <div className="display text-3xl text-good">+{s.gain.toFixed(1)}</div>
-        <div className="stat text-[10px] text-ink-soft">
+        <div className="display text-3xl text-surge">+{s.gain.toFixed(1)}</div>
+        <div className="stat text-[10px] text-chalk-dim">
           pts · {positives}/{s.perGameweek.length} GWs better
         </div>
         <div className="stat mt-0.5 text-[10px]">
           {s.spend === 0 ? (
-            <span className="text-ink-soft">same price</span>
+            <span className="text-chalk-dim">same price</span>
           ) : s.spend > 0 ? (
-            <span className="text-red">costs £{s.spend.toFixed(1)}m</span>
+            <span className="text-strike">costs £{s.spend.toFixed(1)}m</span>
           ) : (
-            <span className="text-good">frees £{Math.abs(s.spend).toFixed(1)}m</span>
+            <span className="text-surge">frees £{Math.abs(s.spend).toFixed(1)}m</span>
           )}
-          <span className="text-ink-soft"> · bank £{s.bankAfter.toFixed(1)}m</span>
+          <span className="text-chalk-dim"> · bank £{s.bankAfter.toFixed(1)}m</span>
         </div>
-        <div className="stat text-[10px] text-ink-soft">
+        <div className="stat text-[10px] text-chalk-dim">
           next GW {s.gainNext >= 0 ? "+" : ""}{s.gainNext.toFixed(2)}
         </div>
       </div>
@@ -471,12 +471,12 @@ function TransferRow({ s, rank }: { s: Suggestion; rank: number }) {
 function Swap({ label, players, tone }: { label: string; players: SquadPlayer[]; tone: "good" | "red" }) {
   return (
     <div className="flex flex-wrap items-center gap-2 text-sm">
-      <span className={`stat font-bold uppercase ${tone === "good" ? "text-good" : "text-red"}`}>
+      <span className={`stat font-bold uppercase ${tone === "good" ? "text-surge" : "text-strike"}`}>
         {label}
       </span>
       {players.map((p) => (
-        <span key={p.id} className="rounded-md border-2 border-ink bg-surface px-2 py-0.5">
-          <b>{p.name}</b> <span className="stat text-xs text-ink-soft">{p.xp.toFixed(2)} xP</span>
+        <span key={p.id} className="rounded-md border border-line bg-panel px-2 py-0.5">
+          <b>{p.name}</b> <span className="stat text-xs text-chalk-dim">{p.xp.toFixed(2)} xP</span>
         </span>
       ))}
     </div>

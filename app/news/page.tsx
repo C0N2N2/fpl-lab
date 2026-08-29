@@ -39,7 +39,7 @@ export default function News() {
   const flaggedCount = data?.availability.reduce((s, t) => s + t.entries.length, 0) ?? 0;
 
   return (
-    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6">
+    <main className="py-10">
       <Hero
         kicker="Team news"
         title={<>Who&apos;s <span className="marker">out</span>, who just signed</>}
@@ -52,7 +52,7 @@ export default function News() {
       {data && (
         <>
           {data.meta.feedsFailed > 0 && (
-            <div className="mb-4 rounded-lg border-2 border-yellow bg-yellow-wash px-4 py-2 text-sm text-ink-mid">
+            <div className="mb-4 rounded-lg border border-flare bg-flare-wash px-4 py-2 text-sm text-chalk-mid">
               {data.meta.feedsFailed} of {data.meta.feedsRequested} news feeds didn&apos;t
               respond. Availability data below is unaffected — it comes from FPL directly.
             </div>
@@ -68,8 +68,8 @@ export default function News() {
                 key={id}
                 onClick={() => setTab(id)}
                 aria-pressed={tab === id}
-                className={`rounded-full border-2 border-ink px-4 py-1.5 text-sm font-bold transition ${
-                  tab === id ? "bg-ink text-ground" : "bg-surface text-ink-mid hover:bg-yellow-wash"
+                className={`rounded-full border border-line px-4 py-1.5 text-sm font-bold transition ${
+                  tab === id ? "bg-chalk text-void" : "bg-panel text-chalk-mid hover:bg-flare-wash"
                 }`}
               >
                 {label}
@@ -80,7 +80,7 @@ export default function News() {
               value={teamId}
               onChange={(e) => setTeamId(e.target.value === "all" ? "all" : Number(e.target.value))}
               aria-label="Filter by club"
-              className="ml-auto rounded-lg border-2 border-ink bg-surface px-3 py-1.5 text-sm"
+              className="ml-auto rounded-lg border border-line bg-panel px-3 py-1.5 text-sm"
             >
               <option value="all">All clubs</option>
               {data.teams.map((t) => (
@@ -95,18 +95,18 @@ export default function News() {
                 <Panel key={t.teamId}>
                   <PanelHead
                     title={t.team}
-                    right={<span className="stat text-xs text-ink-soft">{t.entries.length} flagged</span>}
+                    right={<span className="stat text-xs text-chalk-dim">{t.entries.length} flagged</span>}
                   />
                   <ul className="divide-y divide-line-soft">
                     {t.entries.map((e) => (
                       <li key={e.playerId} className="px-4 py-2.5">
                         <div className="flex items-baseline justify-between gap-2">
                           <span className="font-bold">{e.name}</span>
-                          <span className="stat text-[10px] text-ink-soft">
+                          <span className="stat text-[10px] text-chalk-dim">
                             {e.position} · £{e.price.toFixed(1)} · {e.ownership.toFixed(1)}%
                           </span>
                         </div>
-                        <p className="mt-0.5 text-[13px] leading-snug text-ink-mid">{e.news}</p>
+                        <p className="mt-0.5 text-[13px] leading-snug text-chalk-mid">{e.news}</p>
                         <div className="mt-1.5 flex gap-1.5">
                           {e.chance === 0 && <Pill tone="red">ruled out</Pill>}
                           {e.chance !== null && e.chance > 0 && e.chance < 100 && (
@@ -122,7 +122,7 @@ export default function News() {
               ))}
               {availability.length === 0 && (
                 <Panel className="md:col-span-2 xl:col-span-3">
-                  <p className="px-5 py-14 text-center text-sm text-ink-mid">
+                  <p className="px-5 py-14 text-center text-sm text-chalk-mid">
                     No availability flags for that club right now.
                   </p>
                 </Panel>
@@ -134,7 +134,7 @@ export default function News() {
             <Panel>
               <PanelHead
                 title={tab === "transfers" ? "Transfer window" : "Latest headlines"}
-                right={<span className="stat text-xs text-ink-soft">BBC Sport · Sky Sports</span>}
+                right={<span className="stat text-xs text-chalk-dim">BBC Sport · Sky Sports</span>}
               />
               <ul className="divide-y divide-line-soft">
                 {filterByTeam(tab === "transfers" ? data.transfers : data.headlines).map((item, i) => (
@@ -143,14 +143,14 @@ export default function News() {
                       href={item.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-semibold underline-offset-2 hover:text-red hover:underline"
+                      className="font-semibold underline-offset-2 hover:text-strike hover:underline"
                     >
                       {item.title}
                     </a>
                     <div className="mt-1 flex flex-wrap items-center gap-2">
-                      <span className="stat text-[10px] text-ink-soft">{item.source}</span>
+                      <span className="stat text-[10px] text-chalk-dim">{item.source}</span>
                       {item.published && (
-                        <span className="stat text-[10px] text-ink-soft">
+                        <span className="stat text-[10px] text-chalk-dim">
                           {new Date(item.published).toLocaleString(undefined, {
                             day: "numeric", month: "short", hour: "2-digit", minute: "2-digit",
                           })}
@@ -163,7 +163,7 @@ export default function News() {
                   </li>
                 ))}
                 {filterByTeam(tab === "transfers" ? data.transfers : data.headlines).length === 0 && (
-                  <li className="px-5 py-14 text-center text-sm text-ink-mid">
+                  <li className="px-5 py-14 text-center text-sm text-chalk-mid">
                     Nothing matching that club in the current feed.
                   </li>
                 )}
@@ -171,7 +171,7 @@ export default function News() {
             </Panel>
           )}
 
-          <p className="stat mt-4 text-[10px] text-ink-soft">
+          <p className="stat mt-4 text-[10px] text-chalk-dim">
             Headlines are fetched from public RSS feeds and matched to clubs by name, so the odd
             tag may be wrong. Injury flags come straight from the FPL API and are authoritative.
           </p>

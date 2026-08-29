@@ -84,14 +84,14 @@ export default function Explorer() {
     : null;
 
   return (
-    <main className="mx-auto max-w-[1400px] px-4 py-8 sm:px-6">
+    <main className="py-10">
       <Hero
         kicker="Player rankings"
         title={<>Find the <span className="marker">best picks</span> before the deadline</>}
         blurb="Every player in the game, ranked by projected points — built from expected goals, clean-sheet probability, defensive actions and fixture difficulty re-rated on real results."
         right={
           data ? (
-            <div className="rounded-xl border-2 border-ink bg-yellow px-5 py-3 text-ink shadow-[4px_4px_0_0_var(--ink)]">
+            <div className="rounded-xl border border-line bg-flare px-5 py-3 text-chalk ">
               <div className="display text-3xl">
                 {data.meta.nextGameweek ? `GW ${data.meta.nextGameweek}` : "Season over"}
               </div>
@@ -109,7 +109,7 @@ export default function Explorer() {
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search player or club…"
             aria-label="Search player or club"
-            className="w-52 rounded-lg border-2 border-ink bg-surface px-3 py-1.5 text-sm outline-none"
+            className="w-52 rounded-lg border border-line bg-panel px-3 py-1.5 text-sm outline-none"
           />
 
           <div className="flex gap-1">
@@ -118,8 +118,8 @@ export default function Explorer() {
                 key={p}
                 onClick={() => togglePosition(p)}
                 aria-pressed={positions.has(p)}
-                className={`stat rounded-lg border-2 border-ink px-3 py-1.5 text-xs font-bold transition ${
-                  positions.has(p) ? "bg-red text-white" : "bg-surface text-ink-soft"
+                className={`stat rounded-lg border border-line px-3 py-1.5 text-xs font-bold transition ${
+                  positions.has(p) ? "bg-strike text-white" : "bg-panel text-chalk-dim"
                 }`}
               >
                 {p}
@@ -131,46 +131,46 @@ export default function Explorer() {
             value={teamId}
             onChange={(e) => setTeamId(e.target.value === "all" ? "all" : Number(e.target.value))}
             aria-label="Filter by club"
-            className="rounded-lg border-2 border-ink bg-surface px-2 py-1.5 text-sm"
+            className="rounded-lg border border-line bg-panel px-2 py-1.5 text-sm"
           >
             <option value="all">All clubs</option>
             {data?.teams.map((t) => <option key={t.id} value={t.id}>{t.name}</option>)}
           </select>
 
-          <label className="stat flex items-center gap-2 text-xs text-ink-mid">
+          <label className="stat flex items-center gap-2 text-xs text-chalk-mid">
             max £{maxPrice.toFixed(1)}
             <input
               type="range" min={3.8} max={15.5} step={0.5} value={maxPrice}
               onChange={(e) => setMaxPrice(Number(e.target.value))}
-              className="w-24 accent-[var(--red)]"
+              className="w-24 accent-[var(--strike)]"
             />
           </label>
 
-          <label className="stat flex items-center gap-2 text-xs text-ink-mid">
+          <label className="stat flex items-center gap-2 text-xs text-chalk-mid">
             min {minMinutes}′
             <input
               type="range" min={0} max={900} step={45} value={minMinutes}
               onChange={(e) => setMinMinutes(Number(e.target.value))}
-              className="w-20 accent-[var(--red)]"
+              className="w-20 accent-[var(--strike)]"
             />
           </label>
 
-          <label className="stat flex items-center gap-2 text-xs text-ink-mid">
+          <label className="stat flex items-center gap-2 text-xs text-chalk-mid">
             horizon
             <select
               value={horizon}
               onChange={(e) => setHorizon(Number(e.target.value))}
-              className="rounded-lg border-2 border-ink bg-surface px-2 py-1 text-xs"
+              className="rounded-lg border border-line bg-panel px-2 py-1 text-xs"
             >
               {[1, 3, 5, 8].map((n) => <option key={n} value={n}>{n} GW</option>)}
             </select>
           </label>
 
-          <label className="stat flex cursor-pointer items-center gap-2 text-xs text-ink-mid">
+          <label className="stat flex cursor-pointer items-center gap-2 text-xs text-chalk-mid">
             <input
               type="checkbox" checked={hideUnavailable}
               onChange={(e) => setHideUnavailable(e.target.checked)}
-              className="accent-[var(--red)]"
+              className="accent-[var(--strike)]"
             />
             fit players only
           </label>
@@ -183,8 +183,8 @@ export default function Explorer() {
             }}
             aria-pressed={maxOwnership <= 10}
             title="Show only players owned by 10% or fewer, ranked by projection against ownership"
-            className={`stat rounded-lg border-2 border-ink px-3 py-1.5 text-xs font-bold transition ${
-              maxOwnership <= 10 ? "bg-yellow text-ink" : "bg-surface text-ink-mid hover:bg-yellow-wash"
+            className={`stat rounded-lg border border-line px-3 py-1.5 text-xs font-bold transition ${
+              maxOwnership <= 10 ? "bg-flare text-chalk" : "bg-panel text-chalk-mid hover:bg-flare-wash"
             }`}
           >
             Differentials
@@ -200,8 +200,8 @@ export default function Explorer() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[1100px] border-collapse text-sm">
               <thead>
-                <tr className="border-b-2 border-ink bg-surface-2">
-                  <th className="stat px-3 py-3 text-left text-[10px] uppercase tracking-wider text-ink-soft">
+                <tr className="border-b border-line bg-panel-2">
+                  <th className="stat px-3 py-3 text-left text-[10px] uppercase tracking-wider text-chalk-dim">
                     Player
                   </th>
                   {COLUMNS.map((c) => (
@@ -210,13 +210,13 @@ export default function Explorer() {
                       title={c.help}
                       onClick={() => setSortKey(c.key)}
                       className={`stat cursor-pointer px-3 py-3 text-right text-[10px] uppercase tracking-wider transition select-none ${
-                        sortKey === c.key ? "bg-yellow text-ink" : "text-ink-soft hover:text-ink"
+                        sortKey === c.key ? "bg-flare text-chalk" : "text-chalk-dim hover:text-chalk"
                       }`}
                     >
                       {c.label}{sortKey === c.key ? " ▼" : ""}
                     </th>
                   ))}
-                  <th className="stat px-3 py-3 text-left text-[10px] uppercase tracking-wider text-ink-soft">
+                  <th className="stat px-3 py-3 text-left text-[10px] uppercase tracking-wider text-chalk-dim">
                     Next {horizon}
                   </th>
                 </tr>
@@ -226,13 +226,13 @@ export default function Explorer() {
                   <Fragment key={r.id}>
                     <tr
                       onClick={() => setExpanded(expanded === r.id ? null : r.id)}
-                      className="cursor-pointer border-b border-line-soft transition hover:bg-yellow-wash"
+                      className="cursor-pointer border-b border-line-soft transition hover:bg-flare-wash"
                     >
                       <td className="px-3 py-2">
                         <div className="flex items-baseline gap-2">
-                          <span className="stat w-5 text-[10px] text-ink-soft">{i + 1}</span>
+                          <span className="stat w-5 text-[10px] text-chalk-dim">{i + 1}</span>
                           <span className="font-bold">{r.name}</span>
-                          <span className="stat text-[10px] text-ink-soft">
+                          <span className="stat text-[10px] text-chalk-dim">
                             {r.teamShort} · {r.position}
                           </span>
                           {!r.available && <Pill tone="red">out</Pill>}
@@ -245,7 +245,7 @@ export default function Explorer() {
                         <td
                           key={c.key}
                           className={`stat px-3 py-2 text-right ${
-                            c.key === sortKey ? "bg-yellow-wash font-bold text-ink" : "text-ink-mid"
+                            c.key === sortKey ? "bg-flare-wash font-bold text-chalk" : "text-chalk-mid"
                           }`}
                         >
                           {c.fmt(r)}
@@ -256,10 +256,10 @@ export default function Explorer() {
                       </td>
                     </tr>
                     {expanded === r.id && (
-                      <tr className="border-b border-line-soft bg-surface-2">
+                      <tr className="border-b border-line-soft bg-panel-2">
                         <td colSpan={COLUMNS.length + 2} className="px-3 py-3">
-                          <div className="stat flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-ink-mid">
-                            <span className="font-bold text-ink">
+                          <div className="stat flex flex-wrap gap-x-6 gap-y-2 text-[11px] text-chalk-mid">
+                            <span className="font-bold text-chalk">
                               Next GW → {r.xp.toFixed(2)} xP
                             </span>
                             <span>appearance {r.breakdown.appearance.toFixed(2)}</span>
@@ -270,9 +270,9 @@ export default function Explorer() {
                             {r.breakdown.conceded !== 0 && <span>conceded {r.breakdown.conceded.toFixed(2)}</span>}
                             <span>defcon {r.breakdown.defcon.toFixed(2)}</span>
                             <span>bonus {r.breakdown.bonus.toFixed(2)}</span>
-                            <span className="text-ink-soft">expected minutes {r.expectedMinutes}′</span>
+                            <span className="text-chalk-dim">expected minutes {r.expectedMinutes}′</span>
                           </div>
-                          {r.news && <p className="mt-2 text-[12px] text-red">{r.news}</p>}
+                          {r.news && <p className="mt-2 text-[12px] text-strike">{r.news}</p>}
                         </td>
                       </tr>
                     )}
@@ -282,12 +282,12 @@ export default function Explorer() {
             </table>
           </div>
           {rows.length === 0 && (
-            <p className="py-14 text-center text-sm text-ink-mid">No players match those filters.</p>
+            <p className="py-14 text-center text-sm text-chalk-mid">No players match those filters.</p>
           )}
         </Panel>
       )}
 
-      <p className="stat mt-4 text-[10px] leading-relaxed text-ink-soft">
+      <p className="stat mt-4 text-[10px] leading-relaxed text-chalk-dim">
         Fixtures marked * are away. Colour is difficulty <em>re-rated on results</em> — team
         attack and defence measured from actual goals, shrunk toward FPL&apos;s preseason ratings
         by matches played. Hover a fixture to compare the two. Click any row for the breakdown.
