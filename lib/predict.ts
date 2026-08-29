@@ -10,6 +10,12 @@
  */
 
 import type { Fixture, Player, Position } from "./fpl";
+import {
+  derivedDifficulty,
+  expectedGoalsFor,
+  LEAGUE_AVG_GOALS,
+  type TeamStrength,
+} from "./strength";
 
 /* ------------------------------------------------------------------ */
 /* FPL scoring rules                                                    */
@@ -130,32 +136,44 @@ export interface Projection {
   bonus: number;
   /** Expected goals the player's team concedes in this fixture. */
   lambdaConceded: number;
+  /** Difficulty re-rated on results, on FPL's own 1–5 scale. */
+  difficulty: number;
   minutes: MinutesEstimate;
 }
 
 /**
  * Project points for a single fixture.
+ *
+ * When `strengths` is supplied, opponent quality is derived from actual
+ * results; otherwise the model falls back to FPL's static difficulty rating.
  * Returns a zeroed projection when the player has no fixture that gameweek.
  */
 export function projectFixture(
   p: Player,
   fixture: Fixture | undefined,
   teamGamesPlayed: number,
+  strengths?: Map<number, TeamStrength>,
 ): Projection {
   const mins = estimateMinutes(p, teamGamesPlayed);
   const empty: Projection = {
     total: 0, appearance: 0, goals: 0, assists: 0, cleanSheet: 0,
-    saves: 0, conceded: 0, defcon: 0, bonus: 0, lambdaConceded: 0, minutes: mins,
+    saves: 0, conceded: 0, defcon: 0, bonus: 0,
+    lambdaConceded: 0, difficulty: 3, minutes: mins,
   };
   if (!fixture) return empty;
 
   const base = BASELINE[p.position];
   const share = mins.expected / 90; // fraction of a full match
 
-  const atkMult =
-    (ATTACK_BY_FDR[fixture.difficulty] ?? 1) * (fixture.home ? HOME_ATTACK : AWAY_ATTACK);
-  const concedeMult =
-    (CONCEDE_BY_FDR[fixture.difficulty] ?? 1) * (fixture.home ? HOME_CONCEDE : AWAY_CONCEDE);
+  const team = strengths?.get(p.teamId);
+  const opponent = strengths?.get(fixture.opponentId);
+  const useStrength = Boolean(team && opponent);
+
+  // Attacking output scales with how leaky the opponent is; conceding scales
+  // with how good they are going forward.
+  const atkMult = useStrength
+    ? (opponent?.leak ?? 1) * (fixture.home ? HOME_ATTACK : AWAY_ATTACK)
+    : (ATTACK_BY_FDR[fixture.difficulty] ?? 1) * (fixture.home ? HOME_ATTACK : AWAY_ATTACK);
 
   // --- attacking ---
   const xG90 = shrink(p.xG90, base.xG90, p.minutes) * atkMult;
@@ -164,8 +182,12 @@ export function projectFixture(
   const assists = xA90 * share * SCORING.assist;
 
   // --- clean sheet / conceding ---
-  const xGC90 = shrink(p.xGC90, base.xGC90, p.minutes) * concedeMult;
-  const lambdaConceded = xGC90;
+  // Prefer the team-level model: what the opponent is expected to score here.
+  const lambdaConceded = useStrength
+    ? expectedGoalsFor(opponent, team, !fixture.home)
+    : shrink(p.xGC90, base.xGC90, p.minutes) *
+      (CONCEDE_BY_FDR[fixture.difficulty] ?? 1) *
+      (fixture.home ? HOME_CONCEDE : AWAY_CONCEDE);
   const pCleanSheet = Math.exp(-lambdaConceded) * mins.pSixty;
   const cleanSheet = pCleanSheet * SCORING.cleanSheet[p.position];
 
@@ -205,7 +227,9 @@ export function projectFixture(
   return {
     total: Math.max(0, total),
     appearance, goals, assists, cleanSheet, saves, conceded, defcon, bonus,
-    lambdaConceded, minutes: mins,
+    lambdaConceded,
+    difficulty: useStrength ? derivedDifficulty(lambdaConceded) : fixture.difficulty,
+    minutes: mins,
   };
 }
 
@@ -213,7 +237,16 @@ export interface PlayerProjection {
   next: Projection;
   /** Sum of `total` across the requested horizon. */
   horizon: number;
-  perGameweek: { gw: number; opponent: string; home: boolean; difficulty: number; points: number }[];
+  perGameweek: {
+    gw: number;
+    opponent: string;
+    home: boolean;
+    /** FPL's preseason rating. */
+    difficulty: number;
+    /** Difficulty re-rated on results. */
+    rerated: number;
+    points: number;
+  }[];
 }
 
 /** Project the next `n` fixtures for a player. */
@@ -222,21 +255,26 @@ export function projectPlayer(
   fixtures: Fixture[],
   teamGamesPlayed: number,
   n = 5,
+  strengths?: Map<number, TeamStrength>,
 ): PlayerProjection {
   const slice = fixtures.slice(0, n);
   const perGameweek = slice.map((f) => {
-    const proj = projectFixture(p, f, teamGamesPlayed);
+    const proj = projectFixture(p, f, teamGamesPlayed, strengths);
     return {
       gw: f.gw,
       opponent: f.opponent,
       home: f.home,
       difficulty: f.difficulty,
+      rerated: proj.difficulty,
       points: proj.total,
     };
   });
   return {
-    next: projectFixture(p, slice[0], teamGamesPlayed),
+    next: projectFixture(p, slice[0], teamGamesPlayed, strengths),
     horizon: perGameweek.reduce((s, g) => s + g.points, 0),
     perGameweek,
   };
 }
+
+/** Re-export so callers can render league-average context without a second import. */
+export { LEAGUE_AVG_GOALS };

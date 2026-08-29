@@ -1,56 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import { Fragment, useEffect, useMemo, useState } from "react";
-
-type Position = "GKP" | "DEF" | "MID" | "FWD";
-
-interface FixtureCell {
-  gw: number;
-  opponent: string;
-  home: boolean;
-  difficulty: number;
-  points: number;
-}
-
-interface Row {
-  id: number;
-  name: string;
-  team: string;
-  teamShort: string;
-  teamId: number;
-  position: Position;
-  price: number;
-  available: boolean;
-  news: string;
-  chanceNext: number | null;
-  minutes: number;
-  points: number;
-  form: number;
-  ownership: number;
-  xG90: number;
-  xA90: number;
-  xGC90: number;
-  defcon90: number;
-  xp: number;
-  xpHorizon: number;
-  value: number;
-  expectedMinutes: number;
-  breakdown: Record<string, number>;
-  fixtures: FixtureCell[];
-}
-
-interface Payload {
-  meta: {
-    nextGameweek: number | null;
-    deadline: string | null;
-    horizon: number;
-    playerCount: number;
-  };
-  teams: { id: number; name: string; short: string }[];
-  players: Row[];
-}
-
-const POSITIONS: Position[] = ["GKP", "DEF", "MID", "FWD"];
+import {
+  fdrClass, fetchPlayers, POSITIONS,
+  type Payload, type Position, type Row,
+} from "@/lib/api";
 
 type SortKey =
   | "xp" | "xpHorizon" | "value" | "price" | "points"
@@ -70,13 +25,6 @@ const COLUMNS: { key: SortKey; label: string; help: string; fmt: (r: Row) => str
   { key: "minutes", label: "Min", help: "Minutes played this season", fmt: (r) => String(r.minutes) },
 ];
 
-function fdrClass(d: number): string {
-  if (d <= 2) return "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300";
-  if (d === 3) return "bg-zinc-500/15 text-zinc-600 dark:text-zinc-300";
-  if (d === 4) return "bg-amber-500/20 text-amber-700 dark:text-amber-300";
-  return "bg-rose-500/20 text-rose-700 dark:text-rose-300";
-}
-
 export default function Explorer() {
   const [data, setData] = useState<Payload | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -95,12 +43,7 @@ export default function Explorer() {
     let cancelled = false;
     setData(null);
     setError(null);
-    fetch(`/api/players?horizon=${horizon}`)
-      .then(async (r) => {
-        const json = await r.json();
-        if (!r.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
-        return json as Payload;
-      })
+    fetchPlayers(horizon)
       .then((json) => { if (!cancelled) setData(json); })
       .catch((e: Error) => { if (!cancelled) setError(e.message); });
     return () => { cancelled = true; };
@@ -145,10 +88,16 @@ export default function Explorer() {
 
         <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
           <div>
+            <nav className="mb-2 flex gap-4 font-mono text-xs">
+              <span className="font-semibold text-emerald-600">Explorer</span>
+              <Link href="/squad" className="text-zinc-500 hover:text-emerald-600">
+                Squad builder
+              </Link>
+            </nav>
             <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">FPL Lab</h1>
             <p className="mt-1 max-w-xl text-sm text-zinc-600 dark:text-zinc-400">
               Every player ranked by projected points — built from expected goals, clean-sheet
-              probability, defensive contributions and fixture difficulty.
+              probability, defensive contributions and fixture difficulty re-rated on results.
             </p>
           </div>
           <div className="text-right text-xs text-zinc-600 dark:text-zinc-400">
@@ -323,8 +272,8 @@ export default function Explorer() {
                           {r.fixtures.map((f) => (
                             <span
                               key={f.gw}
-                              title={`GW${f.gw} · ${f.opponent} ${f.home ? "(H)" : "(A)"} · ${f.points.toFixed(2)} xP`}
-                              className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${fdrClass(f.difficulty)}`}
+                              title={`GW${f.gw} · ${f.opponent} ${f.home ? "(H)" : "(A)"} · ${f.points.toFixed(2)} xP · FPL rates this ${f.difficulty}, results say ${f.rerated}`}
+                              className={`rounded px-1.5 py-0.5 font-mono text-[10px] ${fdrClass(f.rerated)}`}
                             >
                               {f.opponent}{f.home ? "" : "*"}
                             </span>
@@ -374,9 +323,10 @@ export default function Explorer() {
         )}
 
         <p className="mt-4 font-mono text-[10px] leading-relaxed text-zinc-500">
-          Fixtures marked * are away. Colour is FPL&apos;s own difficulty rating, which is set
-          preseason and never updated — a starting point, not truth. Click any row for the
-          points breakdown.
+          Fixtures marked * are away. Colour is difficulty <em>re-rated on results</em> — team
+          attack and defence measured from actual goals, shrunk toward FPL&apos;s preseason
+          ratings by how many matches have been played. Hover a fixture to compare the two.
+          Click any row for the points breakdown.
         </p>
       </div>
     </main>

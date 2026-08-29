@@ -8,6 +8,7 @@ import {
   type FplFixture,
 } from "@/lib/fpl";
 import { projectPlayer } from "@/lib/predict";
+import { computeStrengths } from "@/lib/strength";
 
 /** Cache upstream responses for 10 minutes — FPL data changes slowly. */
 const REVALIDATE_SECONDS = 600;
@@ -54,9 +55,11 @@ export async function GET(request: Request) {
       played.set(f.team_a, (played.get(f.team_a) ?? 0) + 1);
     }
 
+    const strengths = computeStrengths(boot, fixtures);
+
     const rows = players.map((p) => {
       const fx = upcoming.get(p.teamId) ?? [];
-      const proj = projectPlayer(p, fx, played.get(p.teamId) ?? 0, horizon);
+      const proj = projectPlayer(p, fx, played.get(p.teamId) ?? 0, horizon, strengths);
       return {
         ...p,
         xp: Number(proj.next.total.toFixed(2)),
@@ -78,6 +81,7 @@ export async function GET(request: Request) {
           opponent: g.opponent,
           home: g.home,
           difficulty: g.difficulty,
+          rerated: g.rerated,
           points: Number(g.points.toFixed(2)),
         })),
       };
@@ -89,9 +93,21 @@ export async function GET(request: Request) {
         deadline: next?.deadline_time ?? null,
         horizon,
         playerCount: rows.length,
+        matchesPlayed: Math.max(0, ...played.values()),
         generatedAt: new Date().toISOString(),
       },
-      teams: boot.teams.map((t) => ({ id: t.id, name: t.name, short: t.short_name })),
+      teams: boot.teams.map((t) => {
+        const s = strengths.get(t.id);
+        return {
+          id: t.id,
+          name: t.name,
+          short: t.short_name,
+          attack: Number((s?.attack ?? 1).toFixed(2)),
+          leak: Number((s?.leak ?? 1).toFixed(2)),
+          goalsFor: s?.goalsFor ?? 0,
+          goalsAgainst: s?.goalsAgainst ?? 0,
+        };
+      }),
       players: rows,
     });
   } catch (err) {

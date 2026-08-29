@@ -36,9 +36,22 @@ implies an absurd xG90. Every rate is blended toward a positional baseline with 
 `minutes / (minutes + 450)`, so a player needs roughly five full matches before their own
 numbers dominate the prior. This is the single most important line in the model.
 
-**Fixture difficulty.** FPL publishes a 1–5 rating per fixture, but it is set in preseason
-and never updated. The model uses it, and the UI says so. Re-rating it on in-season
-evidence (goals conceded, xGC) is the most valuable improvement available.
+**Fixture difficulty is re-rated on results.** FPL publishes a 1–5 rating per fixture, but
+it is fixed in preseason and never moves — a side that ships four goals on opening day keeps
+whatever rating it was given in July. `lib/strength.ts` measures each team's attack and
+leakiness from actual goals, shrinks them toward a preseason prior by matches played, and
+derives expected goals for any fixture:
+
+```
+expected goals = 1.45 × attack(team) × leak(opponent) × home/away
+```
+
+Hover any fixture chip to compare FPL's rating with the re-rated one.
+
+> Note: FPL ships `strength_attack_*` and `strength_defence_*` as all zeros in the 2026/27
+> data. Only `strength_overall_home` / `strength_overall_away` (a 1–5 scale) carry signal,
+> so those are what the prior is built from. If they ever go blank too, every team falls
+> back to a neutral 1.0 and the model leans entirely on results.
 
 All scoring constants live in `SCORING` at the top of `lib/predict.ts`.
 
@@ -48,21 +61,28 @@ All scoring constants live in `SCORING` at the top of `lib/predict.ts`.
 app/
   api/players/route.ts   fetch, cache, project, serve
   page.tsx               explorer table
+  squad/page.tsx         squad builder
   layout.tsx
 lib/
   fpl.ts                 API types + normalisation
+  strength.ts            team ratings from results
   predict.ts             expected-points model
+  squad.ts               squad rules, best XI, auto-fill
+  api.ts                 shared client types
 ```
 
 ## Roadmap
 
-- [ ] Squad builder — £100m budget, formation rules, max 3 per club, live projected total
-- [ ] Form-adjusted fixture difficulty to replace FPL's static ratings
+- [x] Player explorer with projected points and per-player breakdown
+- [x] Form-adjusted fixture difficulty replacing FPL's static ratings
+- [x] Squad builder — £100m budget, formation rules, max 3 per club, best XI, auto-fill
+- [ ] **Captaincy by ceiling, not mean.** The builder currently captains whoever has the
+      highest expected points, which can pick a defender. Doubling a score rewards a fat
+      right tail, so this needs a distribution, not an average.
 - [ ] Import an existing team by FPL entry ID
 - [ ] Transfer suggestions ranked by projected points gained per £
-- [ ] Captaincy comparison that accounts for ceiling, not just mean
 - [ ] Backtest against completed gameweeks to measure real error
-- [ ] Persist a saved squad
+- [ ] Bench order and autosub modelling
 
 ## Data
 
