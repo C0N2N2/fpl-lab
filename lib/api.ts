@@ -203,6 +203,58 @@ export async function fetchLive(entryId: number, gw?: number): Promise<LivePaylo
   return json as LivePayload;
 }
 
+/* ---------------- match centre ---------------- */
+
+export type MatchStatus = "upcoming" | "live" | "half" | "ended" | "final";
+
+export interface MatchEvent {
+  playerId: number;
+  name: string;
+  value: number;
+  side: "home" | "away";
+}
+
+export interface MatchSide {
+  id: number;
+  name: string;
+  short: string;
+  score: number | null;
+}
+
+export interface Match {
+  id: number;
+  gw: number;
+  kickoff: string | null;
+  status: MatchStatus;
+  minute: number;
+  home: MatchSide;
+  away: MatchSide;
+  goals: MatchEvent[];
+  assists: MatchEvent[];
+  reds: MatchEvent[];
+  bonus: MatchEvent[];
+  topBps: MatchEvent[];
+}
+
+export interface MatchesPayload {
+  meta: {
+    gameweek: number;
+    isCurrent: boolean;
+    live: number;
+    upcoming: number;
+    finished: number;
+    generatedAt: string;
+  };
+  matches: Match[];
+}
+
+export async function fetchMatches(gw?: number): Promise<MatchesPayload> {
+  const res = await fetch(`/api/matches${gw ? `?gw=${gw}` : ""}`);
+  const json = await res.json();
+  if (!res.ok) throw new Error(json.detail ?? json.error ?? "Request failed");
+  return json as MatchesPayload;
+}
+
 export interface TeamRow {
   id: number;
   name: string;
