@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Renta+ — Trois pistes de logo</title>
+<link rel="stylesheet" href="fonts.css">
+<script src="assets.js"></script>
+<style>
+:root{
+  --navy:#131A33; --ink:#1B2236; --deep:#070D23; --orange:#FF8F1F; --red:#FF333D;
+  --cream:#FEF8F4; --muted:#5B6075; --lav:#E6E7F8; --peach:#FFF1E6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#000;overflow:hidden}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:'Quicksand',sans-serif;color:var(--ink)}
+.scene{position:absolute;inset:0;display:none;overflow:hidden}
+.scene.dark{background:var(--deep);color:#fff}
+.scene.light{background:var(--cream)}
+.abs{position:absolute}
+.decor{position:absolute;width:1500px;height:1500px;right:-430px;top:-260px;transform-origin:50% 50%}
+.glow{position:absolute;inset:0;background:radial-gradient(1100px 700px at 15% 0%,rgba(255,143,31,.10),transparent 60%),radial-gradient(900px 700px at 100% 100%,rgba(255,51,61,.06),transparent 60%)}
+.footer-bar{position:absolute;left:0;right:0;bottom:0;height:12px;background:var(--orange)}
+.footer-logo{position:absolute;right:70px;bottom:40px;width:200px}
+.h-title{font-family:'Outfit';font-weight:700;color:var(--orange);font-size:60px;letter-spacing:-.5px;line-height:1.1}
+.h-bar{position:absolute;height:9px;width:78px;border-radius:5px;background:var(--orange);transform-origin:0 50%}
+.ln{display:block;overflow:hidden;padding-bottom:.08em}
+.ln>span{display:inline-block;will-change:transform}
+.label{font-family:'Outfit';font-weight:600;letter-spacing:5px;text-transform:uppercase;color:var(--orange);font-size:24px}
+.body{font-family:'Quicksand';font-weight:600;font-size:28px;line-height:1.48;color:var(--ink)}
+b,strong{font-weight:700}
+.o{color:var(--orange)} .r{color:var(--red)}
+.logo-wrap{position:absolute;left:0;top:0;width:2000px;height:2000px;transform-origin:0 0}
+.logo-wrap svg{width:2000px;height:2000px;overflow:visible}
+.part{transform-box:fill-box;transform-origin:50% 50%}
+/* wipe */
+#wipe{position:absolute;inset:0;pointer-events:none;z-index:50}
+#wipe div{position:absolute;top:-20px;height:1120px;width:2400px;transform:skewX(-14deg)}
+/* cards */
+.card{position:absolute;border-radius:22px}
+.retenir{position:absolute;background:var(--lav);border-radius:22px;padding:28px 40px;font-size:28px;line-height:1.45;font-weight:600;color:var(--ink)}
+.retenir b{font-weight:700}
+.pf-title{font-family:'Outfit';font-weight:700;font-size:32px;color:var(--navy);margin-bottom:10px}
+.bul{font-family:'Quicksand';font-weight:600;font-size:27px;line-height:1.55;padding-left:30px;position:relative}
+.bul:before{content:'';position:absolute;left:4px;top:.62em;width:10px;height:10px;border-radius:50%;background:var(--orange)}
+.sub-o{font-family:'Outfit';font-weight:700;color:var(--orange);font-size:34px;margin-bottom:8px}
+/* table */
+.tbl{position:absolute;left:120px;top:230px;width:1680px}
+.tr{display:flex;height:64px;align-items:center;border-bottom:1px solid rgba(19,26,51,.08)}
+.tr>div{padding:0 22px;font-size:26px;font-weight:600}
+.tr>div:nth-child(1){width:400px;color:var(--muted)}
+.tr>div:nth-child(2){width:440px}.tr>div:nth-child(3){width:420px}.tr>div:nth-child(4){width:420px}
+.tr.alt{background:#FFF1E6}
+.th{height:140px;align-items:flex-end;padding-bottom:14px;border-bottom:3px solid var(--orange)}
+.th>div{font-family:'Outfit';font-weight:700;font-size:28px;color:var(--navy)}
+.th .mini{height:62px;margin-bottom:12px;display:block}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- 1 · INTRO -->
+  <section class="scene dark" id="s-intro">
+    <div class="glow"></div>
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="#0E1532"/></svg>
+    <div class="abs" id="in-logo" style="left:650px;top:210px;width:620px"></div>
+    <div class="abs" style="left:0;right:0;top:520px;text-align:center;font-family:'Outfit';font-weight:700;font-size:92px;line-height:1.12;letter-spacing:-1px">
+      <span class="ln" id="in-l1"><span>Trois pistes de logo pour</span></span>
+      <span class="ln" id="in-l2"><span>SIRENTA V2</span></span>
+    </div>
+    <div class="h-bar" id="in-bar" style="left:921px;top:770px"></div>
+  </section>
+
+  <!-- 2 · CONTEXTE -->
+  <section class="scene dark" id="s-ctx">
+    <div class="glow"></div>
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="#0E1532"/></svg>
+    <div class="abs label" id="cx-label" style="left:120px;top:110px">Le contexte · Août 2026</div>
+    <div class="abs" style="left:120px;top:155px;font-family:'Outfit';font-weight:700;font-size:66px;line-height:1.1;letter-spacing:-.5px">
+      <span class="ln" id="cx-h"><span>SIRENTA V2 fait évoluer la facturation</span></span>
+    </div>
+    <div class="abs" id="cx-sub" style="left:120px;top:250px;font-size:28px;font-weight:600;color:#AEB3CB">Fruit des retours des équipes, pour simplifier le quotidien de chacun.</div>
+    <div id="cx-cards"></div>
+    <div id="cx-track" class="abs" style="left:120px;top:650px;width:1680px;height:90px">
+      <div class="abs" style="left:250px;right:250px;top:44px;height:4px;border-radius:2px;background:rgba(255,255,255,.12)"></div>
+      <div class="abs" id="cx-fill" style="left:250px;top:44px;height:4px;width:0;border-radius:2px;background:linear-gradient(90deg,#FF8F1F,#22C55E,#3B82F6)"></div>
+      <div class="abs" id="cx-dot" style="top:34px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 0 0 8px rgba(255,255,255,.12)"></div>
+    </div>
+    <div class="abs" id="cx-close" style="left:0;right:0;top:820px;text-align:center;font-family:'Outfit';font-weight:600;font-size:44px">
+      Plus de <span class="o">visibilité</span>, de <span class="o">traçabilité</span> et de <span class="o">fiabilité</span>.
+    </div>
+  </section>
+
+  <!-- 3 · LE NOM -->
+  <section class="scene dark" id="s-name">
+    <div class="glow"></div>
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="#0E1532"/></svg>
+    <div class="abs label" id="nm-label" style="left:0;right:0;top:300px;text-align:center">Nouvelle version · nouveau nom</div>
+    <div class="abs" id="nm-old" style="left:0;right:0;top:380px;text-align:center;font-family:'Outfit';font-weight:800;font-size:230px;line-height:1;letter-spacing:-4px;white-space:pre"></div>
+    <div class="abs" id="nm-new" style="left:0;right:0;top:370px;text-align:center;font-family:'Outfit';font-weight:800;font-size:250px;line-height:1;letter-spacing:-6px;white-space:pre"><span id="nm-renta" style="display:inline-block;transform-origin:50% 60%">renta</span><span id="nm-plus" class="o" style="display:inline-block">+</span></div>
+    <div class="abs" style="left:0;right:0;top:700px;text-align:center;font-family:'Outfit';font-weight:500;font-size:48px;color:#C9CCE0">
+      <span class="ln" id="nm-sub"><span>Un nouveau nom… et donc un <span class="o" style="font-weight:700">nouveau logo</span>.</span></span>
+    </div>
+  </section>
+
+  <!-- 4 · CAHIER DES CHARGES -->
+  <section class="scene light" id="s-brief">
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="rgba(19,26,51,.035)"/></svg>
+    <div class="abs h-title" style="left:120px;top:90px"><span class="ln" id="br-t"><span>Le point de départ</span></span></div>
+    <div class="h-bar" id="br-bar" style="left:120px;top:176px"></div>
+    <div class="abs body" id="br-intro" style="left:120px;top:222px;font-size:32px">SIRENTA V2 devient <b style="color:var(--navy)">Renta+</b> : un nouveau nom, et donc un nouveau logo.</div>
+    <div id="br-cards"></div>
+    <div class="retenir" id="br-ret" style="left:120px;top:770px;width:1400px"><b>À retenir</b> : les trois pistes répondent au même cahier des charges, <b>la rentabilité comme idée</b> et <b>l'univers Outsourcia comme ancrage</b>.</div>
+    <div class="footer-bar"></div><div class="footer-logo"></div>
+  </section>
+
+  <!-- 5 · ADN -->
+  <section class="scene light" id="s-adn">
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="rgba(19,26,51,.035)"/></svg>
+    <div class="abs h-title" style="left:120px;top:90px"><span class="ln" id="ad-t"><span>L'ADN Outsourcia : ce qu'on emprunte au sigle</span></span></div>
+    <div class="h-bar" id="ad-bar" style="left:120px;top:176px"></div>
+    <div class="abs" id="ad-sig" style="left:150px;top:300px;width:520px;height:520px"></div>
+    <div id="ad-rows"></div>
+    <div class="footer-bar"></div><div class="footer-logo"></div>
+  </section>
+
+  <!-- 6 · TROIS PISTES -->
+  <section class="scene light" id="s-three">
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="rgba(19,26,51,.035)"/></svg>
+    <div class="abs" style="left:0;right:0;top:230px;text-align:center;font-family:'Outfit';font-weight:700;font-size:84px;line-height:1.12;letter-spacing:-1px;color:var(--navy)">
+      <span class="ln" id="th-l1"><span>Trois pistes,</span></span>
+      <span class="ln" id="th-l2"><span>une même idée : <span class="o">la rentabilité</span></span></span>
+    </div>
+    <div id="th-cols"></div>
+    <div class="footer-bar"></div><div class="footer-logo"></div>
+  </section>
+
+  <!-- 7/8/9 · PISTES (built by JS) -->
+  <section class="scene light" id="s-p1"></section>
+  <section class="scene light" id="s-p2"></section>
+  <section class="scene light" id="s-p3"></section>
+
+  <!-- 10 · COMPARATIF -->
+  <section class="scene light" id="s-cmp">
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="rgba(19,26,51,.035)"/></svg>
+    <div class="abs h-title" style="left:120px;top:90px"><span class="ln" id="cm-t"><span>Les trois pistes, critère par critère</span></span></div>
+    <div class="h-bar" id="cm-bar" style="left:120px;top:176px"></div>
+    <div class="tbl" id="cm-tbl"></div>
+    <div class="retenir" id="cm-ret" style="left:120px;top:800px;width:1680px"><b>À retenir</b> : les trois pistes portent bien la rentabilité. Les pistes <b>01 et 02</b> sont les plus ancrées dans l'univers Outsourcia, la piste <b>03</b> est la plus lisible.</div>
+    <div class="footer-bar"></div>
+  </section>
+
+  <!-- 11 · ICONES -->
+  <section class="scene dark" id="s-icon">
+    <div class="glow"></div>
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="#0E1532"/></svg>
+    <div class="abs label" id="ic-label" style="left:0;right:0;top:130px;text-align:center">Un outil du quotidien</div>
+    <div class="abs" style="left:0;right:0;top:180px;text-align:center;font-family:'Outfit';font-weight:700;font-size:64px;letter-spacing:-.5px">
+      <span class="ln" id="ic-h"><span>Lisible partout, jusqu'à la petite icône</span></span>
+    </div>
+    <div id="ic-tiles"></div>
+  </section>
+
+  <!-- 12 · QUESTION -->
+  <section class="scene dark" id="s-end">
+    <div class="glow"></div>
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="#0E1532"/></svg>
+    <div class="abs label" id="en-label" style="left:0;right:0;top:110px;text-align:center">À vous de choisir</div>
+    <div class="abs" style="left:0;right:0;top:150px;text-align:center;font-family:'Outfit';font-weight:800;font-size:88px;letter-spacing:-1.5px;line-height:1.1">
+      <span class="ln" id="en-h"><span>Quel logo préférez-vous <span class="o">?</span></span></span>
+    </div>
+    <div id="en-cards"></div>
+    <div class="abs" id="en-cta" style="left:0;right:0;top:880px;text-align:center;font-size:34px;font-weight:600;color:#C9CCE0">
+      Répondez simplement avec le numéro de votre piste : <b class="o">01</b>, <b class="o">02</b> ou <b class="o">03</b>.
+    </div>
+    <div class="abs" id="en-logo" style="left:860px;top:975px;width:200px"></div>
+  </section>
+
+  <div id="wipe"><div id="w1" style="background:var(--orange)"></div><div id="w2" style="background:var(--navy)"></div></div>
+</div>
+
+<script>
+// ───────────────────────── helpers ─────────────────────────
+const $ = id => document.getElementById(id);
+const clamp = (x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const lerp = (a,b,x)=>a+(b-a)*x;
+const E = {
+  lin:t=>t,
+  out3:t=>1-Math.pow(1-t,3),
+  out4:t=>1-Math.pow(1-t,4),
+  out5:t=>1-Math.pow(1-t,5),
+  in3:t=>t*t*t,
+  io3:t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2,
+  io5:t=>t<.5?16*Math.pow(t,5):1-Math.pow(-2*t+2,5)/2,
+  back:(t,s=1.7)=>{const c=s+1;return 1+c*Math.pow(t-1,3)+s*Math.pow(t-1,2)},
+  back2:t=>E.back(t,2.6),
+  bounce:t=>{const n=7.5625,d=2.75;if(t<1/d)return n*t*t;if(t<2/d)return n*(t-=1.5/d)*t+.75;if(t<2.5/d)return n*(t-=2.25/d)*t+.9375;return n*(t-=2.625/d)*t+.984375},
+};
+// progress of t inside [a,b], eased
+const P = (t,a,b,e=E.out3)=> t<=a?0 : t>=b?1 : e((t-a)/(b-a));
+function rise(el,p,d=50){ el.style.opacity=clamp(p*1.4); el.style.transform=`translateY(${(1-p)*d}px)`; }
+function lineIn(el,p){ el.firstElementChild.style.transform=`translateY(${(1-p)*115}%)`; }
+function fade(el,o){ el.style.opacity=o; }
+const NS='http://www.w3.org/2000/svg';
+function svgEl(tag,attrs={},parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+let UID=0;
+
+// ───────────────────── Outsourcia marks ─────────────────────
+function oscLogo(container,{word='#fff',tag='#928DA3'}={}){
+  const s=svgEl('svg',{viewBox:'-10 -12 502 140',width:'100%'});
+  const ring=svgEl('g',{class:'part'},s); svgEl('path',{d:OSC.ring,fill:'#FF8F1F'},ring);
+  const dot=svgEl('circle',{cx:62.15,cy:62.1,r:13.9,fill:'#FF333D',class:'part'},s);
+  const letters=[];
+  OSC.word.forEach((d,i)=>{const g=svgEl('g',{class:'part'},s);svgEl('path',{d,fill:word},g);letters.push(g);
+    if(i===7){const g2=svgEl('g',{class:'part'},s);svgEl('rect',{x:434.69,y:45.75,width:10.35,height:34.5,fill:word},g2);letters.push(g2);}});
+  const idot=svgEl('g',{class:'part'},s); svgEl('path',{d:OSC.idot,fill:'#FF333D'},idot);
+  const tg=svgEl('g',{},s); OSC.tag.forEach(d=>svgEl('path',{d,fill:tag},tg));
+  container.appendChild(s);
+  return {svg:s,ring,dot,letters,idot,tag:tg};
+}
+document.querySelectorAll('.bigsigil').forEach(p=>p.setAttribute('d',OSC.bigsigil[0]));
+document.querySelectorAll('.footer-logo').forEach(el=>oscLogo(el,{word:'#131A33',tag:'#8A8DA0'}));
+
+// ───────────────────── Renta+ logos ─────────────────────
+const COL={navy:'#131A33',orange:'#FF8F1F',red:'#FF333D'};
+const SYM={p1:['arc','needle','dot'],p2:['b1','b2','dot'],p3:['r']};
+const BOX={ // bounding boxes in source (2000×2000) units
+  p1:{full:[238,538,1762,1462],sym:[238,1045,786,1462]},
+  p2:{full:[137,792,1863,1208],sym:[137,792,558,1208]},
+  p3:{full:[189,816,1827,1184],sym:[189,867,420,1179]},
+};
+function logoSVG(key,{only=null,navy=COL.navy,viewBox='0 0 2000 2000',cls=''}={}){
+  const s=svgEl('svg',{viewBox,class:cls}); const parts={};
+  const defs=svgEl('defs',{},s);
+  const L=LOGOS[key];
+  for(const name in L){
+    if(only && !only.includes(name)) continue;
+    const p=L[name]; const g=svgEl('g',{class:'part'},s);
+    svgEl('path',{d:p.d,transform:`translate(${p.ox},${p.oy})`,fill:p.c==='navy'?navy:COL[p.c]},g);
+    parts[name]=g;
+  }
+  return {svg:s,parts,defs};
+}
+function symViewBox(key,pad=.16){const [x0,y0,x1,y1]=BOX[key].sym;const w=x1-x0,h=y1-y0,m=Math.max(w,h)*(1+pad*2);const cx=(x0+x1)/2,cy=(y0+y1)/2;return `${cx-m/2} ${cy-m/2} ${m} ${m}`;}
+function fullViewBox(key,pad=.04){const [x0,y0,x1,y1]=BOX[key].full;const w=x1-x0,h=y1-y0;return `${x0-w*pad} ${y0-h*pad} ${w*(1+2*pad)} ${h*(1+2*pad)}`;}
+// place a 2000-unit logo so that source point (cx,cy) lands on screen (sx,sy) with k px/unit
+function place(wrap,cx,cy,sx,sy,k){wrap.style.transform=`translate(${sx-cx*k}px,${sy-cy*k}px) scale(${k})`;}
+
+// Piece-by-piece build animations (shared by piste scenes & final cards)
+function makeBuilder(key,L){
+  const parts=L.parts;
+  if(key==='p1'){
+    const id='m'+(UID++);
+    const mask=svgEl('mask',{id,maskUnits:'userSpaceOnUse',x:0,y:0,width:2000,height:2000},L.defs);
+    const wedge=svgEl('path',{fill:'#fff'},mask);
+    parts.arc.setAttribute('mask',`url(#${id})`);
+    parts.needle.style.transformBox='view-box'; parts.needle.style.transformOrigin='524px 1393px';
+    return (t,speed=1,idle=0)=>{ t*=speed;
+      const a=lerp(150,300,P(t,0.0,1.0,E.io3));
+      const cx=524,cy=1393,R=700; const r=x=>x*Math.PI/180;
+      wedge.setAttribute('d',`M${cx} ${cy}L${cx+R*Math.cos(r(140))} ${cy+R*Math.sin(r(140))}A${R} ${R} 0 ${a-140>180?1:0} 1 ${cx+R*Math.cos(r(a))} ${cy+R*Math.sin(r(a))}Z`);
+      const ns=P(t,0.45,0.75,E.back);
+      const rot=lerp(-140,0,P(t,0.6,1.7,E.back2)) + idle*Math.sin(idle*0+t*2.2)*3;
+      parts.needle.style.transform=`rotate(${rot}deg) scale(${ns})`;
+      parts.needle.style.opacity=ns>0?1:0;
+      const ds=P(t,1.35,1.8,E.back2); parts.dot.style.transform=`scale(${ds})`;
+      ['r','e','n','t','a'].forEach((n,i)=>{const p=P(t,0.7+i*0.08,1.4+i*0.08,E.out4);parts[n].style.transform=`translateY(${(1-p)*140}px)`;parts[n].style.opacity=clamp(p*2);});
+      ['p','l','u','s'].forEach((n,i)=>{const p=P(t,1.25+i*0.08,1.95+i*0.08,E.back);parts[n].style.transform=`translateY(${(1-p)*120}px) scale(${lerp(.6,1,p)})`;parts[n].style.opacity=clamp(p*2);});
+    };
+  }
+  if(key==='p2'){
+    return (t,speed=1,idle=0)=>{ t*=speed;
+      [['b1',0.0],['b2',0.28]].forEach(([n,d])=>{const p=P(t,d,d+0.7,E.back2);parts[n].style.transform=`translate(${(1-p)*-160}px,${(1-p)*220}px)`;parts[n].style.opacity=clamp(p*3);});
+      const dp=P(t,0.75,1.65,E.bounce); parts.dot.style.transform=`translateY(${(1-dp)*-900 + (idle? Math.sin(t*2.4)*6:0)}px)`; parts.dot.style.opacity=t>0.75?1:0;
+      ['r','e','n','t','a'].forEach((n,i)=>{const p=P(t,0.9+i*0.08,1.6+i*0.08,E.out4);parts[n].style.transform=`translateY(${(1-p)*140}px)`;parts[n].style.opacity=clamp(p*2);});
+      const pp=P(t,1.55,2.25,E.back); parts.plus.style.transform=`rotate(${(1-pp)*-180}deg) scale(${pp})`; parts.plus.style.opacity=pp>0?1:0;
+    };
+  }
+  if(key==='p3'){
+    const id='m'+(UID++);
+    const mask=svgEl('mask',{id,maskUnits:'userSpaceOnUse',x:0,y:0,width:2000,height:2000},L.defs);
+    const circ=svgEl('circle',{cx:189,cy:1185,r:0,fill:'#fff'},mask);
+    parts.r.setAttribute('mask',`url(#${id})`);
+    return (t,speed=1,idle=0)=>{ t*=speed;
+      circ.setAttribute('r',lerp(0,420,P(t,0.0,1.1,E.io3)));
+      const pop=P(t,1.0,1.4,E.out3)-P(t,1.4,1.8,E.io3);
+      parts.r.style.transform=`translateY(${-pop*14}px)`;
+      ['e','n','t','a'].forEach((n,i)=>{const p=P(t,0.55+i*0.08,1.25+i*0.08,E.out4);parts[n].style.transform=`translateY(${(1-p)*140}px)`;parts[n].style.opacity=clamp(p*2);});
+      const pp=P(t,1.3,2.0,E.back); parts.plus.style.transform=`rotate(${(1-pp)*-180}deg) scale(${pp})`; parts.plus.style.opacity=pp>0?1:0;
+    };
+  }
+}
+
+// ───────────────────── scene builders ─────────────────────
+// 1 · Intro
+const INTRO=oscLogo($('in-logo'));
+
+// 2 · Context cards
+const CX=[['01','Valider','les factures directement dans SIRENTA V2'],['02','Suivre',"l'avancement de chaque facture en temps réel"],['03','Piloter','le traitement des factures depuis un tableau de bord'],['04','Tracer','chaque étape et fiabiliser les reportings']];
+CX.forEach(([n,v,txt],i)=>{
+  const c=document.createElement('div'); c.className='card'; c.id='cx-c'+i;
+  Object.assign(c.style,{left:(120+i*430)+'px',top:'340px',width:'400px',height:'240px',background:'rgba(255,255,255,.04)',border:'1px solid rgba(255,255,255,.10)',padding:'30px 32px'});
+  c.innerHTML=`<div style="font-family:Outfit;font-weight:700;font-size:30px;color:var(--orange)">${n}</div><div style="font-family:Outfit;font-weight:700;font-size:46px;margin:2px 0 8px">${v}</div><div style="font-size:24px;font-weight:600;color:#AEB3CB;line-height:1.4">${txt}</div>`;
+  $('s-ctx').appendChild(c);
+});
+const PILLS=[['À valider','#FF8F1F'],['Validé','#22C55E'],['Envoyé','#3B82F6']];
+PILLS.forEach(([t,c],i)=>{
+  const el=document.createElement('div'); el.id='cx-p'+i; el.className='abs';
+  Object.assign(el.style,{left:(250+i*590-110)+'px',top:'16px',width:'220px',height:'60px',borderRadius:'30px',border:`2px solid ${c}`,color:'#fff',font:"600 26px Outfit",display:'flex',alignItems:'center',justifyContent:'center',background:'#070D23'});
+  el.textContent=t; el.dataset.c=c; $('cx-track').appendChild(el);
+});
+
+// 3 · Name letters
+'SIRENTA V2'.split('').forEach((ch,i)=>{const s=document.createElement('span');s.textContent=ch;s.style.display='inline-block';s.style.transformOrigin='50% 60%';s.id='nm-o'+i;$('nm-old').appendChild(s);});
+
+// 4 · Brief cards
+const BR=[['01','La rentabilité','Le fil rouge des trois pistes : piloter, progresser, croître.'],['02',"L'univers Outsourcia",'Le point, l\'anneau et les couleurs du sigle, pour rester dans la famille.'],['03','Un outil du quotidien',"Lisible partout, de l'écran d'accueil jusqu'à la petite icône."]];
+BR.forEach(([n,t,d],i)=>{
+  const c=document.createElement('div'); c.className='card'; c.id='br-c'+i;
+  Object.assign(c.style,{left:(120+i*570)+'px',top:'330px',width:'540px',height:'370px',background:'var(--peach)',border:'2px solid var(--orange)',padding:'40px 40px'});
+  c.innerHTML=`<div style="font-family:Outfit;font-weight:800;font-size:76px;color:var(--orange);line-height:1" class="num">${n}</div><div style="font-family:Outfit;font-weight:700;font-size:38px;color:var(--navy);margin:26px 0 12px">${t}</div><div class="body" style="font-size:27px;color:var(--muted)">${d}</div>`;
+  $('s-brief').appendChild(c);
+});
+
+// 5 · ADN
+const ADN=(()=>{
+  const s=svgEl('svg',{viewBox:'-12 -12 150 150',width:'520',height:'520'});
+  const defs=svgEl('defs',{},s);
+  const top=svgEl('clipPath',{id:'adn-top'},defs); svgEl('rect',{x:-20,y:-20,width:200,height:82},top);
+  const bot=svgEl('clipPath',{id:'adn-bot'},defs); svgEl('rect',{x:-20,y:62,width:200,height:100},bot);
+  const rg=svgEl('g',{class:'part'},s);
+  const rt=svgEl('path',{d:OSC.ring,fill:'#FF8F1F','clip-path':'url(#adn-top)'},rg);
+  const rb=svgEl('path',{d:OSC.ring,fill:'#FF8F1F','clip-path':'url(#adn-bot)'},rg);
+  const ping=svgEl('circle',{cx:62.15,cy:62.1,r:14,fill:'none',stroke:'#FF333D','stroke-width':2},s);
+  const dot=svgEl('circle',{cx:62.15,cy:62.1,r:13.9,fill:'#FF333D',class:'part'},s);
+  $('ad-sig').appendChild(s);
+  return {rg,rb,dot,ping};
+})();
+const ADR=[
+  ['Le point',"Au cœur du sigle et sur le i d'outsourcia : le repère, l'objectif atteint.",'<svg width="64" height="64"><circle cx="32" cy="32" r="24" fill="#FF333D"/></svg>'],
+  ['Le demi-anneau',"Coupé en deux, l'anneau devient un compteur : la jauge de la performance.",'<svg width="64" height="64" viewBox="0 0 64 64"><path d="M8 44 A24 24 0 0 1 56 44" fill="none" stroke="#FF8F1F" stroke-width="12"/></svg>'],
+  ['Les couleurs',"L'orange <b>#FF8F1F</b> et le rouge <b>#FF333D</b> du sigle, avec le bleu nuit de la charte.",'<svg width="64" height="64"><circle cx="22" cy="22" r="15" fill="#FF8F1F"/><circle cx="42" cy="22" r="15" fill="#FF333D"/><circle cx="32" cy="42" r="15" fill="#131A33"/></svg>'],
+];
+ADR.forEach(([t,d,ic],i)=>{
+  const r=document.createElement('div'); r.className='abs'; r.id='ad-r'+i;
+  Object.assign(r.style,{left:'780px',top:(310+i*170)+'px',width:'1040px',display:'flex',gap:'34px',alignItems:'flex-start'});
+  r.innerHTML=`<div style="flex:none;margin-top:4px">${ic}</div><div><div style="font-family:Outfit;font-weight:700;font-size:40px;color:var(--navy)">${t}</div><div class="body" style="margin-top:4px">${d}</div></div>`;
+  $('s-adn').appendChild(r);
+});
+
+// 6 · three columns
+const TH=[['01','Le compteur','La rentabilité se pilote.'],['02','La progression','Elle se construit, palier après palier.'],['03',"L'élan","C'est de la croissance."]];
+TH.forEach(([n,t,d],i)=>{
+  const c=document.createElement('div'); c.className='abs'; c.id='th-c'+i;
+  Object.assign(c.style,{left:(170+i*540)+'px',top:'560px',width:'500px',textAlign:'center'});
+  c.innerHTML=`<div style="font-family:Outfit;font-weight:800;font-size:96px;color:var(--orange);line-height:1">${n}</div><div style="font-family:Outfit;font-weight:700;font-size:44px;color:var(--navy);margin-top:14px">${t}</div><div class="body" style="color:var(--muted);margin-top:6px">${d}</div>`;
+  $('s-three').appendChild(c);
+});
+
+// 7/8/9 · Pistes
+const PISTES={
+  p1:{n:'01',a:'Le compteur',b:'Un compteur de performance',tag:'La rentabilité se pilote.',
+      idee:"Un tableau de bord dont l'aiguille monte vers la droite : la rentabilité se mesure, se pilote et progresse.",
+      lien:"L'arc bleu nuit est le demi-anneau du sigle ; les deux points orange, pivot et repère, reprennent son point central.",
+      pf:["Métaphore comprise en un coup d'œil","Nom écrit en entier, « plus » lisible par tous"], kFull:.56, kSym:.84},
+  p2:{n:'02',a:'La progression',b:'Une courbe qui monte par paliers',tag:'La rentabilité se construit, palier après palier.',
+      idee:"Deux blocs qui s'élèvent en escalier, comme une courbe de résultats : la rentabilité se construit étape par étape, jusqu'au sommet.",
+      lien:"Le point rouge est celui du i d'outsourcia et du cœur du sigle, dans son rouge exact ; le + reprend la même couleur.",
+      pf:['Symbole compact, idéal en icône','Le point rouge signe tout de suite Outsourcia'], kFull:.72, kSym:1.0},
+  p3:{n:'03',a:"L'élan",b:'La croissance dans la lettre',tag:"La rentabilité, c'est de la croissance.",
+      idee:"La branche du r s'étire en flèche vers le haut : la croissance n'est pas un symbole à côté du nom, elle est dans le nom.",
+      lien:"L'orange du sigle encadre le mot, du r au + ; la contre-forme parfaitement ronde du a rappelle l'anneau.",
+      pf:['Le plus lisible : un seul bloc, sans symbole à part',"Le r seul peut devenir l'icône"], kFull:.74, kSym:1.3},
+};
+for(const key in PISTES){
+  const D=PISTES[key], sc=$('s-'+key);
+  sc.innerHTML=`
+    <svg class="decor" viewBox="0 0 283.31 283.16"><path class="bigsigil" fill="rgba(19,26,51,.035)" d="${OSC.bigsigil[0]}"/></svg>
+    <div class="abs h-title" style="left:120px;top:90px;height:80px;width:1500px">
+      <span class="ln abs" data-k="ta" style="left:0;top:0"><span>Piste ${D.n} · ${D.a}</span></span>
+      <span class="ln abs" data-k="tb" style="left:0;top:0"><span>Piste ${D.n} · ${D.b}</span></span>
+    </div>
+    <div class="h-bar" data-k="bar" style="left:120px;top:176px"></div>
+    <div class="card" data-k="panel" style="left:120px;top:240px;width:600px;height:660px;background:#fff;box-shadow:0 30px 80px rgba(19,26,51,.07)"></div>
+    <div class="abs logo-wrap" data-k="logo"></div>
+    <div class="abs" data-k="tag" style="left:0;right:0;top:880px;text-align:center;font-size:40px;font-weight:600;color:var(--muted)">${D.tag}</div>
+    <div class="abs" data-k="right" style="left:820px;top:245px;width:980px">
+      <div data-k="r1"><div class="sub-o">L'idée</div><div class="body">${D.idee}</div></div>
+      <div data-k="r2" style="margin-top:34px"><div class="sub-o">Le lien Outsourcia</div><div class="body">${D.lien}</div></div>
+      <div data-k="r3" style="margin-top:38px;background:var(--lav);border-radius:22px;padding:28px 36px">
+        <div class="pf-title">Points forts</div>
+        <div class="bul" data-k="b0">${D.pf[0]}</div><div class="bul" data-k="b1">${D.pf[1]}</div>
+      </div>
+    </div>
+    <div class="footer-bar"></div><div class="footer-logo"></div>`;
+  oscLogo(sc.querySelector('.footer-logo'),{word:'#131A33',tag:'#8A8DA0'});
+  const q={}; sc.querySelectorAll('[data-k]').forEach(e=>q[e.dataset.k]=e);
+  const L=logoSVG(key); q.logo.appendChild(L.svg);
+  D.q=q; D.L=L; D.build=makeBuilder(key,L);
+}
+
+// 10 · table
+const ROWS=[['Lien avec la rentabilité','Fort','Fort','Fort'],['Lien avec Outsourcia','Fort : anneau et point','Fort : point et rouge','Moyen : la couleur'],['Lisibilité du nom','Bonne','Bonne','Très bonne'],['Version icône','À simplifier','Prête','Le r seul'],['Originalité','Forte','Forte','Moyenne'],["Point d'attention",'Format empilé','Rouge : santé, perte','Motif répandu']];
+(()=>{
+  const t=$('cm-tbl');
+  const h=document.createElement('div'); h.className='tr th'; h.id='cm-h';
+  h.innerHTML=`<div style="color:var(--muted)">Critère</div>`+['p1','p2','p3'].map((k,i)=>`<div><span class="mini" data-mini="${k}"></span>${['01 · Le compteur','02 · La progression',"03 · L'élan"][i]}</div>`).join('');
+  t.appendChild(h);
+  h.querySelectorAll('[data-mini]').forEach(el=>{const k=el.dataset.mini;const L=logoSVG(k,{viewBox:fullViewBox(k)});L.svg.setAttribute('height','62');L.svg.style.display='block';el.appendChild(L.svg);});
+  ROWS.forEach((r,i)=>{const d=document.createElement('div');d.className='tr'+(i%2?' alt':'');d.id='cm-r'+i;d.innerHTML=r.map(x=>`<div>${x}</div>`).join('');t.appendChild(d);});
+})();
+
+// 11 · icon tiles
+const ICONS=[['p1','01','À simplifier'],['p2','02','Prête'],['p3','03','Le r seul']];
+ICONS.forEach(([k,n,l],i)=>{
+  const w=document.createElement('div'); w.className='abs'; w.id='ic-'+i;
+  Object.assign(w.style,{left:(560+i*400-160)+'px',top:'330px',width:'320px',height:'480px'});
+  const tile=document.createElement('div'); tile.className='abs';
+  Object.assign(tile.style,{left:'30px',top:'0',width:'260px',height:'260px',borderRadius:'58px',background:'var(--cream)',transformOrigin:'50% 50%',boxShadow:'0 24px 60px rgba(0,0,0,.35)',overflow:'hidden'});
+  const L=logoSVG(k,{only:SYM[k],viewBox:symViewBox(k,.2)}); L.svg.setAttribute('width','260');L.svg.setAttribute('height','260'); tile.appendChild(L.svg);
+  const cap=document.createElement('div'); cap.className='abs';
+  Object.assign(cap.style,{left:0,right:0,top:'300px',textAlign:'center'});
+  cap.innerHTML=`<div style="font-family:Outfit;font-weight:700;font-size:30px;color:var(--orange)">Piste ${n}</div><div style="font-family:Outfit;font-weight:600;font-size:34px;margin-top:4px">${l}</div>`;
+  w.appendChild(tile); w.appendChild(cap); w.tile=tile; w.cap=cap;
+  $('s-icon').appendChild(w);
+});
+
+// 12 · final cards
+const END=[['p1','01','Le compteur'],['p2','02','La progression'],['p3','03',"L'élan"]].map(([k,n,t],i)=>{
+  const c=document.createElement('div'); c.className='card'; c.id='en-c'+i;
+  Object.assign(c.style,{left:(120+i*580)+'px',top:'330px',width:'520px',height:'470px',background:'var(--cream)',transformOrigin:'50% 60%',boxShadow:'0 30px 80px rgba(0,0,0,.35)'});
+  const num=document.createElement('div'); num.className='abs'; Object.assign(num.style,{left:'34px',top:'26px',font:'800 44px Outfit',color:'var(--orange)'}); num.textContent=n;
+  const ring=document.createElement('div'); ring.className='abs'; Object.assign(ring.style,{inset:'-8px',borderRadius:'30px',border:'5px solid var(--orange)',opacity:0});
+  const lw=document.createElement('div'); lw.className='abs'; Object.assign(lw.style,{left:'40px',top:'90px',width:'440px',height:'260px'});
+  const L=logoSVG(k,{viewBox:fullViewBox(k,.06)}); L.svg.setAttribute('width','440');L.svg.setAttribute('height','260'); lw.appendChild(L.svg);
+  const ttl=document.createElement('div'); ttl.className='abs'; Object.assign(ttl.style,{left:0,right:0,top:'380px',textAlign:'center',font:'700 36px Outfit',color:'var(--navy)'}); ttl.textContent=t;
+  c.append(ring,num,lw,ttl); $('s-end').appendChild(c);
+  return {c,ring,build:makeBuilder(k,L)};
+});
+oscLogo($('en-logo'));
+
+// wrap each scene's foreground in .content so exits fade as one block
+document.querySelectorAll('.scene').forEach(sc=>{const c=document.createElement('div');c.className='content';c.style.cssText='position:absolute;inset:0';
+  [...sc.children].forEach(ch=>{if(!ch.matches('.glow,.decor,.footer-bar,.footer-logo'))c.appendChild(ch);});sc.appendChild(c);sc.content=c;});
+function sceneExit(id,t,D,dur=.75){const o=P(t,D-dur-.05,D-.05,E.in3);const c=$(id).content;c.style.opacity=1-o;c.style.transform=`translateY(${-36*o}px)`;}
+// ───────────────────── timeline ─────────────────────
+const SC=[
+  ['s-intro',0,7], ['s-ctx',7,17.5], ['s-name',17.5,25], ['s-brief',25,35], ['s-adn',35,44.5],
+  ['s-three',44.5,50], ['s-p1',50,66], ['s-p2',66,82], ['s-p3',82,98], ['s-cmp',98,110],
+  ['s-icon',110,117.5], ['s-end',117.5,130],
+];
+const WIPES=[25,50,66,82,98,110];
+const DURATION=130;
+
+function exitOut(el,lt,D,dur=.7){const o=P(lt,D-dur-.05,D-.05,E.in3);el.style.opacity=1-o;el.style.transform=`translateY(${-40*o}px)`;}
+
+const UPD={
+ 's-intro'(t,D){
+   const L=INTRO;
+   const rp=P(t,.2,1.4,E.back); L.ring.style.transform=`rotate(${lerp(-200,0,P(t,.2,1.4,E.out4))}deg) scale(${rp})`;
+   L.dot.style.transform=`scale(${P(t,.9,1.4,E.back2)})`;
+   L.letters.forEach((g,i)=>{const p=P(t,1.0+i*.045,1.6+i*.045,E.out4);g.style.transform=`translateY(${(1-p)*40}px)`;g.style.opacity=clamp(p*2);});
+   L.idot.style.transform=`scale(${P(t,1.75,2.15,E.back2)})`;
+   fade(L.tag,P(t,1.8,2.5));
+   lineIn($('in-l1'),P(t,2.4,3.2,E.out4)); lineIn($('in-l2'),P(t,2.65,3.45,E.out4));
+   $('in-bar').style.transform=`scaleX(${P(t,3.3,3.9,E.out4)})`;
+   sceneExit('s-intro',t,D);
+ },
+ 's-ctx'(t,D){
+   rise($('cx-label'),P(t,.2,.8),20); lineIn($('cx-h'),P(t,.35,1.15,E.out4)); rise($('cx-sub'),P(t,.9,1.6),20);
+   CX.forEach((_,i)=>{const p=P(t,1.4+i*.18,2.2+i*.18,E.out4);const c=$('cx-c'+i);c.style.opacity=p;c.style.transform=`translateY(${(1-p)*80}px)`;});
+   const tr=P(t,3.0,3.6); $('cx-track').style.opacity=tr;
+   const mv=P(t,3.7,6.2,E.io3); const x0=250,x1=250+2*590; const x=lerp(x0,x1,mv);
+   $('cx-dot').style.left=(x-12)+'px'; $('cx-fill').style.width=(x-x0)+'px';
+   PILLS.forEach((_,i)=>{const px=x0+i*590;const on=P(x,px-70,px-5,E.lin);const el=$('cx-p'+i);el.style.background=on>0?el.dataset.c:'#070D23';el.style.opacity=lerp(.45,1,on);el.style.transform=`scale(${1+.08*(P(x,px-10,px+40)-P(x,px+40,px+160))})`;});
+   rise($('cx-close'),P(t,6.4,7.2),30);
+   sceneExit('s-ctx',t,D);
+ },
+ 's-name'(t,D){
+   rise($('nm-label'),P(t,.1,.7),20)
+   const chars=[...$('nm-old').children];
+   if(!this._m){ // measure once (untransformed)
+     const rs=chars.slice(2,7).map(c=>c.getBoundingClientRect()); const rn=$('nm-renta').getBoundingClientRect();
+     const stage=$('stage').getBoundingClientRect();
+     this._m={shift:((rn.left+rn.right)/2)-((rs[0].left+rs[4].right)/2)};
+   }
+   chars.forEach((c,i)=>{
+     const pin=P(t,.25+i*.05,.95+i*.05,E.out4);
+     const keep=i>=2&&i<=6;
+     if(keep){const sh=P(t,2.2,2.95,E.io3)*this._m.shift;c.style.transform=`translate(${sh}px,${(1-pin)*90}px)`;c.style.opacity=clamp(pin*2);c.style.transform+=` scaleY(${1-P(t,2.85,3.05,E.in3)})`;}
+     else {const dp=P(t,1.7+(i%3)*.06,2.4+(i%3)*.06,E.in3);c.style.transform=`translateY(${(1-pin)*90+dp*160}px) rotate(${dp*(i<2?-14:14)}deg)`;c.style.opacity=clamp(pin*2)*(1-dp);}
+   });
+   const nr=P(t,3.05,3.35,E.back); $('nm-renta').style.opacity=t>=3.05?1:0; $('nm-renta').style.transform=`scaleY(${nr})`;
+   const pp=P(t,3.3,4.1,E.back); $('nm-plus').style.transform=`rotate(${(1-pp)*-270}deg) scale(${pp})`; $('nm-plus').style.opacity=pp>0?1:0;
+   lineIn($('nm-sub'),P(t,4.3,5.1,E.out4));
+ },
+ 's-brief'(t,D){
+   lineIn($('br-t'),P(t,.5,1.2,E.out4)); $('br-bar').style.transform=`scaleX(${P(t,.9,1.4,E.out4)})`;
+   rise($('br-intro'),P(t,1.0,1.7),20);
+   BR.forEach((_,i)=>{const p=P(t,1.6+i*.25,2.5+i*.25,E.out4);const c=$('br-c'+i);c.style.opacity=clamp(p*1.5);c.style.transform=`translateY(${(1-p)*90}px)`;
+     const n=c.querySelector('.num');n.style.transform=`scale(${P(t,1.9+i*.25,2.5+i*.25,E.back2)})`;n.style.transformOrigin='0 80%';});
+   rise($('br-ret'),P(t,3.8,4.6),30);
+   sceneExit('s-brief',t,D);
+ },
+ 's-adn'(t,D){
+   lineIn($('ad-t'),P(t,.2,.9,E.out4)); $('ad-bar').style.transform=`scaleX(${P(t,.6,1.1,E.out4)})`;
+   const sp=P(t,.4,1.6,E.back); ADN.rg.style.transform=`rotate(${lerp(-160,0,P(t,.4,1.6,E.out4))}deg) scale(${sp})`;
+   const dp=P(t,1.1,1.5,E.back2)+.35*(P(t,2.1,2.4,E.out3)-P(t,2.4,2.9,E.io3)); ADN.dot.style.transform=`scale(${dp})`;
+   const pg=P(t,2.1,3.1,E.out3); ADN.ping.setAttribute('r',14+pg*48); ADN.ping.setAttribute('opacity',pg>0&&pg<1?1-pg:0);
+   ADN.rb.style.opacity=lerp(1,.12,P(t,3.8,4.6,E.io3));
+   ADR.forEach((_,i)=>{const p=P(t,1.8+i*1.8,2.6+i*1.8,E.out4);const r=$('ad-r'+i);r.style.opacity=clamp(p*1.5);r.style.transform=`translateX(${(1-p)*60}px)`;});
+   sceneExit('s-adn',t,D);
+ },
+ 's-three'(t,D){
+   lineIn($('th-l1'),P(t,.3,1.1,E.out4)); lineIn($('th-l2'),P(t,.55,1.35,E.out4));
+   TH.forEach((_,i)=>{const p=P(t,1.5+i*.22,2.3+i*.22,E.out4);const c=$('th-c'+i);c.style.opacity=clamp(p*1.5);c.style.transform=`translateY(${(1-p)*70}px)`;});
+ },
+ 's-cmp'(t,D){
+   lineIn($('cm-t'),P(t,.7,1.4,E.out4)); $('cm-bar').style.transform=`scaleX(${P(t,1.1,1.6,E.out4)})`;
+   rise($('cm-h'),P(t,1.1,1.8),30);
+   ROWS.forEach((_,i)=>{const p=P(t,1.7+i*.2,2.4+i*.2,E.out4);const r=$('cm-r'+i);r.style.opacity=p;r.style.transform=`translateX(${(1-p)*-50}px)`;});
+   rise($('cm-ret'),P(t,4.0,4.8),30);
+ },
+ 's-icon'(t,D){
+   rise($('ic-label'),P(t,.7,1.3),20); lineIn($('ic-h'),P(t,.9,1.7,E.out4));
+   const shrink=P(t,3.6,4.6,E.io5);
+   ICONS.forEach((_,i)=>{const w=$('ic-'+i);const p=P(t,1.4+i*.2,2.1+i*.2,E.back);
+     const s=lerp(1,.42,shrink); w.tile.style.transform=`translateY(${shrink*60}px) scale(${p*s})`;
+     w.cap.style.opacity=P(t,1.8+i*.2,2.4+i*.2); w.cap.style.transform=`translateY(${-shrink*35}px)`;});
+   sceneExit('s-icon',t,D);
+ },
+ 's-end'(t,D){
+   rise($('en-label'),P(t,.4,1.0),20); lineIn($('en-h'),P(t,.55,1.4,E.out4));
+   END.forEach((e,i)=>{const p=P(t,1.2+i*.2,2.0+i*.2,E.out4);
+     const hl=P(t,4.6+i*1.3,5.0+i*1.3,E.out3)-P(t,5.6+i*1.3,6.0+i*1.3,E.io3);
+     e.c.style.opacity=clamp(p*1.5); e.c.style.transform=`translateY(${(1-p)*100 - hl*18}px) scale(${1+hl*.04})`;
+     e.ring.style.opacity=hl; e.build(Math.max(0,t-(1.7+i*.25)),1.15,0);});
+   rise($('en-cta'),P(t,8.6,9.4),30);
+   rise($('en-logo'),P(t,9.0,9.6),20);
+ },
+};
+// pistes share one update
+for(const key in PISTES){
+  UPD['s-'+key]=function(t,D){
+    const d=PISTES[key],q=d.q,[x0,y0,x1,y1]=BOX[key].full,[sx0,sy0,sx1,sy1]=BOX[key].sym;
+    lineIn(q.ta,P(t,.6,1.3,E.out4)-P(t,6.6,7.0,E.in3)*0);
+    // swap titles
+    const sw=P(t,6.6,7.3,E.io3); q.ta.firstElementChild.style.transform=`translateY(${(1-P(t,.6,1.3,E.out4))*115 - sw*115}%)`;
+    q.tb.firstElementChild.style.transform=`translateY(${(1-sw)*115}%)`;
+    q.bar.style.transform=`scaleX(${P(t,1.0,1.5,E.out4)})`;
+    // logo build + move
+    d.build(Math.max(0,t-1.0),1,t>8?1:0);
+    const mv=P(t,6.5,7.7,E.io5);
+    const cxF=(x0+x1)/2, cyF=(y0+y1)/2, cxS=(sx0+sx1)/2, cyS=(sy0+sy1)/2;
+    place(q.logo,lerp(cxF,cxS,mv),lerp(cyF,cyS,mv),lerp(960,420,mv),lerp(530,570,mv),lerp(d.kFull,d.kSym,mv));
+    const wo=1-P(t,6.4,6.9,E.lin);
+    for(const n in d.L.parts){ if(!SYM[key].includes(n)){const e=d.L.parts[n];const cur=e.style.opacity===''?1:+e.style.opacity;e.style.opacity=Math.min(cur,wo);} }
+    const pn=P(t,6.6,7.5,E.out4); q.panel.style.opacity=pn; q.panel.style.transform=`scale(${lerp(.92,1,pn)})`;
+    rise(q.tag,P(t,3.6,4.3)-P(t,6.2,6.6,E.lin),20);
+    [q.r1,q.r2,q.r3].forEach((e,i)=>{const p=P(t,7.6+i*1.2,8.4+i*1.2,E.out4);e.style.opacity=clamp(p*1.5);e.style.transform=`translateX(${(1-p)*60}px)`;});
+    [q.b0,q.b1].forEach((e,i)=>rise(e,P(t,10.3+i*.35,10.9+i*.35),16));
+  };
+}
+
+function render(T){
+  for(const [id,a,b] of SC){
+    const el=$(id); const on=T>=a&&T<b;
+    el.style.display=on?'block':'none';
+    if(on){ UPD[id].call(UPD,T-a,b-a);
+      const dec=el.querySelector('.decor'); if(dec){dec.style.transform=`rotate(${T*6}deg)`;}
+    }
+  }
+  // wipes
+  let x1=-2800,x2=-2800;
+  for(const b of WIPES){ const u=T-b; if(u>-0.7&&u<0.7){
+      const inn=(s,d)=>lerp(-2800,-240,P(T,b-.62+d,b-.05+d*.3,E.io3));
+      const out=(d)=>lerp(0,2400,P(T,b+.05+d,b+.6+d,E.io3));
+      x1=inn(0,0)+out(.08); x2=inn(0,.07)+out(0);
+  }}
+  $('w1').style.transform=`translateX(${x1}px) skewX(-14deg)`; $('w2').style.transform=`translateX(${x2}px) skewX(-14deg)`;
+}
+window.render=render; window.DURATION=DURATION;
+window.ready=document.fonts.ready.then(()=>{render(0);return true;});
+// live preview: ?t=12 to scrub, otherwise loops in real time
+const qs=new URLSearchParams(location.search);
+if(qs.has('t')) render(+qs.get('t'));
+else if(qs.has('play')){ const t0=performance.now()-(+qs.get('play')||0)*1000; const loop=()=>{render(((performance.now()-t0)/1000)%DURATION);requestAnimationFrame(loop)}; document.fonts.ready.then(loop); }
+</script>
+</body>
+</html>
