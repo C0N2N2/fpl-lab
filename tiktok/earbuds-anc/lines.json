@@ -1,0 +1,87 @@
+[
+ {
+  "id": "l01",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Seven forty-two P.M. The loudest train in the city.",
+  "sub": "7:42 PM. The loudest train in the city.",
+  "asr": "742 PM, the loudest train in the city."
+ },
+ {
+  "id": "l02",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Around ninety decibels of steel on steel. Then she presses one button.",
+  "sub": "Around 90 decibels of steel on steel. Then she presses one button."
+ },
+ {
+  "id": "l03",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "And the train disappears. But nothing blocked it. Her earbuds added more sound.",
+  "sub": "And the train disappears. But nothing blocked it. Her earbuds added more sound."
+ },
+ {
+  "id": "l04",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Here's how.",
+  "sub": "Here's how."
+ },
+ {
+  "id": "l05",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "On the outside, a tiny microphone hears the train, thousands of times every second.",
+  "sub": "On the outside, a tiny microphone hears the train, thousands of times every second."
+ },
+ {
+  "id": "l06",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "A chip takes that sound wave, and flips it upside down.",
+  "sub": "A chip takes that sound wave, and flips it upside down."
+ },
+ {
+  "id": "l07",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Where the train pushes the air, the speaker pulls. Where it pulls, the speaker pushes.",
+  "sub": "Where the train pushes the air, the speaker pulls. Where it pulls, the speaker pushes."
+ },
+ {
+  "id": "l08",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Two waves, exactly opposite. Added together, they cancel out.",
+  "sub": "Two waves, exactly opposite. Added together, they cancel out."
+ },
+ {
+  "id": "l09",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "A second microphone, inside, listens to what's left, and fixes the mistakes.",
+  "sub": "A second microphone, inside, listens to what's left, and fixes the mistakes."
+ },
+ {
+  "id": "l10",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "It works best on steady rumble, like engines and trains. Sudden sounds are harder, so the soft ear tip blocks those.",
+  "sub": "It works best on steady rumble, like engines and trains. Sudden sounds are harder, so the soft ear tip blocks those."
+ },
+ {
+  "id": "l11",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "So when she hears nothing, her ears are full of sound. Just the exact opposite of the train.",
+  "sub": "So when she hears nothing, her ears are full of sound. Just the exact opposite of the train."
+ },
+ {
+  "id": "l12",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Next stop, hers.",
+  "sub": "Next stop: hers."
+ }
+]
