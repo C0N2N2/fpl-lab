@@ -1,9 +1,11 @@
-# Night Paper Cutaway — changes from Line-Art Cutaway
+# Dusk Engraving — changes from Line-Art Cutaway
+
+Made by combining two references the owner supplied (grammar only, nothing copied): a stylised plane flying through a dusk sky, and a brand film of vintage engravings linked by a travelling line with a coral dot.
 
 | Section | Base | Now | Why |
 |---|---|---|---|
-| §3 Colour | warm white paper, black ink | charcoal card ground, cream ink, brighter orange accent | the owner wants a darker channel look |
-| §2 Materials | smooth 3D surfaces traced into lines | objects built from stacked cut-card slices; cut-paper sheets with real holes; fibre grain; soft layer shadows | "paper" feel the owner asked for |
-| §5 Motion / §8 Native moves | layers lift on the beat | + fold-up (slices hinge up), pull-tab slides, paper strip panels; story bookend | "paper motion" and more storytelling |
-| §7 Sound | drafting ticks and mechanics | + paper folds, card taps, slides | matches the new material |
-| §4 Type / size | 1920×1080, Chinese + English | 1080×1920, film's language only, TikTok safe area | channel format |
+| §3 Colour | warm white paper, black ink | dusk sky gradient (navy → violet → magenta → orange), lavender cel clouds, cream objects, indigo ink; coral #FF6B4F stays the one accent | reference 1's sky |
+| §2 Materials | smooth 3D surfaces, flat light greys | cel shading in three bands, engraved diagonal hatching in mid/dark bands, a warm sunset rim light; objects still built from stacked card slices | reference 2's engravings + reference 1's lighting |
+| §5 Motion / §6 Camera | slow pushes and orbits, no roll | banked swoops (camera roll ±25°), speed streaks on fast moves, clouds drift with the camera (parallax) | reference 1's flight |
+| §8 Native moves | leaders and labels | the travelling line: a cream line led by a coral dot loops round each part, then runs to its label; dives become a spiral drawn by the dot closing into an iris | reference 2's line |
+| §4 Type | IBM Plex Sans/Mono, 1920×1080 | Fraunces serif (bold titles, italic lowercase specs), 1080×1920, English only, soft dark glow behind text | both references |

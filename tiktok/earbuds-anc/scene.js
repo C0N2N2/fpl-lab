@@ -26,9 +26,9 @@ const cylX = (r, len, x, y, z, s = 32) => new THREE.CylinderGeometry(r, r, len, 
 
 // ---------- materials ----------
 export const M = {
-  card1: mat(0x9a948a), card2: mat(0x8c867c), card3: mat(0x7e786f), tip: mat(0xb3ada1, 5, { grain: .4 }),
-  part: mat(0x8a857b), dark: mat(0x3a3936), mid: mat(0xa39d92), light: mat(0xc2bcb0),
-  path1: mat(PAL.accGL, 3, { off: 0x8a857b, grain: 0 }), path2: mat(PAL.accGL, 4, { off: 0x8a857b, grain: 0 }), driver: mat(0xa39d92),
+  card1: mat(0xf6ecdc), card2: mat(0xefe2cf), card3: mat(0xe6d6c1), tip: mat(0xcdbfe6, 5, { grain: .6 }),
+  part: mat(0xe6d6c1), dark: mat(0x3a2d5c), mid: mat(0xb9a7d8), light: mat(0xf6ecdc),
+  path1: mat(PAL.accGL, 3, { off: 0xd9cdbd, grain: 0 }), path2: mat(PAL.accGL, 4, { off: 0xd9cdbd, grain: 0 }), driver: mat(0xb9a7d8),
 };
 
 // ---------- the earbud (mm; local: x toward the ear canal, y up the stem axis, z out of the face) ----------
@@ -85,35 +85,35 @@ export const layers = {};
 {
   // back: the city at night (window lights are holes onto the darkest back card)
   layers.city = cutSheet(2800, 900, (c, w, h) => {
-    c.fillStyle = '#4a4843';
+    c.fillStyle = '#2b2350';
     let x = 0; while (x < w / 2) { const bw = 60 + rng() * 120, bh = 260 + rng() * 520; c.fillRect(x, h - bh, bw - 8, bh);
-      c.globalCompositeOperation = 'destination-out'; for (let yy = h - bh + 30; yy < h - 30; yy += 46) for (let xx = x + 14; xx < x + bw - 30; xx += 30) if (rng() < 0.35) c.fillRect(xx, yy, 12, 18);
-      c.globalCompositeOperation = 'source-over'; x += bw; }
+      c.fillStyle = '#f6a964'; for (let yy = h - bh + 30; yy < h - 30; yy += 46) for (let xx = x + 14; xx < x + bw - 30; xx += 30) if (rng() < 0.35) c.fillRect(xx, yy, 12, 18);
+      c.fillStyle = '#2b2350'; x += bw; }
     c.drawImage(c.canvas, 0, 0, c.canvas.width / 2, c.canvas.height, w / 2, 0, w / 2, h);
   }, 2);
   set.add(layers.city);
   // middle: the carriage wall with a window hole
   layers.wall = cutSheet(1300, 1500, (c, w, h) => {
-    c.fillStyle = '#34332f'; c.fillRect(0, 0, w, h);
+    c.fillStyle = '#3c3066'; c.fillRect(0, 0, w, h);
     c.globalCompositeOperation = 'destination-out'; c.beginPath(); c.roundRect(170, 330, 960, 560, 90); c.fill(); c.globalCompositeOperation = 'source-over';
-    c.fillStyle = '#26252300'; c.strokeStyle = '#3d3b37'; c.lineWidth = 16; c.beginPath(); c.roundRect(170, 330, 960, 560, 90); c.stroke();
-    c.fillStyle = '#3d3b37'; c.fillRect(0, 1060, w, 40);                                             // the hand rail
+    c.fillStyle = '#26252300'; c.strokeStyle = '#5a4a8a'; c.lineWidth = 16; c.beginPath(); c.roundRect(170, 330, 960, 560, 90); c.stroke();
+    c.fillStyle = '#5a4a8a'; c.fillRect(0, 1060, w, 40);                                             // the hand rail
   });
   set.add(layers.wall);
   // front: the commuter, head and shoulders in profile, earbud in
   layers.person = cutSheet(620, 900, (c, w, h) => {
-    c.fillStyle = '#6a665e';
+    c.fillStyle = '#f2e4d2';
     c.beginPath(); c.moveTo(20, h); c.bezierCurveTo(30, 640, 140, 600, 230, 585);                   // back shoulder
     c.lineTo(250, 470); c.bezierCurveTo(170, 440, 150, 330, 175, 250);                                  // nape, back of head
     c.bezierCurveTo(190, 120, 290, 60, 380, 80); c.bezierCurveTo(470, 100, 510, 170, 505, 250);         // crown, forehead
     c.lineTo(540, 310); c.lineTo(510, 322); c.bezierCurveTo(520, 345, 515, 360, 500, 368);              // brow, nose
     c.lineTo(505, 392); c.bezierCurveTo(495, 410, 470, 440, 430, 445);                                  // lips, chin
     c.lineTo(400, 470); c.lineTo(395, 560); c.bezierCurveTo(500, 590, 600, 650, 610, h); c.closePath(); c.fill();
-    c.fillStyle = '#56534c'; c.beginPath(); c.moveTo(175, 250); c.bezierCurveTo(180, 110, 300, 50, 400, 82); c.bezierCurveTo(470, 100, 500, 150, 498, 205);
+    c.fillStyle = '#2f2550'; c.beginPath(); c.moveTo(175, 250); c.bezierCurveTo(180, 110, 300, 50, 400, 82); c.bezierCurveTo(470, 100, 500, 150, 498, 205);
     c.bezierCurveTo(440, 170, 360, 175, 300, 230); c.bezierCurveTo(260, 300, 250, 380, 240, 470); c.bezierCurveTo(180, 420, 160, 330, 175, 250); c.fill();   // hair
-    c.fillStyle = '#7a766d'; c.beginPath(); c.ellipse(320, 300, 24, 38, -0.1, 0, 7); c.fill();         // ear
-    c.fillStyle = '#d8d1c2'; c.beginPath(); c.ellipse(322, 296, 13, 12, 0, 0, 7); c.fill(); c.fillRect(316, 296, 11, 62);   // earbud
-    c.fillStyle = '#4c4944'; c.beginPath(); c.moveTo(250, 585); c.lineTo(300, 640); c.lineTo(395, 560); c.lineTo(420, 610); c.lineTo(330, 700); c.closePath(); c.fill();   // collar
+    c.fillStyle = '#e6d3bf'; c.beginPath(); c.ellipse(320, 300, 24, 38, -0.1, 0, 7); c.fill();         // ear
+    c.fillStyle = '#ffffff'; c.beginPath(); c.ellipse(322, 296, 13, 12, 0, 0, 7); c.fill(); c.fillRect(316, 296, 11, 62);   // earbud
+    c.fillStyle = '#6a4f9a'; c.beginPath(); c.moveTo(250, 585); c.lineTo(300, 640); c.lineTo(395, 560); c.lineTo(420, 610); c.lineTo(330, 700); c.closePath(); c.fill();   // collar
   });
   set.add(layers.person);
 }

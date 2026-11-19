@@ -1,6 +1,6 @@
-# Night Paper Cutaway 夜纸剖面 — Style Prompt
+# Dusk Engraving 暮色版画 — Style Prompt
 
-Based on Line-Art Cutaway (hardcore-info) from Lemo-Opuscar.
+Based on Line-Art Cutaway (hardcore-info) from Lemo-Opuscar, combined with two owner-supplied references (a dusk flight film, an engraving film with a travelling line). What changed and why: CHANGES.md. Where the text below still says charcoal card or cream ink, read: dusk sky, cream objects with indigo ink and engraved hatching (CHANGES.md wins).
 Default size: 1080×1920.
 
 > A real-sized object, built from stacked cut-card slices and traced live into a cream-line technical drawing on dark charcoal card: it turns, comes apart, is cut open and is flown into, while numbered leaders, dimension lines and section hatching stay attached to its parts. One single accent colour belongs to the one path the film explains (a signal, a current, an airflow).

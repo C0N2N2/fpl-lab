@@ -4,8 +4,8 @@
 import * as THREE from 'three';
 
 export const PAL = {
-  ground: '#1d1c1a', grid: 'rgba(236,229,211,0.045)', cross: 'rgba(236,229,211,0.13)',
-  ink: '#ece5d3', ink2: '#b9b2a2', faint: '#8d877a', acc: '#ff6a2a', accGL: 0xff6a2a,
+  sky: ['#16142e', '#2c2452', '#5a3b80', '#9c4a7e', '#e0745e', '#f6a964'], cloud: '#8f7cc8', cloudHi: '#c4b2ea', cloudLo: '#5f4f99',
+  ink: '#1b1633', ink2: '#4a4170', cream: '#f6ecdc', creamDim: '#d9cdbd', faint: '#b8a9d6', acc: '#ff6b4f', accGL: 0xff6b4f,
 };
 export const U = { uMode: { value: 0 }, uPath: { value: 0 }, uPath2: { value: 0 }, uFlood: { value: 0 } };
 
@@ -39,13 +39,20 @@ void main(){
   if(uKind > 2.5 && uKind < 3.5){ lit = vS < uPath; col = lit ? acc : uColor0; }                // path 1
   if(uKind > 3.5 && uKind < 4.5){ lit = vS < uPath2; col = lit ? acc : uColor0; }               // path 2
   if(uKind > 4.5 && uKind < 5.5){ col = mix(col, acc, uFlood); lit = uFlood > .5; }             // a part that lights whole
-  if(!gl_FrontFacing){ gl_FragColor = vec4(lit ? acc : mix(vec3(.17), vec3(.36), hatch(9.)), 1.); return; }
-  vec3 n = normalize(vWN); vec3 L = normalize(vec3(-.45,1.,.6));
-  float d = max(dot(n,L),0.);
-  float tone = lit ? .96 + .04*d : .78 + .3*d;
-  float g = h21(floor(vWP.xy*3.1 + vWP.z*1.7)) * .6 + h21(floor(vWP.yz*9.3)) * .4;           // card fibre grain
-  if(!lit) col *= .95 + .09*g*uGrain;
-  gl_FragColor = vec4(col*tone, 1.);
+  if(!gl_FrontFacing){ gl_FragColor = vec4(lit ? acc : mix(vec3(.85,.79,.72), vec3(.106,.086,.2), hatch(6.)*.8), 1.); return; }
+  // cel shading in three bands; engraved hatching in the mid and dark bands; a warm sunset rim
+  vec3 n = normalize(vWN); vec3 L = normalize(vec3(-.5,.9,.55));
+  float d = dot(n,L);
+  vec3 V = normalize(cameraPosition - vWP); float rim = pow(1. - max(dot(n, V), 0.), 3.);
+  float pe = mod(gl_FragCoord.x*.7 - gl_FragCoord.y*.7, 7.), pc = mod(gl_FragCoord.x*.7 + gl_FragCoord.y*.7, 7.);
+  float h1 = 1. - smoothstep(.6, 1.6, min(pe, 7. - pe)), h2 = 1. - smoothstep(.6, 1.6, min(pc, 7. - pc));
+  vec3 inkc = vec3(.106,.086,.2);
+  if(lit){ gl_FragColor = vec4(col, 1.); return; }
+  vec3 c = col;
+  if(d < .45){ c = col*.9; c = mix(c, inkc, h1*.55*uGrain); }
+  if(d < .0){ c = col*.78; c = mix(c, inkc, max(h1, h2)*.6*uGrain); }
+  c += vec3(1., .55, .35) * rim * .35;
+  gl_FragColor = vec4(c, 1.);
 }`;
 export function mat(hex, kind = 0, opt = {}) {
   return new THREE.ShaderMaterial({
@@ -84,12 +91,12 @@ export function makeEngine(renderer, scene, PX, PY, SS = 1, JIT = 4) {
       float sh = 0.;
       for(int k=1;k<=4;k++){ vec4 s = texture2D(tN, vUv + vec2(-.6, .8)*px*shD*float(k)*.5);
         if(s.a > 0. && (!f0 || iz(s) < z0 * .985)) sh += .25; }
-      vec3 inkS = vec3(.925,.898,.827), inkO = vec3(.80,.77,.70), inkC = vec3(.55,.53,.48);
+      vec3 inkS = vec3(.106,.086,.2), inkO = vec3(.14,.12,.25), inkC = vec3(.32,.28,.42);
       float wS = eS, wO = eO*.95, wC = eC*.8;
       float e = max(wS, max(wO, wC));
       vec3 ink = wS >= max(wO, wC) ? inkS : (wO >= wC ? inkO : inkC);
-      if(f0){ vec3 col = mix(c.rgb * (1. - .3*sh), ink, e); gl_FragColor = vec4(col, 1.); }
-      else { float al = max(e, .42*sh); gl_FragColor = vec4(ink*e, al); }
+      if(f0){ vec3 col = mix(c.rgb * (1. - .22*sh), ink, e); gl_FragColor = vec4(col, 1.); }
+      else { gl_FragColor = vec4(ink*e, e); }
     }`, depthTest: false, depthWrite: false, blending: THREE.NoBlending });
   const downMat = new THREE.ShaderMaterial({
     uniforms: { tE: { value: null }, px: { value: new THREE.Vector2() }, w: { value: 1 } }, vertexShader: VQ,
@@ -100,7 +107,7 @@ export function makeEngine(renderer, scene, PX, PY, SS = 1, JIT = 4) {
     uniforms: { tA: { value: null }, circ: { value: new THREE.Vector3() }, size: { value: new THREE.Vector2() } }, vertexShader: VQ,
     fragmentShader: `uniform sampler2D tA; uniform vec3 circ; uniform vec2 size; varying vec2 vUv;
     void main(){ vec4 s = texture2D(tA, vUv); s = vec4(min(s.rgb, vec3(s.a)), min(s.a, 1.));
-      if(circ.z > 0.){ float d = distance(vUv*size, circ.xy); if(d > circ.z) discard; vec3 g = vec3(.114,.110,.102); gl_FragColor = vec4(s.rgb + g*(1.-s.a), 1.); return; }
+      if(circ.z > 0.){ float d = distance(vUv*size, circ.xy); if(d > circ.z) discard; vec3 g = vec3(.965,.925,.863); gl_FragColor = vec4(s.rgb + g*(1.-s.a), 1.); return; }
       gl_FragColor = s; }`,
     depthTest: false, depthWrite: false, transparent: true, blending: THREE.CustomBlending, blendEquation: THREE.AddEquation, blendSrc: THREE.OneFactor, blendDst: THREE.OneMinusSrcAlphaFactor });
   const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), edgeMat); const quadScene = new THREE.Scene(); quadScene.add(quad);
