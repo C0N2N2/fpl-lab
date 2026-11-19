@@ -1,0 +1,8 @@
+Hidden Lines No. 002 — How noise cancelling works
+
+Style: Dusk Engraving (the channel's own style), based on Line-Art Cutaway from Lemo-Opuscar (code MIT), with grammar learned from two reference videos supplied by the channel owner (nothing copied).
+Fonts: Fraunces — SIL Open Font License 1.1 (github.com/google/fonts; licence in fonts/OFL-Fraunces.txt)
+Narration voice: Kokoro-82M (voice am_michael), Apache 2.0, run offline with kokoro-onnx (MIT) — a synthetic voice
+Speech check: faster-whisper (MIT), Whisper base.en (MIT)
+Music samples: ['Samples (CC0): Karoryfer Samples / sfzinstruments, VS Chamber Orchestra: Community Edition (Versilian Studios), Versilian Community Sample Library (Versilian Studios)']
+Everything else (models, animation, score, sound effects, train sound) made in code for this film.

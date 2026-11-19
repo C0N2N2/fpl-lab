@@ -1,0 +1,68 @@
+1
+00:00:00,450 --> 00:00:04,590
+7:42 PM. The loudest train in the city.
+
+2
+00:00:05,050 --> 00:00:07,870
+Around 90 decibels of steel on steel.
+
+3
+00:00:08,110 --> 00:00:10,150
+Then she presses one button.
+
+4
+00:00:11,450 --> 00:00:14,450
+And the train disappears. But nothing blocked it.
+
+5
+00:00:14,490 --> 00:00:16,610
+Her earbuds added more sound.
+
+6
+00:00:17,250 --> 00:00:19,050
+Here's how.
+
+7
+00:00:19,850 --> 00:00:26,110
+On the outside, a tiny microphone hears the train, thousands of times every second.
+
+8
+00:00:26,650 --> 00:00:30,710
+A chip takes that sound wave, and flips it upside down.
+
+9
+00:00:31,250 --> 00:00:33,970
+Where the train pushes the air, the speaker pulls.
+
+10
+00:00:34,030 --> 00:00:36,470
+Where it pulls, the speaker pushes.
+
+11
+00:00:37,250 --> 00:00:41,730
+Two waves, exactly opposite. Added together, they cancel out.
+
+12
+00:00:43,050 --> 00:00:48,190
+A second microphone, inside, listens to what's left, and fixes the mistakes.
+
+13
+00:00:49,050 --> 00:00:52,550
+It works best on steady rumble, like engines and trains.
+
+14
+00:00:53,050 --> 00:00:57,390
+Sudden sounds are harder, so the soft ear tip blocks those.
+
+15
+00:00:58,450 --> 00:01:02,070
+So when she hears nothing, her ears are full of sound.
+
+16
+00:01:02,450 --> 00:01:04,910
+Just the exact opposite of the train.
+
+17
+00:01:06,450 --> 00:01:08,250
+Next stop: hers.
+
