@@ -1,0 +1,80 @@
+1
+00:00:00,450 --> 00:00:03,990
+Turn off every light. Your phone still knows your face.
+
+2
+00:00:04,850 --> 00:00:08,290
+How? It never needed your light. It brings its own.
+
+3
+00:00:09,050 --> 00:00:12,210
+At the top of the screen, there are three tiny parts.
+
+4
+00:00:12,550 --> 00:00:15,610
+A flood light, a dot projector, and a camera.
+
+5
+00:00:16,450 --> 00:00:17,610
+All three work in infrared.
+
+6
+00:00:17,650 --> 00:00:21,870
+Light just past red, which your eyes can't see.
+
+7
+00:00:22,850 --> 00:00:26,450
+First, the flood light washes your face in infrared.
+
+8
+00:00:26,490 --> 00:00:28,290
+Like a flash you can't see.
+
+9
+00:00:28,850 --> 00:00:31,370
+The camera takes a picture, in the dark.
+
+10
+00:00:32,250 --> 00:00:34,050
+But a picture can be fooled.
+
+11
+00:00:34,090 --> 00:00:37,430
+So the projector fires more than 30,000 dots.
+
+12
+00:00:40,850 --> 00:00:45,390
+On a flat wall, the dots land in a grid. On a face, they bend.
+
+13
+00:00:45,750 --> 00:00:48,050
+Around your nose, your eyes, your cheeks.
+
+14
+00:00:49,050 --> 00:00:53,550
+The camera measures how far each dot moved, and turns it into depth.
+
+15
+00:00:53,750 --> 00:00:55,730
+A 3D map of your face.
+
+16
+00:00:56,850 --> 00:01:00,050
+A printed photo is flat. Its dots don't bend.
+
+17
+00:01:00,410 --> 00:01:02,210
+No depth, no unlock.
+
+18
+00:01:03,450 --> 00:01:07,650
+Your map matches the one stored inside the phone. And it opens.
+
+19
+00:01:08,850 --> 00:01:12,310
+In the dark, your phone was lighting you up the whole time.
+
+20
+00:01:12,550 --> 00:01:14,350
+You just couldn't see it.
+

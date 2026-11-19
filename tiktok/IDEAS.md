@@ -1,7 +1,7 @@
 # Hidden Lines — video ideas
 
 Done:
-1. ✅ How your phone sees your face in the dark — `face-unlock-dark/`
+1. ✅ How your phone sees your face in the dark — `face-unlock-dark/` (rendered, ready to post)
 
 Next (saved for later):
 2. How noise-cancelling earbuds erase sound

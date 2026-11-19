@@ -84,12 +84,12 @@ for e in EV:
             add(fol, hp(click(pitch=2.2 + rng.random() * 0.8, v=1), 5000) * (0.010 + 0.006 * rng.random()), tt, 1.0, rng.uniform(-0.8, 0.8))
         add(fol, fadeio(glide(0.6, 1320, 2640, (1, .2))) * 0.02, t, 1.0, 0)
     elif ty == 'orbit':
-        place(fol, pan_st(lp(whoosh(d, 1.0), 1600) * 0.06, np.linspace(pan, e.get('pan1', pan), int(d * SR))), t)
+        w_ = lp(whoosh(d, 1.0), 1600) * 0.06; place(fol, pan_st(w_, np.linspace(pan, e.get('pan1', pan), len(w_))), t)
     elif ty == 'contour':
         k = 0
         while k * 0.09 < d: add(fol, hp(click(pitch=1.9, v=1), 3500) * 0.014, t + k * 0.09, 1.0, np.sin(k) * 0.4); k += 1
     elif ty == 'slide':
-        place(fol, pan_st(lp(whoosh(d, 1.0), 1400) * 0.07, np.linspace(pan, e.get('pan1', pan), int(d * SR))), t)
+        w_ = lp(whoosh(d, 1.0), 1400) * 0.07; place(fol, pan_st(w_, np.linspace(pan, e.get('pan1', pan), len(w_))), t)
     elif ty == 'seat':
         add(fol, click(pitch=0.8, v=1.0) * 0.07, t, 1.0, pan); add(fol, lp(click(pitch=0.35, v=1.0), 600) * 0.09, t, 1.0, pan)
     elif ty == 'deny':            # locked: two low knocks

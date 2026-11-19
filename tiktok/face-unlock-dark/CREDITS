@@ -1,0 +1,7 @@
+Hidden Lines No. 001 — How your phone sees you in the dark
+
+Fonts: IBM Plex Sans, IBM Plex Mono — SIL Open Font License 1.1 (github.com/google/fonts; licence texts in fonts/)
+Narration voice: Kokoro-82M (voice am_michael), Apache 2.0, run offline with kokoro-onnx (MIT) — a synthetic voice
+Speech check: faster-whisper (MIT), Whisper base.en (MIT)
+Music samples: ['Samples (CC0): Karoryfer Samples / sfzinstruments, VS Chamber Orchestra: Community Edition (Versilian Studios), Versilian Community Sample Library (Versilian Studios)']
+Everything else (models, animation, score, sound effects) made in code for this film.
