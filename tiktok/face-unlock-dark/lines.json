@@ -1,0 +1,89 @@
+[
+ {
+  "id": "l01",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Turn off every light. Your phone still knows your face.",
+  "sub": "Turn off every light. Your phone still knows your face."
+ },
+ {
+  "id": "l02",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "How? It never needed your light. It brings its own.",
+  "sub": "How? It never needed your light. It brings its own."
+ },
+ {
+  "id": "l03",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "At the top of the screen, there are three tiny parts. A flood light, a dot projector, and a camera.",
+  "sub": "At the top of the screen, there are three tiny parts. A flood light, a dot projector, and a camera."
+ },
+ {
+  "id": "l04",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "All three work in infrared. Light just past red, which your eyes can't see.",
+  "sub": "All three work in infrared. Light just past red, which your eyes can't see."
+ },
+ {
+  "id": "l05",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "First, the flood light washes your face in infrared. Like a flash you can't see.",
+  "asr": "First, the floodlight washes your face in infrared, like a flash you can't see.",
+  "sub": "First, the flood light washes your face in infrared. Like a flash you can't see."
+ },
+ {
+  "id": "l06",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "The camera takes a picture, in the dark.",
+  "sub": "The camera takes a picture, in the dark."
+ },
+ {
+  "id": "l07",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "But a picture can be fooled. So the projector fires more than thirty thousand dots.",
+  "asr": "But a picture can be fooled, so the projector fires more than 30,000 dots.",
+  "sub": "But a picture can be fooled. So the projector fires more than 30,000 dots."
+ },
+ {
+  "id": "l08",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "On a flat wall, the dots land in a grid. On a face, they bend. Around your nose, your eyes, your cheeks.",
+  "sub": "On a flat wall, the dots land in a grid. On a face, they bend. Around your nose, your eyes, your cheeks."
+ },
+ {
+  "id": "l09",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "The camera measures how far each dot moved, and turns it into depth. A three D map of your face.",
+  "asr": "The camera measures how far each dot moved and turns it into depth, a 3D map of your face.",
+  "sub": "The camera measures how far each dot moved, and turns it into depth. A 3D map of your face."
+ },
+ {
+  "id": "l10",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "A printed photo is flat. Its dots don't bend. No depth, no unlock.",
+  "sub": "A printed photo is flat. Its dots don't bend. No depth, no unlock."
+ },
+ {
+  "id": "l11",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "Your map matches the one stored inside the phone. And it opens.",
+  "sub": "Your map matches the one stored inside the phone. And it opens."
+ },
+ {
+  "id": "l12",
+  "voice": "am_michael",
+  "speed": 0.95,
+  "text": "In the dark, your phone was lighting you up the whole time. You just couldn't see it.",
+  "sub": "In the dark, your phone was lighting you up the whole time. You just couldn't see it."
+ }
+]
