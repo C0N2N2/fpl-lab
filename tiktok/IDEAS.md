@@ -3,8 +3,9 @@
 Done:
 1. ✅ How your phone sees your face in the dark — `face-unlock-dark/` (rendered, ready to post)
 
+2. ✅ How noise-cancelling earbuds erase sound — `earbuds-anc/`
+
 Next (saved for later):
-2. How noise-cancelling earbuds erase sound
 3. Why plane windows are round
 4. What happens inside your car key when you press unlock
 5. How tapping your card pays
