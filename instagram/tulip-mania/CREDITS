@@ -1,0 +1,8 @@
+Tulip Mania — Holland, 1637
+
+Style: Torn Paper Collage, made in code (paper.js, dutch.js), learned from reference videos supplied by the owner (nothing copied).
+Font: Fraunces — SIL Open Font License 1.1 (github.com/google/fonts; fonts/OFL-Fraunces.txt)
+Narration voice: Kokoro-82M (voice bm_george), Apache 2.0, via kokoro-onnx (MIT) — a synthetic voice
+Speech check: faster-whisper (MIT), Whisper base.en (MIT)
+Music samples: ['Samples (CC0): VS Chamber Orchestra: Community Edition (Versilian Studios), Versilian Community Sample Library (Versilian Studios)']
+Render tools: Lemo-Opuscar core (MIT). The "RUIN!" book in the film is an illustration, not a real title page.
