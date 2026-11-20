@@ -1,0 +1,8 @@
+The King Who Broke an Economy — Mansa Musa, 1324
+
+Style: Torn Paper Collage, made in code (paper.js, figures.js), learned from two reference videos supplied by the owner (nothing copied).
+Font: Fraunces — SIL Open Font License 1.1 (github.com/google/fonts; fonts/OFL-Fraunces.txt)
+Narration voice: Kokoro-82M (voice bm_george), Apache 2.0, via kokoro-onnx (MIT) — a synthetic voice
+Speech check: faster-whisper (MIT), Whisper base.en (MIT)
+Music samples: ['Samples (CC0): FreePats project (freepats.zenvoid.org), Versilian Community Sample Library (Versilian Studios)']
+Render tools: Lemo-Opuscar core (MIT).
