@@ -5,7 +5,7 @@
 In 1925, a man sold the Eiffel Tower. Then he came back… and tried to sell it AGAIN. 🗼💸
 The buyer paid for the tower, and a bribe. Then he was too embarrassed to tell anyone.
 The wildest con in history, told in paper. 📜
-Follow for more stories of money & history.
+Follow The Price of History for more stories of money & history.
 
 #eiffeltower #conman #victorlustig #history #moneyhistory #truecrime #paris #historyfacts #scam #storytime #papercraft #animation
 

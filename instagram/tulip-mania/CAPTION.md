@@ -5,7 +5,7 @@
 In 1637, one flower bulb could cost as much as a house. 🌷🏠
 Then, one day in February… the buyers stayed away.
 And the strangest part? The most expensive flowers in history were sick. 🦠
-Watch to the end. Follow for more stories of money & history. 📜
+Watch to the end. Follow The Price of History for more stories of money & history. 📜
 
 #tulipmania #history #moneyhistory #economics #bubble #investing #stockmarket #historyfacts #netherlands #storytime #papercraft #animation
 

@@ -55,6 +55,13 @@ const tagS = text => { if (!LABELS.has(text)) { g.font = `700 30px ${SERIF}`; co
 const X = (x, y, k = 1) => { g.save(); g.strokeStyle = '#c8302a'; g.lineWidth = 12 * k; g.lineCap = 'round'; g.beginPath(); g.moveTo(x - 70 * k, y - 70 * k); g.lineTo(x + 70 * k, y + 70 * k); g.moveTo(x + 70 * k, y - 70 * k); g.lineTo(x - 70 * k, y + 70 * k); g.stroke(); g.restore(); };
 function label(text, x, y, k = 1, rot = -.03, font = `800 52px ${SERIF}`) { const cp = caption(text, font, 900); draw(g, cp.s, x - cp.W / 2, y - cp.H / 2, k, rot, cp.W / 2, cp.H / 2); }
 
+// the channel's mark: a dark torn-paper price tag (made on first use, after the fonts load)
+let BRAND = null;
+const brand = () => BRAND || (BRAND = (() => { g.font = `800 40px ${SERIF}`; const w = g.measureText('THE PRICE OF HISTORY').width + 20 * 4 + 110;
+  return { w, s: sheet([[0, 42], [44, 0], [w, 0], [w, 84], [44, 84]], '#231a16', { seed: 777, rim: 3, shadow: .4, detail: gg => {
+    gg.globalCompositeOperation = 'destination-out'; gg.beginPath(); gg.arc(34, 42, 11, 0, 7); gg.fill(); gg.globalCompositeOperation = 'source-over';
+    gg.fillStyle = '#efe6cf'; gg.font = `800 40px ${SERIF}`; gg.letterSpacing = '4px'; gg.fillText('THE PRICE OF HISTORY', 70, 57); } }) }; })());
+
 // ---------- camera ----------
 const CAM = Object.fromEntries(SC.scenes.map(s => [s.id, [1, 2, 3].map(j => monotone(s.cam.map(k => [k[0], k[j]])))]));
 const camOf = (s, t) => { const [x, y, z] = CAM[s.id].map(f => f(t)); return { x, y, z }; };
@@ -187,8 +194,8 @@ const R = {
     P(c, .4, () => { draw(g, b.far); Z.drawWindmill(g, MILL, 820, 1180, .8, t); });
     P(c, .7, () => { draw(g, b.field); for (let r2 = 0; r2 < 3; r2++) for (let i = 0; i < 12; i++) Z.drawTulip(g, [TU.red, TU.yellow, TU.pink, TU.flame][(i + r2) % 4], -40 + i * 100 + r2 * 40, 1260 + r2 * 70, .55 + r2 * .12, t); });
     const ck = seg(t, s.card, s.card + .6); if (ck > 0) { const a = caption('TULIP MANIA · 1637', `800 54px ${SERIF}`, 900), bb = caption('follow for more stories of money & history', `italic 400 38px ${SERIF}`, 860);
-      draw(g, a.s, (W - a.W) / 2, 300 - (1 - eo(ck)) * 900); draw(g, bb.s, (W - bb.W) / 2, 300 + a.H + 30 - (1 - eo(seg(t, s.card + .2, s.card + .8))) * 900);
-      if (CAPT) CAPT.push({ id: 'card1', text: 'TULIP MANIA · 1637', x0: 200, y0: 300, x1: 880, y1: 380 }, { id: 'card2', text: 'follow for more stories of money & history', x0: 100, y0: 420, x1: 980, y1: 500 }); }
+      draw(g, a.s, (W - a.W) / 2, 300 - (1 - eo(ck)) * 900); const br = brand(); draw(g, br.s, (W - br.w) / 2, 170 - (1 - eo(ck)) * 900); draw(g, bb.s, (W - bb.W) / 2, 300 + a.H + 30 - (1 - eo(seg(t, s.card + .2, s.card + .8))) * 900);
+      if (CAPT) CAPT.push({ id: 'brand', text: 'THE PRICE OF HISTORY', x0: 150, y0: 170, x1: 930, y1: 254 }, { id: 'card1', text: 'TULIP MANIA · 1637', x0: 200, y0: 300, x1: 880, y1: 380 }, { id: 'card2', text: 'follow for more stories of money & history', x0: 100, y0: 420, x1: 980, y1: 500 }); }
   },
 };
 

@@ -5,7 +5,7 @@
 In 1324, one king walked into Cairo… and broke its economy. Not with an army. With gifts. 💰🐪
 The story of Mansa Musa, the man often called the richest who ever lived, and the gold that made gold cheap.
 Watch to the end for how it put his kingdom on the map. Literally. 🗺️
-Follow for more stories of money & history. 📜
+Follow The Price of History for more stories of money & history. 📜
 
 #mansamusa #history #moneyhistory #africanhistory #mali #storytime #historyfacts #economics #richestman #didyouknow #papercraft #animation
 

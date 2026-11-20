@@ -57,6 +57,13 @@ const LABELS = new Map();
 const tagS = text => { if (!LABELS.has(text)) { g.font = `700 30px ${SERIF}`; const m = g.measureText(text).width + text.length * 3.2;
   LABELS.set(text, sheet(rect(0, 0, m + 50, 60), '#efe6cf', { seed: text.length * 31, rim: 2.5, shadow: .35, detail: g2 => { g2.fillStyle = C.ink; g2.font = `700 30px ${SERIF}`; g2.letterSpacing = '3px'; g2.fillText(text, 25, 41); } })); } return LABELS.get(text); };
 
+// the channel's mark: a dark torn-paper price tag (made on first use, after the fonts load)
+let BRAND = null;
+const brand = () => BRAND || (BRAND = (() => { g.font = `800 40px ${SERIF}`; const w = g.measureText('THE PRICE OF HISTORY').width + 20 * 4 + 110;
+  return { w, s: sheet([[0, 42], [44, 0], [w, 0], [w, 84], [44, 84]], '#231a16', { seed: 777, rim: 3, shadow: .4, detail: gg => {
+    gg.globalCompositeOperation = 'destination-out'; gg.beginPath(); gg.arc(34, 42, 11, 0, 7); gg.fill(); gg.globalCompositeOperation = 'source-over';
+    gg.fillStyle = '#efe6cf'; gg.font = `800 40px ${SERIF}`; gg.letterSpacing = '4px'; gg.fillText('THE PRICE OF HISTORY', 70, 57); } }) }; })());
+
 // ---------- camera & helpers ----------
 const CAM = Object.fromEntries(SC.scenes.map(s => [s.id, [1, 2, 3].map(j => monotone(s.cam.map(k => [k[0], k[j]])))]));
 const camOf = (s, t) => { const [x, y, z] = CAM[s.id].map(f => f(t)); return { x, y, z }; };
@@ -168,8 +175,8 @@ const R = {
     P(c, 0, () => { draw(g, b.sky); drawStars(b.stars, t); }); P(c, .55, () => draw(g, TOWER_N, 540, 1330, 1.15)); P(c, .75, () => draw(g, b.near, -450, 1450)); P(c, 1, () => draw(g, b.quai));
     P(c, .55, () => { const k = back(seg(t, s.sign, s.sign + .5), 1.6); if (k > 0) { g.save(); g.strokeStyle = '#d9c49a'; g.lineWidth = 3; g.beginPath(); g.moveTo(470, 1120 - 140 * k); g.lineTo(440, 1060); g.moveTo(610, 1120 - 140 * k); g.lineTo(640, 1060); g.stroke(); g.restore(); draw(g, b.sign, 540, 1120, k, Math.sin(t * 2) * .04); } });
     const ck = seg(t, s.card, s.card + .6); if (ck > 0) { const a = caption('THE MAN WHO SOLD THE EIFFEL TOWER', `800 50px ${SERIF}`, 900), bb = caption('follow for more stories of money & history', `italic 400 38px ${SERIF}`, 860);
-      draw(g, a.s, (W - a.W) / 2, 300 - (1 - eo(ck)) * 900); draw(g, bb.s, (W - bb.W) / 2, 300 + a.H + 30 - (1 - eo(seg(t, s.card + .2, s.card + .8))) * 900);
-      if (CAPT) CAPT.push({ id: 'card1', text: 'THE MAN WHO SOLD THE EIFFEL TOWER', x0: 90, y0: 300, x1: 990, y1: 380 }, { id: 'card2', text: 'follow for more stories of money & history', x0: 100, y0: 420, x1: 980, y1: 500 }); }
+      draw(g, a.s, (W - a.W) / 2, 300 - (1 - eo(ck)) * 900); const br = brand(); draw(g, br.s, (W - br.w) / 2, 170 - (1 - eo(ck)) * 900); draw(g, bb.s, (W - bb.W) / 2, 300 + a.H + 30 - (1 - eo(seg(t, s.card + .2, s.card + .8))) * 900);
+      if (CAPT) CAPT.push({ id: 'brand', text: 'THE PRICE OF HISTORY', x0: 150, y0: 170, x1: 930, y1: 254 }, { id: 'card1', text: 'THE MAN WHO SOLD THE EIFFEL TOWER', x0: 90, y0: 300, x1: 990, y1: 380 }, { id: 'card2', text: 'follow for more stories of money & history', x0: 100, y0: 420, x1: 980, y1: 500 }); }
   },
 };
 

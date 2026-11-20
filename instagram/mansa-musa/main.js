@@ -77,6 +77,13 @@ const LABELS = new Map();
 const tagS = text => { if (!LABELS.has(text)) { g.font = `700 30px ${SERIF}`; const m = g.measureText(text).width + text.length * 3.2;
   LABELS.set(text, sheet(rect(0, 0, m + 50, 60), '#2b1d16', { seed: text.length * 31, rim: 2.5, shadow: .3, detail: g2 => { g2.fillStyle = '#f4ecd8'; g2.font = `700 30px ${SERIF}`; g2.letterSpacing = '3px'; g2.fillText(text, 25, 41); } })); } return LABELS.get(text); };
 
+// the channel's mark: a dark torn-paper price tag (made on first use, after the fonts load)
+let BRAND = null;
+const brand = () => BRAND || (BRAND = (() => { g.font = `800 40px ${SERIF}`; const w = g.measureText('THE PRICE OF HISTORY').width + 20 * 4 + 110;
+  return { w, s: sheet([[0, 42], [44, 0], [w, 0], [w, 84], [44, 84]], '#231a16', { seed: 777, rim: 3, shadow: .4, detail: gg => {
+    gg.globalCompositeOperation = 'destination-out'; gg.beginPath(); gg.arc(34, 42, 11, 0, 7); gg.fill(); gg.globalCompositeOperation = 'source-over';
+    gg.fillStyle = '#efe6cf'; gg.font = `800 40px ${SERIF}`; gg.letterSpacing = '4px'; gg.fillText('THE PRICE OF HISTORY', 70, 57); } }) }; })());
+
 // ---------- camera ----------
 const CAM = Object.fromEntries(SC.scenes.map(s => [s.id, [1, 2, 3].map(j => monotone(s.cam.map(k => [k[0], k[j]])))]));
 function camOf(s, t) { const [x, y, z] = CAM[s.id].map(f => f(t)); return { x, y, z }; }
@@ -209,7 +216,7 @@ const R = {
     P(c, .35, () => draw(g, b.far)); P(c, .6, () => { draw(g, b.near); for (let i = 0; i < 5; i++) { const x = 380 + u * 40 - i * 110; F.drawCamel(g, b.camels[i], x, 1300, .45, t, i); if (i < 3) F.drawWalker(g, b.people[i], x + 60, 1302, .45, t, i); } });
     P(c, 1, () => draw(g, b.fore));
     const ck = seg(t, s.card, s.card + .6); if (ck > 0) { const a = caption('MANSA MUSA · 1324', `700 54px ${SERIF}`, 900), bb = caption('follow for more stories of money & history', `italic 400 38px ${SERIF}`, 860);
-      draw(g, a.s, (W - a.W) / 2, 520 - (1 - eo(ck)) * 900); draw(g, bb.s, (W - bb.W) / 2, 700 - (1 - eo(seg(t, s.card + .3, s.card + .9))) * 900); if (CAPT) CAPT.push({ id: 'card1', text: 'MANSA MUSA · 1324', x0: 100, y0: 520, x1: 980, y1: 600 }, { id: 'card2', text: 'follow for more stories of money & history', x0: 100, y0: 700, x1: 980, y1: 780 }); }
+      draw(g, a.s, (W - a.W) / 2, 520 - (1 - eo(ck)) * 900); const br = brand(); draw(g, br.s, (W - br.w) / 2, 390 - (1 - eo(ck)) * 900); draw(g, bb.s, (W - bb.W) / 2, 700 - (1 - eo(seg(t, s.card + .3, s.card + .9))) * 900); if (CAPT) CAPT.push({ id: 'brand', text: 'THE PRICE OF HISTORY', x0: 150, y0: 390, x1: 930, y1: 474 }, { id: 'card1', text: 'MANSA MUSA · 1324', x0: 100, y0: 520, x1: 980, y1: 600 }, { id: 'card2', text: 'follow for more stories of money & history', x0: 100, y0: 700, x1: 980, y1: 780 }); }
   },
 };
 
