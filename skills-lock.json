@@ -1,12 +1,68 @@
 {
   "version": 2,
   "skills": {
+    "after-effects": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/after-effects/SKILL.md",
+      "computedHash": "994d99fd920c23262285dfbb41e9c51b95c85451e8e71dec7257ad699d00e3b7"
+    },
+    "animation-principles": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/animation-principles/SKILL.md",
+      "computedHash": "429233e8c4a429b072130b231afb072eace2f5f5e9d6d7c7566ed8c2bd4aec83"
+    },
+    "beat-sync-editing": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/beat-sync-editing/SKILL.md",
+      "computedHash": "0d5cbde0dd3707e9fd688fdaf407648dbbb5792da3513d5abc6f5dc0a108640b"
+    },
+    "color-motion": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/color-motion/SKILL.md",
+      "computedHash": "9a903f9da53b2c5f7128020a7d5ca8aa05b56fce24e9e2a09c10fd3a7f2e788a"
+    },
+    "logo-animation": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/logo-animation/SKILL.md",
+      "computedHash": "83fe1e51ea228454bcb6aac125fdf69b191b410f75abff250d848f88a27c3581"
+    },
     "motion-art-direction": {
       "source": "iart-ai/motion-design-skills",
       "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
       "sourceType": "github",
       "skillPath": "skills/motion-art-direction/SKILL.md",
       "computedHash": "4a43cd9cd57b01e77e3c76e63a4722b3c8a74277aae1d9d471a93e7fea8a7038"
+    },
+    "motion-background": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/motion-background/SKILL.md",
+      "computedHash": "73d38e3b04071caff0df7535e65344914a5952b54dad1236d6fbab262ef07dce"
+    },
+    "remotion-video": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/remotion-video/SKILL.md",
+      "computedHash": "6ca1bfb591dcc7cf856ccec5d65750c3d6106cfebd39891ef77b650e7eb3ef98"
+    },
+    "shot-composition": {
+      "source": "iart-ai/motion-design-skills",
+      "commit": "b85e50c4cef5ff17aa2187a10d49d2dae9226c74",
+      "sourceType": "github",
+      "skillPath": "skills/shot-composition/SKILL.md",
+      "computedHash": "a2d2e603a077f879bcaacd696e5cef5a4b62b1f0fc4d21ecf5e446466b7bfdb4"
     }
   }
 }
