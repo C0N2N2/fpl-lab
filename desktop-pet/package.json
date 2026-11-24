@@ -1,0 +1,28 @@
+{
+  "name": "kimbo-pet",
+  "productName": "Kimbo",
+  "version": "1.0.0",
+  "description": "A pixel-art desktop companion that lives on your Dock, reminds you of tasks, drinks, and breaks, and reacts to the time and weather.",
+  "main": "src/main.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --mac"
+  },
+  "devDependencies": {
+    "electron": "^45.4.1",
+    "electron-builder": "^26.18.0"
+  },
+  "build": {
+    "appId": "com.kimbo.pet",
+    "productName": "Kimbo",
+    "files": ["src/**/*", "assets/**/*"],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": ["dmg"],
+      "icon": "assets/icon.png",
+      "extendInfo": { "LSUIElement": true }
+    }
+  }
+}

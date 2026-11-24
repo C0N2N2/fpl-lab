@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+  <title>Kimbo</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <header class="drag">
+    <nav>
+      <button class="tab on" data-tab="tasks">Tasks</button>
+      <button class="tab" data-tab="settings">Settings</button>
+      <button class="tab" data-tab="stats">Stats</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="tasks" class="panel on">
+      <form id="add">
+        <input id="task-text" placeholder="What needs doing?" autocomplete="off" required>
+        <input id="task-due" type="time" title="Remind me at">
+        <button type="submit">Add</button>
+      </form>
+      <ul id="list"></ul>
+      <p id="empty" class="muted">Nothing on the list. He will find something else to do.</p>
+      <div class="row-actions">
+        <button id="focus-start" class="primary">Start focus session</button>
+        <button id="focus-stop">Stop</button>
+      </div>
+    </section>
+
+    <section id="settings" class="panel">
+      <h2>Pet</h2>
+      <label>Size <input type="number" id="s-scale" min="2" max="10" step="1"></label>
+      <label>Ground offset (px above screen bottom) <input type="number" id="s-ground" min="0" max="400" step="2"></label>
+      <label>Bored after (minutes) <input type="number" id="s-bored" min="1" max="240"></label>
+      <label class="check"><input type="checkbox" id="s-matchday"> Ask about matchday (jersey)</label>
+
+      <h2>Atmosphere</h2>
+      <label>Weather
+        <select id="s-weather">
+          <option value="auto">Real (Open-Meteo)</option>
+          <option value="sim">Simulated — cycles through all</option>
+          <option value="off">Off</option>
+        </select>
+      </label>
+      <label>City <input id="s-city" placeholder="Cairo"></label>
+      <p id="geo" class="muted"></p>
+
+      <h2>Sleep</h2>
+      <label class="check"><input type="checkbox" id="s-sleep"> Nap during quiet hours</label>
+      <div class="two">
+        <label>From <input type="number" id="s-qs" min="0" max="23"></label>
+        <label>To <input type="number" id="s-qe" min="0" max="23"></label>
+      </div>
+
+      <h2>Focus</h2>
+      <div class="two">
+        <label>Work (min) <input type="number" id="s-work" min="5" max="120"></label>
+        <label>Break (min) <input type="number" id="s-break" min="1" max="60"></label>
+      </div>
+
+      <h2>Reminders</h2>
+      <div id="reminders"></div>
+      <label class="check"><input type="checkbox" id="s-notify"> System notifications</label>
+    </section>
+
+    <section id="stats" class="panel">
+      <h2>Today and ever</h2>
+      <div class="stat"><span id="st-sessions">0</span><small>focus sessions</small></div>
+      <div class="stat"><span id="st-minutes">0</span><small>focus minutes</small></div>
+      <div class="stat"><span id="st-done">0</span><small>tasks completed</small></div>
+    </section>
+  </main>
+
+  <script src="panel.js"></script>
+</body>
+</html>
