@@ -10,11 +10,12 @@ breaks. Built with Electron.
 
 | | |
 |---|---|
-| **Reminders** | Water, coffee, stretch, 20-20-20 eye breaks and posture — each one on its own interval, each one switchable. He says it in a speech bubble *and* fires a macOS notification. |
+| **Reminders** | Water, coffee, stretch, 20-20-20 eye breaks and posture — each one on its own interval, each one switchable. He holds up a **paper with the reminder written on it** for 18 seconds, and fires a macOS notification too. |
 | **Tasks** | A small to-do list. Give a task a time and he nags you when it is due. Tick one off and he throws confetti. |
-| **Focus** | A Pomodoro timer. While it runs he sits down at a tiny laptop with the screen glow on his face and a countdown over his head, then rolls into a break. |
+| **Desk** | He has a desk. Every minute or so he wanders over, climbs on his stool and sits at it for a while with his laptop. |
+| **Focus** | A Pomodoro timer. While it runs he sits at the desk with the screen glow on his face and a countdown over his head, then rolls into a break. |
 | **Boredom** | Leave him alone and he pulls out a games console. Leave him longer and he goes to bed. |
-| **Sleep** | He naps during your quiet hours (default 23:00–07:00). Poke him and he wakes up grumpy. |
+| **Sleep** | He naps in a little bed, tucked under the blanket with `z z z` drifting up, during your quiet hours (default 23:00–07:00). Poke him and he wakes up grumpy. |
 | **Weather** | Real conditions from Open-Meteo — rain, snow, fog, storms with lightning, plus a time-of-day wash that shifts from dawn through to night. Snow settles into drifts along the bottom of your screen and a snowman turns up next to him. |
 | **Matchday** | Once a day he asks if there is a match. Say yes and he changes into a red number 10. |
 | **Kimbo** | The dog wanders across every few minutes. |
@@ -38,9 +39,27 @@ will only appear as speech bubbles.
 | Action | What happens |
 |---|---|
 | Click him | Poke — he reacts and wakes up |
+| **Hold and drag** | Pick him up and move him anywhere. Let go above the ground and he falls, with a bounce. |
 | Double-click him | Opens the Tasks panel |
 | Right-click him | Quick menu: tasks, focus, nap, settings, quit |
 | Menu-bar icon | Same menu, plus a count of open tasks |
+
+## "He never reminds me of anything"
+
+Check these in order:
+
+1. **Give it time.** Nothing fires at launch — each reminder starts its clock
+   when the app starts, so the soonest one is the eye break at 20 minutes and
+   water is 45. Impatient? Right-click him → **Test a reminder now**, or the
+   button on the Tasks panel. That fires one immediately.
+2. **Quiet hours.** Reminders are suppressed between `quietStart` and
+   `quietEnd` (default 23:00–07:00) — if you were testing late at night, that
+   was it. Turn off *Nap during quiet hours* in Settings, or move the window.
+3. **Restarting.** The clocks are saved to disk now, so quitting and relaunching
+   no longer pushes every reminder a full interval into the future.
+
+Timing has 30-second granularity — a 45-minute reminder fires at the first
+30-second tick past 45 minutes.
 
 ## Settings
 

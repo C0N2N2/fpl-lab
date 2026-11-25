@@ -26,6 +26,8 @@ const DEFAULTS = {
     notifications: true,
   },
   tasks: [],
+  // when each reminder last fired, so the schedule survives a restart
+  clocks: {},
   stats: { focusSessions: 0, focusMinutes: 0, tasksDone: 0, lastDay: null, streak: 0 },
 };
 

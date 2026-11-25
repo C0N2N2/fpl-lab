@@ -57,10 +57,9 @@ async function boot() {
   window.kimbo.onNudge(({ kind, text }) => {
     lastInteraction = Date.now();
     wake();
-    if (kind === 'water' || kind === 'coffee') {
-      pet.setState('drink');
-    }
-    pet.say(text, 7);
+    pet.showNote(text, 18);
+    // for a drink he also produces the mug, then goes back to holding the note
+    if (kind === 'water' || kind === 'coffee') pet.setState('drink');
   });
   window.kimbo.onSay((t) => { wake(); pet.say(t, 5); });
   window.kimbo.onCelebrate((t) => { wake(); pet.celebrate(t); });
@@ -109,6 +108,7 @@ function wake() {
 function poke() {
   if (pet.state === 'sleep') return wake();
   lastInteraction = Date.now();
+  pet.clearNote();
   pet.setState('idle');
   pet.say(pick(LINES.poke), 3);
   pet.hop = 1;
@@ -145,6 +145,12 @@ function behaviourTick() {
   } else if (idleMs > boredMs && pet.state !== 'game' && pet.state !== 'sleep') {
     pet.setState('game');
     pet.say(pick(LINES.bored), 5);
+  }
+
+  // every minute or so he goes and sits at the desk for a while
+  if (pet.state === 'idle' && Math.random() < 0.08) {
+    pet._saidDesk = false;
+    pet.setState('desk');
   }
 
   maybeAskMatchday();
@@ -273,20 +279,42 @@ function hit(box, x, y) {
   return x >= box.x && x <= box.x + box.w && y >= box.y && y <= box.y + box.h;
 }
 
+let drag = null;   // { startX, startY, offsetX, offsetY, moved }
+const DRAG_SLOP = 4;
+
 window.addEventListener('mousemove', (e) => {
   if (!pet) return;
+
+  if (drag) {
+    const dx = e.clientX - drag.startX;
+    const dy = e.clientY - drag.startY;
+    if (!drag.moved && Math.hypot(dx, dy) > DRAG_SLOP) {
+      drag.moved = true;
+      pet.grab();
+      document.body.style.cursor = 'grabbing';
+    }
+    if (drag.moved) {
+      // keep him inside the strip, or the mouse leaves the window mid-drag
+      const maxLift = GROUND() - pet.height - 36;
+      pet.dragTo(e.clientX - drag.offsetX, GROUND(), e.clientY - drag.offsetY, maxLift);
+      lastInteraction = Date.now();
+    }
+    return;   // keep the window grabbing the mouse for the whole drag
+  }
+
   const over = hit(pet.hitBox(), e.clientX, e.clientY)
     || (prompt && prompt.buttons.some(b => b.rect && hit(b.rect, e.clientX, e.clientY)));
   if (over !== hovering) {
     hovering = over;
     window.kimbo.setHover(over);
-    document.body.style.cursor = over ? 'pointer' : 'default';
   }
+  document.body.style.cursor = over ? 'grab' : 'default';
 });
 
 window.addEventListener('mousedown', (e) => {
   if (!pet) return;
   if (e.button === 2) { window.kimbo.openMenu(); return; }
+
   if (prompt) {
     for (const b of prompt.buttons) {
       if (b.rect && hit(b.rect, e.clientX, e.clientY)) {
@@ -297,7 +325,40 @@ window.addEventListener('mousedown', (e) => {
       }
     }
   }
-  if (hit(pet.hitBox(), e.clientX, e.clientY)) poke();
+
+  if (hit(pet.hitBox(), e.clientX, e.clientY)) {
+    drag = {
+      startX: e.clientX,
+      startY: e.clientY,
+      offsetX: e.clientX - pet.x,
+      offsetY: e.clientY - (GROUND() - pet.lift),
+      moved: false,
+    };
+  }
+});
+
+function endDrag() {
+  if (!drag) return;
+  if (drag.moved) pet.release();
+  drag = null;
+  document.body.style.cursor = 'default';
+  hovering = false;
+  window.kimbo.setHover(false);
+}
+
+// if the cursor escapes the strip mid-drag we never see the mouseup
+window.addEventListener('mouseleave', endDrag);
+window.addEventListener('blur', endDrag);
+
+window.addEventListener('mouseup', () => {
+  if (!drag) return;
+  if (drag.moved) {
+    pet.release();
+    document.body.style.cursor = 'grab';
+  } else {
+    poke();
+  }
+  drag = null;
 });
 
 window.addEventListener('contextmenu', (e) => e.preventDefault());

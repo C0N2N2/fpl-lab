@@ -165,12 +165,33 @@ const MUG = [
 ];
 
 const BED = [
-  '..QQQQ............',
-  '.QQQQQQ...........',
-  'QQQQQQQQQQQQQQQQQQ',
-  'qqqqqqqqqqqqqqqqqq',
-  'VVVVVVVVVVVVVVVVVV',
-  'V................V',
+  'V......................V',
+  'VV....................VV',
+  'VVQQQQ................VV',
+  'VVQQQQQQQQQQQQQQQQQQQQVV',
+  'VVqqqqqqqqqqqqqqqqqqqqVV',
+  'VVVVVVVVVVVVVVVVVVVVVVVV',
+  '.VV..................VV.',
+  '.VV..................VV.',
+];
+
+const DESK = [
+  'VVVVVVVVVVVVVVVVVVVVVVVVVVVV',
+  'vvvvvvvvvvvvvvvvvvvvvvvvvvvv',
+  '.VV......................VV.',
+  '.VV......................VV.',
+  '.VV......................VV.',
+  '.VV......................VV.',
+  '.VV......................VV.',
+  '.vv......................vv.',
+];
+
+const STOOL = [
+  'VVVVVVVV',
+  'vvvvvvvv',
+  '.V....V.',
+  '.V....V.',
+  '.v....v.',
 ];
 
 const DOG = [
@@ -197,16 +218,17 @@ const SNOWMAN = [
 ];
 
 const ZZZ = [
-  '.FFFF',
+  'FFFFF',
   '...F.',
   '..F..',
-  '.FFFF',
+  '.F...',
+  'FFFFF',
 ];
 
 const SPRITES = {
   HEAD, HEAD_SLEEP, TORSO, TORSO_JERSEY,
   LEGS_STAND, LEGS_WALK_A, LEGS_WALK_B, LEGS_SIT,
-  LAPTOP, CONSOLE, MUG, BED, DOG, SNOWMAN, ZZZ,
+  LAPTOP, CONSOLE, MUG, BED, DESK, STOOL, DOG, SNOWMAN, ZZZ,
 };
 
 /* Draw a sprite onto a 2d context at (ox, oy) with pixel size `px`.

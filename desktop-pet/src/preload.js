@@ -22,6 +22,7 @@ contextBridge.exposeInMainWorld('kimbo', {
   openPanel: (tab)    => ipcRenderer.send('panel:open', tab),
   notify:    (title, body) => ipcRenderer.send('notify', { title, body }),
   focusDone: (mins)   => ipcRenderer.send('focus:done', mins),
+  testReminder: ()    => ipcRenderer.send('reminder:test'),
   focusStart: ()      => ipcRenderer.send('focus:control', 'start'),
   focusStop:  ()      => ipcRenderer.send('focus:control', 'stop'),
 

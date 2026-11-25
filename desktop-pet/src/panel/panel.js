@@ -74,6 +74,7 @@ function renderTasks() {
 
 $('focus-start').addEventListener('click', () => window.kimbo.focusStart());
 $('focus-stop').addEventListener('click', () => window.kimbo.focusStop());
+$('test-reminder').addEventListener('click', () => window.kimbo.testReminder());
 
 /* ---------------- settings ---------------- */
 

@@ -144,6 +144,7 @@ function refreshTrayMenu() {
     { label: 'Stop focus session', click: () => send('focus:stop') },
     { type: 'separator' },
     { label: 'Poke him', click: () => send('pet:poke') },
+    { label: 'Test a reminder now', click: () => testReminder() },
     { label: 'Send him to bed', click: () => send('pet:sleep') },
     { label: 'Settings…', click: () => openPanel('settings') },
     { type: 'separator' },
@@ -222,8 +223,6 @@ async function fetchWeather() {
  * Reminders
  * ------------------------------------------------------------------ */
 
-const lastFired = {};
-
 function inQuietHours() {
   const s = store.get().settings;
   if (!s.sleepAtNight) return false;
@@ -234,18 +233,28 @@ function inQuietHours() {
 
 function tickReminders() {
   const s = store.get().settings;
+  const clocks = store.get().clocks;
   const now = Date.now();
-  if (inQuietHours()) return;
 
+  // During quiet hours nothing fires, and the clocks are held at "now" so you
+  // do not get hit with five of them the moment quiet hours end.
+  if (inQuietHours()) {
+    for (const key of Object.keys(s.reminders)) clocks[key] = now;
+    store.save();
+    return;
+  }
+
+  let dirty = false;
   for (const [key, cfg] of Object.entries(s.reminders)) {
     if (!cfg.on) continue;
-    const due = (lastFired[key] || 0) + cfg.every * 60_000;
-    if (now >= due) {
-      lastFired[key] = now;
-      if (!lastFired[key + ':first']) { lastFired[key + ':first'] = true; continue; } // don't fire everything at launch
+    if (!clocks[key]) { clocks[key] = now; dirty = true; continue; }  // first run: start the clock
+    if (now - clocks[key] >= cfg.every * 60_000) {
+      clocks[key] = now;
+      dirty = true;
       nudge(key, cfg.label);
     }
   }
+  if (dirty) store.save();
 
   // Overdue tasks: nag once each, gently.
   for (const t of store.get().tasks) {
@@ -257,6 +266,13 @@ function tickReminders() {
       refreshTrayMenu();
     }
   }
+}
+
+/* Fire one straight away so you can see what a reminder looks like. */
+function testReminder() {
+  const reminders = store.get().settings.reminders;
+  const key = Object.keys(reminders).find(k => reminders[k].on) || 'water';
+  nudge(key, reminders[key] ? reminders[key].label : 'Water break. Go on.');
 }
 
 function nudge(kind, text) {
@@ -343,6 +359,8 @@ function wireIpc() {
     if (!store.get().settings.notifications || !Notification.isSupported()) return;
     new Notification({ title: title || 'Kimbo', body }).show();
   });
+
+  ipcMain.on('reminder:test', () => testReminder());
 
   ipcMain.on('focus:control', (_e, which) => {
     send(which === 'start' ? 'focus:start' : 'focus:stop');
